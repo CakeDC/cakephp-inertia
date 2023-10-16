@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Inertia\Middleware;
+namespace CakeDC\Inertia\Middleware;
 
 use Cake\Http\ServerRequest;
 use Psr\Http\Message\ResponseInterface;

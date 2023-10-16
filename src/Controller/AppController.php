@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Inertia\Controller;
+namespace CakeDC\Inertia\Controller;
 
 use App\Controller\AppController as BaseController;
 

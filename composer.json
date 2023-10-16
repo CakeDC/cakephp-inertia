@@ -13,12 +13,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Inertia\\": "src/"
+            "CakeDC\\Inertia\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Inertia\\Test\\": "tests/",
+            "CakeDC\\Inertia\\Test\\": "tests/",
             "Cake\\Test\\": "vendor/cakephp/cakephp/tests/"
         }
     }

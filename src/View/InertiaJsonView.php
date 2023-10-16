@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Inertia\View;
+namespace CakeDC\Inertia\View;
 
 use Cake\Routing\Router;
 use Cake\View\JsonView;

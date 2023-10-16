@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Inertia\Traits;
+namespace CakeDC\Inertia\Traits;
 
 use Cake\Event\EventInterface;
 use Inertia\View\InertiaView;

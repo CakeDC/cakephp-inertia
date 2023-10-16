@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Inertia;
+namespace CakeDC\Inertia;
 
 use Cake\Console\CommandCollection;
 use Cake\Core\BasePlugin;

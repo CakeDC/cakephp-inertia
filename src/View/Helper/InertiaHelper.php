@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Inertia\View\Helper;
+namespace CakeDC\Inertia\View\Helper;
 
 use Cake\View\Helper;
 

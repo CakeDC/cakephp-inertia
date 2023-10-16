@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Inertia\Command;
+namespace CakeDC\Inertia\Command;
 
 use Cake\Command\Command;
 use Cake\Console\Arguments;

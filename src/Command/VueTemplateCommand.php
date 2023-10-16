@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Inertia\Command;
+namespace CakeDC\Inertia\Command;
 
 use Bake\Utility\TableScanner;
 use Cake\Console\Arguments;
