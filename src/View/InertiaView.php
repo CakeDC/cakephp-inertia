@@ -13,7 +13,7 @@ class InertiaView extends View
 {
     public function initialize(): void
     {
-        $this->loadHelper('Inertia.Inertia');
+        $this->loadHelper('\CakeDC\Inertia\View\Helper\InertiaHelper');
     }
 
     public function render(?string $view = null, $layout = null): string
