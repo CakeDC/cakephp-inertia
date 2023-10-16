@@ -40,9 +40,7 @@ class CreateVueAppCommand extends Command
             $prefix = $args->getArgumentAt(0);
         }
 
-        //$initialPath = ROOT . DS .'plugins' . DS . 'Inertia' . DS;
-        //$initialPath = ROOT . DS . 'vendor' . DS . 'cakedc' . DS . 'cakephp-inertia-plugin' . DS;
-        $initialPath = ROOT . DS . 'vendor' . DS . 'acampanario' . DS . 'cakephp-inertia-plugin' . DS;
+        $initialPath = ROOT . DS . 'vendor' . DS . 'cakedc' . DS . 'cakephp-inertia' . DS;
 
         /*
         $filepath = $initialPath . 'resources' . DS . 'sass' . DS . 'app.scss';

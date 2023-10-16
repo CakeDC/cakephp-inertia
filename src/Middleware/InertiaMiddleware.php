@@ -19,11 +19,9 @@ class InertiaMiddleware implements MiddlewareInterface
         \Cake\Log\Log::debug(__METHOD__);
 
         if (!$request->hasHeader('X-Inertia')) {
-            \Cake\Log\Log::debug('continuo');
             return $handler->handle($request);
         }
         if ($request instanceof ServerRequest) {
-            \Cake\Log\Log::debug('setup detectors');
             $this->setupDetectors($request);
         }
 

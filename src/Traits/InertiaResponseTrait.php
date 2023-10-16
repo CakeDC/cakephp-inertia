@@ -24,7 +24,6 @@ trait InertiaResponseTrait
         if ($this->getRequest()->is('inertia')) {
             $viewClass = '\CakeDC\Inertia\View\InertiaJsonView';
         }
-        \Cake\Log\Log::debug("{$viewClass}");
         $this->viewBuilder()->setClassName("{$viewClass}");
 
         //set messages
