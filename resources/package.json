@@ -1,0 +1,28 @@
+{
+    "private": true,
+    "version": "0.0.1",
+    "scripts": {
+        "dev": "npm run development",
+        "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --config=node_modules/laravel-mix/setup/webpack.config.js"
+    },
+    "devDependencies": {
+        "@inertiajs/inertia": "^0.8.0",
+        "@inertiajs/inertia-vue": "^0.5.0",
+        "@inertiajs/progress": "^0.1.0",
+        "cross-env": "^5.2.1",
+        "laravel-mix": "^6.0.34",
+        "portal-vue": "^1.5.1",
+        "resolve-url-loader": "^2.3.2",
+        "tailwindcss": "^1.9.6",
+        "vue": "^2.6.11",
+        "vue-loader": "^15.10.1",
+        "vue-meta": "^2.3.1",
+        "vue-template-compiler": "^2.6.11"
+    },
+    "dependencies": {
+        "moment": "^2.29.4",
+        "vue-multiselect": "^2.1.7",
+        "vue2-datepicker": "^3.11.1",
+        "vue2-editor": "^2.10.3"
+    }
+}
