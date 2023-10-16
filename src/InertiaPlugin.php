@@ -9,7 +9,7 @@ use Cake\Core\ContainerInterface;
 use Cake\Core\PluginApplicationInterface;
 use Cake\Http\MiddlewareQueue;
 use Cake\Routing\RouteBuilder;
-use Inertia\Middleware\InertiaMiddleware;
+use CakeDC\Inertia\Middleware\InertiaMiddleware;
 
 /**
  * Plugin for Inertia
@@ -40,17 +40,6 @@ class InertiaPlugin extends BasePlugin
      */
     public function routes(RouteBuilder $routes): void
     {
-        /*
-        $routes->plugin(
-            'Inertia',
-            ['path' => '/inertia'],
-            function (RouteBuilder $builder) {
-                // Add custom routes here
-
-                $builder->fallbacks();
-            }
-        );
-        */
         parent::routes($routes);
     }
 

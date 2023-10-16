@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace CakeDC\Inertia\Traits;
 
 use Cake\Event\EventInterface;
-use Inertia\View\InertiaView;
+use CakeDC\Inertia\View\InertiaView;
 
 trait InertiaResponseTrait
 {
@@ -21,6 +21,7 @@ trait InertiaResponseTrait
 
         //set view class
         $viewClass = 'Inertia';
+        //debug($this->getRequest());
         if ($this->getRequest()->is('inertia')) {
             $viewClass = 'InertiaJson';
         }
