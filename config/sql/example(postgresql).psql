@@ -1,0 +1,56 @@
+-- public.categories definition
+
+-- Drop table
+
+-- DROP TABLE public.categories;
+
+CREATE TABLE public.categories (
+	id serial4 NOT NULL,
+	title varchar(255) NOT NULL,
+	description text NULL,
+	created timestamp NOT NULL,
+	modified timestamp NOT NULL,
+	CONSTRAINT categories_pkey PRIMARY KEY (id)
+);
+
+-- public.pages definition
+
+-- Drop table
+
+-- DROP TABLE public.pages;
+
+CREATE TABLE public.pages (
+	id serial4 NOT NULL,
+	title varchar(255) NOT NULL,
+	description text NULL,
+	created timestamp NOT NULL,
+	modified timestamp NOT NULL,
+	category_id int4 NULL,
+	published_date timestamp NULL,
+	CONSTRAINT pages_pkey PRIMARY KEY (id)
+);
+
+-- public.tags definition
+
+-- Drop table
+
+-- DROP TABLE public.tags;
+
+CREATE TABLE public.tags (
+	id serial4 NOT NULL,
+	"name" varchar(255) NOT NULL,
+	CONSTRAINT tags_pkey PRIMARY KEY (id)
+);
+
+-- public.pages_tags definition
+
+-- Drop table
+
+-- DROP TABLE public.pages_tags;
+
+CREATE TABLE public.pages_tags (
+	id serial4 NOT NULL,
+	tag_id int4 NULL,
+	page_id int4 NULL,
+	CONSTRAINT pages_tags_pkey PRIMARY KEY (id)
+);

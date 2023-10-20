@@ -37,7 +37,7 @@ trait InertiaResponseTrait
         $this->set('flash', $flash);
 
         //set csrf token
-        $this->set('token', $this->getRequest()->getAttribute('csrfToken'));
+        $this->set('csrfToken', $this->getRequest()->getAttribute('csrfToken'));
     }
 
     /**

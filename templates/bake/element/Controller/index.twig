@@ -1,0 +1,68 @@
+{#
+/**
+ * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
+ *
+ * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @link          http://cakephp.org CakePHP(tm) Project
+ * @since         2.0.0
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
+ */
+#}
+    /**
+     * Index method VUE
+     *
+     * @return \Cake\Http\Response|null|void Renders view
+     */
+    public function index()
+    {
+{% set belongsTo = Bake.aliasExtractor(modelObj, 'BelongsTo') %}
+{% if belongsTo %}
+        $this->paginate = [
+            'contain' => {{ Bake.exportArray(belongsTo)|raw }}
+        ];
+{% endif %}
+
+        $this->paginate['order'] = ['{{ currentModelName }}.id' => 'desc'];
+        if ($this->request->getQuery('page') !== null) {
+            $this->paginate['page'] = $this->request->getQuery('page');
+        }
+        $sort = $this->getRequest()->getQuery('sort') ?? null;
+        $direction = $this->getRequest()->getQuery('direction') ?? null;
+        if ($sort != null){
+            $this->paginate['order'] = [$sort => $direction];
+        }
+        $this->set(compact('sort', 'direction'));
+
+        $this->loadComponent('Paginator');
+
+        ${{ pluralName }} = $this->paginate($this->{{ currentModelName }});
+
+        $pagingParams = $this->Paginator->getPagingParams();
+        $params = [];
+        $params[] = 'sort' . '=' . $pagingParams['{{ currentModelName }}']['sort'];
+        $params[] = 'direction' . '=' . $pagingParams['{{ currentModelName }}']['direction'];
+        $params = '&' . implode('&', $params);
+
+        if ($pagingParams['{{ currentModelName }}']['page'] > 1) {
+            $links[] = ['url'=> 'index?page=1' . $params, 'label' => '<< ' . __('first')];
+        }
+        if ($pagingParams['{{ currentModelName }}']['prevPage']) {
+            $links[] = ['url'=> 'index?page=' . ($pagingParams['{{ currentModelName }}']['page']-1) . $params, 'label' => '< ' . __('previous')];
+        }
+        for ($i=1;$i<=$pagingParams['{{ currentModelName }}']['pageCount' ];$i++){
+            $links[] = ['url'=> 'index?page=' . $i . $params, 'label'=>$i];
+        }
+        if ($pagingParams['{{ currentModelName }}']['nextPage']) {
+            $links[] = ['url'=> 'index?page=' . ($pagingParams['{{ currentModelName }}']['page']+1) . $params, 'label' => __('next') . ' >'];
+        }
+        if ($pagingParams['{{ currentModelName }}']['page'] < $pagingParams['{{ currentModelName }}']['pageCount']) {
+            $links[] = ['url'=> 'index?page=' . $pagingParams['{{ currentModelName }}']['pageCount'] . $params, 'label' => __('last') . ' >>'];
+        }
+
+        $this->set(compact('{{ pluralName }}','links'));
+    }

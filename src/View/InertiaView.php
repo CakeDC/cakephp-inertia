@@ -26,8 +26,6 @@ class InertiaView extends View
             'props' => $this->getProps(),
         ];
 
-        \Cake\Log\Log::debug(var_export($page,true));
-
         $this->set(compact('page'));
 
         return parent::render($view);

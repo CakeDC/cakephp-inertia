@@ -1,0 +1,89 @@
+{#
+/**
+ * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
+ *
+ * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @link          http://cakephp.org CakePHP(tm) Project
+ * @since         2.0.0
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
+ */
+#}
+{% set belongsTo = Bake.aliasExtractor(modelObj, 'BelongsTo') %}
+{% set belongsToMany = Bake.aliasExtractor(modelObj, 'belongsToMany') %}
+{% set compact = ["'#{singularName}'"] %}
+    /**
+     * Edit method VUE
+     *
+     * @param string|null $id {{ singularHumanName }} id.
+     * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function edit($id = null)
+    {
+        $errors = [];
+        ${{ singularName }} = $this->{{ currentModelName }}->get($id, [
+            'contain' => {{ Bake.exportArray(belongsToMany)|raw }},
+        ]);
+        if ($this->request->is(['patch', 'post', 'put'])) {
+
+            $data = $this->request->getData();
+
+            foreach($data as $key => $val) {
+                if (is_array($val)) {
+                    $newValues = [];
+                    foreach($val as $item){
+                        if (array_key_exists('id', $item)) {
+                            $newItem['id'] = $item['id'];
+                        }
+                        $newValues[] = $newItem;
+                    }
+                    $val = $newValues;
+                    $data[$key] = $newValues;
+                }
+            }
+
+            $db = \Cake\Datasource\ConnectionManager::get('default');
+            $collection = $db->getSchemaCollection();
+            $tableSchema = $collection->describe('{{pluralHumanName}}');
+            foreach($tableSchema->columns() as $column) {
+                if ($tableSchema->getColumnType($column) == 'timestampfractional') {
+                    $data[$column] = \Cake\I18n\FrozenDate::parseDate($data[$column],'YYYY-MM-dd');
+                }
+            }
+
+            ${{ singularName }} = $this->{{ currentModelName }}->patchEntity(${{ singularName }}, $data);
+            if ($this->{{ currentModelName }}->save(${{ singularName }})) {
+                $this->Flash->success(__('The {{ singularHumanName|lower }} has been saved.'));
+
+                return $this->redirect(['action' => 'index']);
+            }
+            $errors = ${{ singularName }}->getErrors();
+            $this->Flash->error(__('The {{ singularHumanName|lower }} could not be saved. Please, try again.'));
+        }
+
+{% set associations = Bake.aliasExtractor(modelObj, 'BelongsTo') %}
+{%- for assoc in associations %}
+    {%- set otherName = Bake.getAssociatedTableAlias(modelObj, assoc) %}
+    {%- set otherPlural = otherName|variable %}
+    ${{ otherPlural }} = $this->{{ currentModelName }}->{{ otherName }}->find('list', ['limit' => 200])->toArray();
+    {{- "\n" }}
+    {%- set compact = compact|merge(["'#{otherPlural}'"]) %}
+{% endfor %}
+
+{% set associations = Bake.aliasExtractor(modelObj, 'BelongsToMany') %}
+{%- for assoc in associations %}
+    {%- set otherName = Bake.getAssociatedTableAlias(modelObj, assoc) %}
+    {%- set otherPlural = otherName|variable %}
+    ${{ otherPlural }} = $this->{{ currentModelName }}->{{ otherName }}->find('all', ['limit' => 200])->toArray();
+    {{- "\n" }}
+    {%- set compact = compact|merge(["'#{otherPlural}'"]) %}
+{% endfor %}
+
+        {%- set compact = compact|merge(["'errors'"]) %}
+        $this->set(compact({{ compact|join(', ')|raw }}));
+    }
