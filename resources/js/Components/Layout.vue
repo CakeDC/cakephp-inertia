@@ -1,7 +1,6 @@
 <template>
   <main>
       <header>
-        HEADER
       </header>
     <article>
       <slot />
