@@ -30,19 +30,16 @@
             'contain' => {{ Bake.exportArray(belongsToMany)|raw }},
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
-
             $data = $this->request->getData();
-
-            foreach($data as $key => $val) {
+            foreach ($data as $key => $val) {
                 if (is_array($val)) {
                     $newValues = [];
-                    foreach($val as $item){
+                    foreach ($val as $item) {
                         if (array_key_exists('id', $item)) {
                             $newItem['id'] = $item['id'];
                         }
                         $newValues[] = $newItem;
                     }
-                    $val = $newValues;
                     $data[$key] = $newValues;
                 }
             }
@@ -50,9 +47,9 @@
             $db = \Cake\Datasource\ConnectionManager::get('default');
             $collection = $db->getSchemaCollection();
             $tableSchema = $collection->describe('{{pluralHumanName}}');
-            foreach($tableSchema->columns() as $column) {
+            foreach ($tableSchema->columns() as $column) {
                 if ($tableSchema->getColumnType($column) == 'timestampfractional') {
-                    $data[$column] = \Cake\I18n\FrozenDate::parseDate($data[$column],'YYYY-MM-dd');
+                    $data[$column] = \Cake\I18n\FrozenDate::parseDate($data[$column], 'YYYY-MM-dd');
                 }
             }
 
@@ -65,7 +62,6 @@
             $errors = ${{ singularName }}->getErrors();
             $this->Flash->error(__('The {{ singularHumanName|lower }} could not be saved. Please, try again.'));
         }
-
 {% set associations = Bake.aliasExtractor(modelObj, 'BelongsTo') %}
 {%- for assoc in associations %}
     {%- set otherName = Bake.getAssociatedTableAlias(modelObj, assoc) %}
@@ -74,16 +70,14 @@
     {{- "\n" }}
     {%- set compact = compact|merge(["'#{otherPlural}'"]) %}
 {% endfor %}
-
 {% set associations = Bake.aliasExtractor(modelObj, 'BelongsToMany') %}
 {%- for assoc in associations %}
     {%- set otherName = Bake.getAssociatedTableAlias(modelObj, assoc) %}
     {%- set otherPlural = otherName|variable %}
-    ${{ otherPlural }} = $this->{{ currentModelName }}->{{ otherName }}->find('all', ['limit' => 200])->toArray();
-    {{- "\n" }}
+        ${{ otherPlural }} = $this->{{ currentModelName }}->{{ otherName }}->find('all', ['limit' => 200])->toArray();
+        {{- "\n" }}
     {%- set compact = compact|merge(["'#{otherPlural}'"]) %}
 {% endfor %}
-
         {%- set compact = compact|merge(["'errors'"]) %}
         $this->set(compact({{ compact|join(', ')|raw }}));
     }

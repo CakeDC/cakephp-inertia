@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace CakeDC\Inertia\View;
 
 use Cake\Routing\Router;
+use Cake\View\Exception\MissingTemplateException;
 use Cake\View\View;
 
 /**
@@ -11,6 +12,72 @@ use Cake\View\View;
  */
 class InertiaView extends View
 {
+    /**
+     * Override template path to use /resources/js/Components/ vue templates
+     *
+     * @param string|null $plugin
+     * @param bool $cached
+     * @return array|string[]\
+     */
+
+    protected function _paths(?string $plugin = null, bool $cached = true): array
+    {
+        $paths = parent::_paths($plugin, $cached);
+        array_unshift($paths, ROOT . '/resources/js/Components/');
+
+        return $paths;
+    }
+
+    protected function _getTemplateFileName(?string $name = null): string
+    {
+        $templatePath = $subDir = '';
+
+        if ($this->templatePath) {
+            $templatePath = $this->templatePath . DIRECTORY_SEPARATOR;
+        }
+        if ($this->subDir !== '') {
+            $subDir = $this->subDir . DIRECTORY_SEPARATOR;
+            if ($templatePath != $subDir && substr($templatePath, -strlen($subDir)) === $subDir) {
+                $subDir = '';
+            }
+        }
+
+        if ($name === null) {
+            $name = $this->template;
+        }
+
+        if (empty($name)) {
+            throw new RuntimeException('Template name not provided');
+        }
+
+        [$plugin, $name] = $this->pluginSplit($name);
+        $name = str_replace('/', DIRECTORY_SEPARATOR, $name);
+
+        if (strpos($name, DIRECTORY_SEPARATOR) === false && $name !== '' && $name[0] !== '.') {
+            //add ucfirst to template file name
+            $name = $templatePath . $subDir . ucfirst($this->_inflectTemplateFileName($name));
+        } elseif (strpos($name, DIRECTORY_SEPARATOR) !== false) {
+            if ($name[0] === DIRECTORY_SEPARATOR || $name[1] === ':') {
+                $name = trim($name, DIRECTORY_SEPARATOR);
+            } elseif (!$plugin || $this->templatePath !== $this->name) {
+                $name = $templatePath . $subDir . $name;
+            } else {
+                $name = $subDir . $name;
+            }
+        }
+
+        //force templatee extension is vue
+        $name .= '.vue';
+        $paths = $this->_paths($plugin);
+        foreach ($paths as $path) {
+            if (is_file($path . $name)) {
+                return $this->_checkFilePath($path . $name, $path);
+            }
+        }
+
+        throw new MissingTemplateException($name, $paths);
+    }
+
     public function initialize(): void
     {
         $this->loadHelper('Inertia', ['className' => 'CakeDC/Inertia.Inertia']);

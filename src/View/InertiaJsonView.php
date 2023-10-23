@@ -11,6 +11,8 @@ use Cake\View\JsonView;
  */
 class InertiaJsonView extends JsonView
 {
+
+
     /**
      * @inheritDoc
      */

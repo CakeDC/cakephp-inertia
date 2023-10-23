@@ -52,9 +52,7 @@ class {{ name }}Controller extends AppController
     public function initialize(): void
     {
         parent::initialize();
-        if ($this->components()->has('Security')) {
-            $this->Security->setConfig('unlockedActions',['add', 'edit']);
-        }
+        $this->viewBuilder()->setTheme('CakeDC/Inertia');
     }
 
 {% if actions|length %}{{ "\n" }}{% endif %}
