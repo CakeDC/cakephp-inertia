@@ -12,6 +12,11 @@ use Cake\View\View;
  */
 class InertiaView extends View
 {
+    public function initialize(): void
+    {
+        $this->loadHelper('Inertia', ['className' => 'CakeDC/Inertia.Inertia']);
+    }
+
     /**
      * Override template path to use /resources/js/Components/ vue templates
      *
@@ -23,7 +28,8 @@ class InertiaView extends View
     protected function _paths(?string $plugin = null, bool $cached = true): array
     {
         $paths = parent::_paths($plugin, $cached);
-        array_unshift($paths, ROOT . '/resources/js/Components/');
+        $newPath =  ROOT . '/resources/js/Components/';
+        array_unshift($paths, $newPath);
 
         return $paths;
     }
@@ -66,7 +72,7 @@ class InertiaView extends View
             }
         }
 
-        //force templatee extension is vue
+        //force template extension is vue
         $name .= '.vue';
         $paths = $this->_paths($plugin);
         foreach ($paths as $path) {
@@ -78,15 +84,8 @@ class InertiaView extends View
         throw new MissingTemplateException($name, $paths);
     }
 
-    public function initialize(): void
-    {
-        $this->loadHelper('Inertia', ['className' => 'CakeDC/Inertia.Inertia']);
-    }
-
     public function render(?string $view = null, $layout = null): string
     {
-        \Cake\Log\Log::debug(__METHOD__);
-
         $page = [
             'component' => $this->getComponentName(),
             'url' => $this->getCurrentUri(),
@@ -122,11 +121,22 @@ class InertiaView extends View
             return $component;
         }
 
-        return sprintf(
-            '%s/%s',
-            $this->getRequest()->getParam('controller'),
-            ucwords((string)$this->getRequest()->getParam('action'))
-        );
+        $prefix = $this->getRequest()->getParam('prefix');
+        if ($prefix != null){
+            return sprintf(
+                '%s/%s/%s',
+                $prefix,
+                $this->getRequest()->getParam('controller'),
+                ucwords((string)$this->getRequest()->getParam('action'))
+            );
+
+        } else {
+            return sprintf(
+                '%s/%s',
+                $this->getRequest()->getParam('controller'),
+                ucwords((string)$this->getRequest()->getParam('action'))
+            );
+        }
     }
 
     /**

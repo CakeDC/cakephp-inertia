@@ -42,33 +42,8 @@ class CreateVueAppCommand extends Command
 
         $initialPath = ROOT . DS . 'vendor' . DS . 'cakedc' . DS . 'cakephp-inertia' . DS;
 
-        /*
-        $filepath = $initialPath . 'resources' . DS . 'sass' . DS . 'app.scss';
-        $content = file_get_contents($filepath);
-        $path = ROOT . DS . 'resources' . DS . 'sass' . DS;
-        $filename = $path . 'app.scss';
-        $io->createFile($filename, $content, false);
-        */
-
-        /*
-        $filepath = $initialPath . 'resources' . DS . 'sass' . DS . '_variables.scss';
-        $content = file_get_contents($filepath);
-        $path = ROOT . DS . 'resources' . DS . 'sass' . DS;
-        $filename = $path . '_variables.scss';
-        $io->createFile($filename, $content, false);
-        */
-
-        /*
-        $filepath = $initialPath . 'resources' . DS . 'css' . DS . 'cake.css';
-        $content = file_get_contents($filepath);
-        $path = ROOT . DS . 'resources' . DS . 'css' . DS;
-        $filename = $path . 'cake.css';
-        $io->createFile($filename, $content, false);
-        */
-
         $filepath = $initialPath . 'resources' . DS . 'js' . DS . 'app.js';
         $content = file_get_contents($filepath);
-        $content = str_replace('#PREFIX#', $prefix, $content);
         $path = ROOT . DS . 'resources' . DS . 'js' . DS;
         $filename = $path . 'app.js';
         $io->createFile($filename, $content, false);
@@ -78,26 +53,6 @@ class CreateVueAppCommand extends Command
         $path = ROOT . DS . 'resources' . DS . 'js' . DS . 'Components' . DS;
         $filename = $path . 'Layout.vue';
         $io->createFile($filename, $content, false);
-
-        /*
-        $filepath = $initialPath . 'resources' . DS . 'js' . DS . 'Components' . DS . 'AppMenu.vue';
-        $content = file_get_contents($filepath);
-        $path = ROOT . DS . 'resources' . DS . 'js' . DS . 'Components' . DS;
-        $filename = $path . 'AppMenu.vue';
-        $io->createFile($filename, $content, false);
-        */
-
-        /*
-        $filepath = $initialPath . 'resources' . DS . 'js' . DS . 'Components' . DS . 'AppUsersInertia' . DS . 'Dashboard.vue';
-        $content = file_get_contents($filepath);
-        if ($prefix !== ''){
-            $path = ROOT . DS . 'resources' . DS . 'js' . DS . 'Components' . DS . $prefix . DS . 'AppUsersInertia'  . DS;
-        } else {
-            $path = ROOT . DS . 'resources' . DS . 'js' . DS . 'Components' . DS . 'AppUsersInertia'  . DS;
-        }
-        $filename = $path . 'Dashboard.vue';
-        $io->createFile($filename, $content, false);
-        */
 
         $filepath = $initialPath . 'resources' .  DS . 'package.json';
         $content = file_get_contents($filepath);
