@@ -173,8 +173,9 @@ Again run
 ```
 $> npm run dev
 ```
+**IMPORTANT: Whenever you modify the .vue templates you must run this script.**
 
-**Whenever you modify the .vue templates you must run this script.**
+You can go to http://localhost:9099/pages/index
 
 ### Add Menu
 
