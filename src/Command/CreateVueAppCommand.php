@@ -10,7 +10,6 @@ use Cake\Console\ConsoleOptionParser;
 
 class CreateVueAppCommand extends Command
 {
-
     /**
      * Hook method for defining this command's option parser.
      *

@@ -15,8 +15,6 @@ use RuntimeException;
 
 class VueControllerCommand extends \Bake\Command\ControllerCommand
 {
-
-
     /**
      * Assembles and writes a Controller file
      *

@@ -13,7 +13,6 @@ use RuntimeException;
 
 class VueTemplateCommand extends \Bake\Command\TemplateCommand
 {
-
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
         $io->out("\n" . "executing Command vue_template");
