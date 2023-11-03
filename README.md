@@ -97,14 +97,14 @@ public function dashboard()
 in *config/routes.php* uncomment lines to catch all routes
 
 ```
-    $builder->connect('/{controller}', ['action' => 'index']);
-    $builder->connect('/{controller}/{action}/*', []);
+$builder->connect('/{controller}', ['action' => 'index']);
+$builder->connect('/{controller}/{action}/*', []);
 ```
 
 and comment line
 
 ```
-    $builder->connect('/pages/*', 'Pages::display');
+$builder->connect('/pages/*', 'Pages::display');
 ```
 
 Create file *resources/js/Components/Pages/Dashboard.vue* that would look like this
@@ -181,9 +181,9 @@ You see results for example going to http://localhost:9099/pages/index
 Add route to prefix Admin on *config/routes.php*
 
 ```
-    $builder->prefix('admin', function (RouteBuilder $builder) {
-        $builder->fallbacks(DashedRoute::class);
-    });
+$builder->prefix('admin', function (RouteBuilder $builder) {
+    $builder->fallbacks(DashedRoute::class);
+});
 ```
 
 To generate controllers and template with a prefix use **--prefix** option of bake command as
