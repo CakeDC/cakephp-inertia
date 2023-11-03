@@ -16,8 +16,6 @@ class InertiaMiddleware implements MiddlewareInterface
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        \Cake\Log\Log::debug(__METHOD__);
-
         if ($request instanceof ServerRequest) {
             $this->setupDetectors($request);
         }
@@ -44,8 +42,6 @@ class InertiaMiddleware implements MiddlewareInterface
      */
     private function setupDetectors(ServerRequest $request): void
     {
-        \Cake\Log\Log::debug(__METHOD__);
-
         $request->addDetector('inertia', function ($request) {
             return $request->hasHeader('X-Inertia');
         });

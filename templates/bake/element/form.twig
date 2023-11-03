@@ -2,9 +2,8 @@
 <template>
     <div class="row">
         <div class="column-responsive column-80">
-            <!--<AppMenu v-bind:menuOptions="menuOptions"></AppMenu>-->
 {% set vueVar = "{{ flash['message'] }}" %}
-            <div onclick="this.classList.add('hidden')" :class="[(flash['element'] === undefined) ? 'hidden' : '','message', (flash['element'] === 'flash-success' ? 'success' : 'error')]">{{ vueVar }}</div>
+            <div onclick="this.classList.add('hidden')" :class="[(flash['element'] === undefFined) ? 'hidden' : '','message', (flash['element'] === 'flash-success' ? 'success' : 'error')]">{{ vueVar }}</div>
             <div class="{{ pluralVar }} form content">
                 <h3>{{ action|capitalize }} {{ singularHumanName }}</h3>
                 <form @submit.prevent="submit">
@@ -61,7 +60,6 @@
 
 <script>
 import Layout from '@/Components/Layout'
-//import AppMenu from '@/Components/AppMenu'
 import { VueEditor } from "vue2-editor";
 import DatePicker from 'vue2-datepicker';
 import Multiselect from 'vue-multiselect'
@@ -90,7 +88,7 @@ export default {
         {%- endfor %}
     },
     components: {
-        VueEditor, DatePicker, Multiselect //, AppMenu
+        VueEditor, DatePicker, Multiselect
     },
     data() {
         return {

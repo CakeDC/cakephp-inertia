@@ -5,7 +5,6 @@
         {% else %}
             {% set baseUrl = '/' ~ prefix|lower ~ '/' %}
         {% endif %}
-        <!--<AppMenu v-bind:menuOptions="menuOptions"></AppMenu>-->
 {% set vueVar = "{{ flash['message'] }}" %}
         <div onclick="this.classList.add('hidden')" :class="[(flash['element'] === undefined) ? 'hidden' : '','message', (flash['element'] === 'flash-success' ? 'success' : 'error')]">{{ vueVar }}</div>
         <div class="{{ pluralVar }} index content">
@@ -99,12 +98,10 @@
 </template>
 
 <script>
-//import AppMenu from '@/Components/AppMenu'
 import Layout from '@/Components/Layout'
 import moment from 'moment'
 export default {
     components: {
-        //AppMenu
     },
     props: {
         menuOptions: [],

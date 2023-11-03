@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace CakeDC\Inertia\Traits;
 
 use Cake\Event\EventInterface;
-use CakeDC\Inertia\View\InertiaView;
 
 trait InertiaResponseTrait
 {
@@ -13,8 +12,6 @@ trait InertiaResponseTrait
      */
     public function beforeRender(EventInterface $event)
     {
-        \Cake\Log\Log::debug(__METHOD__);
-
         if ($this->isErrorStatus() || $this->isFailureStatus()) {
             return null;
         }
@@ -45,8 +42,6 @@ trait InertiaResponseTrait
      */
     private function isErrorStatus(): bool
     {
-        \Cake\Log\Log::debug(__METHOD__);
-
         $statusCode = $this->getResponse()->getStatusCode();
         $errorCodes = [404];
 
@@ -62,8 +57,6 @@ trait InertiaResponseTrait
      */
     private function isFailureStatus(): bool
     {
-        \Cake\Log\Log::debug(__METHOD__);
-
         $statusCode = $this->getResponse()->getStatusCode();
         $failureCodes = [500];
 

@@ -10,7 +10,6 @@
 {% endif %}
 <template>
     <div class="column-responsive column-80">
-        <!--<AppMenu v-bind:menuOptions="menuOptions"></AppMenu>-->
         <div class="{{ pluralVar }} view content">
 {% set vueLabel = "{{" ~ singularVar ~ "." ~  displayField ~ "}}" %}
             <h3>{{ vueLabel }}</h3>
@@ -111,12 +110,10 @@
 
 
 <script>
-//import AppMenu from '@/Components/AppMenu'
 import Layout from '@/Components/Layout'
 import moment from 'moment'
 export default {
     components: {
-        //AppMenu
     },
     props: {
         menuOptions: [],

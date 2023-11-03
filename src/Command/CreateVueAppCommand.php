@@ -35,11 +35,6 @@ class CreateVueAppCommand extends Command
     {
         $io->out('CreateVueAppCommand');
 
-        $prefix = '';
-        if (!empty($args->getOption('prefix'))) {
-            $prefix = $args->getArgumentAt(0);
-        }
-
         $initialPath = ROOT . DS . 'vendor' . DS . 'cakedc' . DS . 'cakephp-inertia' . DS;
 
         $filepath = $initialPath . 'resources' . DS . 'js' . DS . 'app.js';

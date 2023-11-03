@@ -27,8 +27,6 @@ class VueControllerCommand extends \Bake\Command\ControllerCommand
      */
     public function bake(string $controllerName, Arguments $args, ConsoleIo $io): void
     {
-
-
         $io->quiet(sprintf('Baking controller class for %s...', $controllerName));
 
         $actions = [];
