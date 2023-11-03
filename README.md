@@ -176,20 +176,6 @@ $> npm run dev
 
 You see results for example going to http://localhost:9099/pages/index
 
-### Add Menu
-
-You can add and horizontal menu to navigate through controllers
-
-Edit *resources/Components/Layout.vue* and put inside header tag links as 
-
-```
-<header>
-    <InertiaLink as="button" href="/pages/index" class="button shadow radius right small">Pages</InertiaLink>
-    <InertiaLink as="button" href="/tags/index" class="button shadow radius right small">Tags</InertiaLink>
-    <InertiaLink as="button" href="/categories/index" class="button shadow radius right small">Categories</InertiaLink>
-</header>
-```
-
 ### bake CRUD system with prefix
 
 Add route to prefix Admin on *config/routes.php*
@@ -218,3 +204,17 @@ $> npm run dev
 ```
 
 You can go to http://localhost:9099/admin/pages/index
+
+### Add Menu
+
+You can add and horizontal menu to navigate through controllers
+
+Edit *resources/Components/Layout.vue* and put inside header tag links as
+
+```
+<header>
+    <InertiaLink as="button" href="/pages/index" class="button shadow radius right small">Pages</InertiaLink>
+    <InertiaLink as="button" href="/tags/index" class="button shadow radius right small">Tags</InertiaLink>
+    <InertiaLink as="button" href="/categories/index" class="button shadow radius right small">Categories</InertiaLink>
+</header>
+```
