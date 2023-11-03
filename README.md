@@ -141,6 +141,8 @@ On root directory execute
 $> npm run dev
 ```
 
+**IMPORTANT: Whenever you modify the .vue templates you must run this script.**
+
 Go to http://localhost:9099/pages/dashboard to see that Dashboard Vue Component prints values assigneds on Dashboard CakePHP function  
 
 ### bake CRUD system
@@ -150,22 +152,20 @@ For this example we use sql file on *config/sql/example/postgresql).pgsql*
 Once the database has been created, bake models and controllers as normal using
 
 ```
-bin/cake bake model Pages --theme CakeDC/Inertia
-bin/cake bake controller Pages --theme CakeDC/Inertia
-
-bin/cake bake model Tags --theme CakeDC/Inertia
-bin/cake bake controller Tags --theme CakeDC/Inertia
-
-bin/cake bake model Categories --theme CakeDC/Inertia
-bin/cake bake controller Categories --theme CakeDC/Inertia
+$> bin/cake bake model Pages --theme CakeDC/Inertia
+$> bin/cake bake controller Pages --theme CakeDC/Inertia
+$> bin/cake bake model Tags --theme CakeDC/Inertia
+$> bin/cake bake controller Tags --theme CakeDC/Inertia
+$> bin/cake bake model Categories --theme CakeDC/Inertia
+$> bin/cake bake controller Categories --theme CakeDC/Inertia
 ```
 
 bake templates using **vue_template** instead of **template** as
 
 ```
-bin/cake bake vue_template Pages --theme CakeDC/Inertia
-bin/cake bake vue_template Tags --theme CakeDC/Inertia
-bin/cake bake vue_template Categories --theme CakeDC/Inertia
+$> bin/cake bake vue_template Pages --theme CakeDC/Inertia
+$> bin/cake bake vue_template Tags --theme CakeDC/Inertia
+$> bin/cake bake vue_template Categories --theme CakeDC/Inertia
 ```
 
 Again run
@@ -173,9 +173,8 @@ Again run
 ```
 $> npm run dev
 ```
-**IMPORTANT: Whenever you modify the .vue templates you must run this script.**
 
-You can go to http://localhost:9099/pages/index
+You see results for example going to http://localhost:9099/pages/index
 
 ### Add Menu
 
@@ -204,12 +203,12 @@ Add route to prefix Admin on *config/routes.php*
 To generate controllers and template with a prefix use **--prefix** option of bake command as
 
 ```
-bin/cake bake controller Pages --prefix Admin --theme CakeDC/Inertia
-bin/cake bake controller Tags --prefix Admin --theme CakeDC/Inertia
-bin/cake bake controller Categories --prefix Admin --theme CakeDC/Inertia
-bin/cake bake vue_template Pages --prefix Admin --theme CakeDC/Inertia
-bin/cake bake vue_template Tags --prefix Admin --theme CakeDC/Inertia
-bin/cake bake vue_template Categories --prefix Admin --theme CakeDC/Inertia
+$> bin/cake bake controller Pages --prefix Admin --theme CakeDC/Inertia
+$> bin/cake bake controller Tags --prefix Admin --theme CakeDC/Inertia
+$> bin/cake bake controller Categories --prefix Admin --theme CakeDC/Inertia
+$> bin/cake bake vue_template Pages --prefix Admin --theme CakeDC/Inertia
+$> bin/cake bake vue_template Tags --prefix Admin --theme CakeDC/Inertia
+$> bin/cake bake vue_template Categories --prefix Admin --theme CakeDC/Inertia
 ```
 
 Again run
