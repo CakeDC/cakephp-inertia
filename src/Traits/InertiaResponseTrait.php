@@ -17,11 +17,11 @@ trait InertiaResponseTrait
         }
 
         //set view class
-        $viewClass = '\CakeDC\Inertia\View\InertiaView';
+        $viewClass = \CakeDC\Inertia\View\InertiaView::class;
         if ($this->getRequest()->is('inertia')) {
-            $viewClass = '\CakeDC\Inertia\View\InertiaJsonView';
+            $viewClass = \CakeDC\Inertia\View\InertiaJsonView::class;
         }
-        $this->viewBuilder()->setClassName("{$viewClass}");
+        $this->viewBuilder()->setClassName($viewClass);
 
         //set messages
         $session = $this->getRequest()->getSession();

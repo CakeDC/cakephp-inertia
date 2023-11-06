@@ -35,7 +35,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     <?= $this->fetch('css') ?>
     <?= $this->fetch('script') ?>
 
-    <script src="/js/app.js" defer="defer"></script>
+    <?= $this->Html->script('app', ['defer' => 'defer']); ?>
 </head>
 <body>
     <nav class="top-nav">

@@ -51,7 +51,9 @@ class InertiaJsonView extends JsonView
         if ($this->get('component') !== null) {
             $component = $this->get('component');
 
-            unset($this->viewVars['component']);
+            if (array_key_exists('component',$this->viewVars)){
+                unset($this->viewVars['component']);
+            }
 
             return $component;
         }
