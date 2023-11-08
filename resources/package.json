@@ -1,28 +1,43 @@
 {
     "private": true,
-    "version": "0.0.1",
     "scripts": {
         "dev": "npm run development",
-        "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --config=node_modules/laravel-mix/setup/webpack.config.js"
-    },
-    "devDependencies": {
-        "@inertiajs/inertia": "^0.8.0",
-        "@inertiajs/inertia-vue": "^0.5.0",
-        "@inertiajs/progress": "^0.1.0",
-        "cross-env": "^5.2.1",
-        "laravel-mix": "^6.0.34",
-        "portal-vue": "^1.5.1",
-        "resolve-url-loader": "^2.3.2",
-        "tailwindcss": "^1.9.6",
-        "vue": "^2.6.11",
-        "vue-loader": "^15.10.1",
-        "vue-meta": "^2.3.1",
-        "vue-template-compiler": "^2.6.11"
+        "development": "mix && npm run ssr:build",
+        "fix:eslint": "eslint --ext .js,.vue resources/js/ --fix",
+        "fix:prettier": "prettier --write --loglevel warn 'resources/js/**/*.vue'",
+        "fix-code-style": "npm run fix:prettier && npm run fix:eslint",
+        "watch": "mix watch",
+        "watch-poll": "mix watch -- --watch-options-poll=1000",
+        "hot": "mix watch --hot",
+        "prod": "npm run production",
+        "production": "mix --production && npm run ssr:build",
+        "heroku-postbuild": "npm run prod",
+        "ssr:build": "mix --production --mix-config=webpack.ssr.mix.js",
+        "ssr:serve": "node public/js/ssr.js"
     },
     "dependencies": {
+        "@inertiajs/inertia": "^0.11.0",
+        "@inertiajs/inertia-vue3": "^0.6.0",
+        "@inertiajs/progress": "^0.2.7",
+        "@inertiajs/server": "^0.1.0",
+        "@inertiajs/vue3": "^1.0.14",
+        "@popperjs/core": "^2.11.0",
+        "@vue/server-renderer": "^3.2.27",
+        "autoprefixer": "^10.4.0",
+        "eslint": "^8.4.1",
+        "eslint-plugin-vue": "^8.2.0",
+        "laravel-mix": "^6.0.41",
+        "lodash": "^4.17.21",
         "moment": "^2.29.4",
-        "vue-multiselect": "^2.1.7",
-        "vue2-datepicker": "^3.11.1",
-        "vue2-editor": "^2.10.3"
+        "postcss": "^8.4.4",
+        "postcss-import": "^12.0.1",
+        "postcss-nesting": "^7.0.1",
+        "prettier": "^2.5.1",
+        "prettier-plugin-tailwind": "^2.2.12",
+        "tailwindcss": "^2.0.3",
+        "uuid": "^8.3.2",
+        "vue": "^3.2.27",
+        "vue-loader": "^16.2.0",
+        "webpack-node-externals": "^3.0.0"
     }
 }

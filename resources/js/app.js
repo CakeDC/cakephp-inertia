@@ -1,26 +1,14 @@
-import Vue from 'vue';
-import VueMeta from 'vue-meta';
-import PortalVue from 'portal-vue';
-import { InertiaApp } from '@inertiajs/inertia-vue';
+import { createApp, h } from 'vue'
+import { createInertiaApp } from '@inertiajs/vue3'
 
-const AppName = 'My Vue App';
-
-Vue.config.productionTip = false;
-
-Vue.use(InertiaApp);
-Vue.use(PortalVue);
-Vue.use(VueMeta);
-
-let app = document.getElementById('app');
-
-new Vue({
-    metaInfo: {
-        titleTemplate: (title) => title ? `${title} - ` + AppName : AppName
+createInertiaApp({
+    //title: (title) => `${title} - ${appName}`,
+    title: (title) => `titulo`,
+    resolve: (name) => require(`./Components/${name}.vue`),
+    setup({ el, App, props, plugin }) {
+        return createApp({ render: () => h(App, props) })
+            .use(plugin)
+            //.mixin({ methods: { route } })
+            .mount(el);
     },
-    render: h => h(InertiaApp, {
-        props: {
-            initialPage: JSON.parse(app.dataset.page),
-            resolveComponent: name => import(`@/Components/${name}`).then(module => module.default),
-        },
-    }),
-}).$mount(app);
+});
