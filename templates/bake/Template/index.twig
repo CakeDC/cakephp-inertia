@@ -109,8 +109,8 @@
 
                         {% endfor %}
                             <td class="actions">
-                                <Link as="button" :href="'{{ baseUrl }}{{ pluralVar }}/view/' + {{ singularVar }}.id">View</Link>
-                                <Link as="button" :href="'{{ baseUrl }}{{ pluralVar }}/edit/' + {{ singularVar }}.id">Edit</Link>
+                                <Link as="button" method="get" :href="'{{ baseUrl }}{{ pluralVar }}/view/' + {{ singularVar }}.id">View</Link>
+                                <Link as="button" method="get" :href="'{{ baseUrl }}{{ pluralVar }}/edit/' + {{ singularVar }}.id">Edit</Link>
                                 <Link as="button" :data="{ csrfToken:csrfToken }"  method="get" :href="'{{ baseUrl }}{{ pluralVar }}/delete/' + {{ singularVar }}.id">Delete</Link>
                             </td>
                         </tr>

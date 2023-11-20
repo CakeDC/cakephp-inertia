@@ -13,31 +13,49 @@
     })
 
     const form = reactive({
-        {% if 'add' in action %}
-            {% for field in fields %}
+        {%- if 'add' in action %}
+            {%- for field in fields %}
                 {%- if field not in primaryKey %}
-                    {{field}} : null,{{- "\n" }}
+
+        {{field}} : null,{{- "\n" }}
                 {%- endif %}
             {%- endfor %}
-        {% endif %}
+        {%- endif %}
+        {%- if 'edit' in action %}
+            {{- "\n" }}
+            {%- for field in fields %}
+                {%- if field not in primaryKey %}
+                    {%- set fieldData = Bake.columnData(field, schema) %}
+                    {%- if fieldData.type in ['date', 'timestampfractional'] and fieldData.null %}
+        {{field}} : props.{{singularVar}}.{{field}},{{- "\n" }}
+                    {%- else %}
+        {{field}} : props.{{singularVar}}.{{field}},{{- "\n" }}
+                    {%- endif %}
+                {%- else %}
+        {{field}} : props.{{singularVar}}.{{field}},{{- "\n" }}
+                {%- endif %}
+            {%- endfor %}
+        {%- endif %}
     })
 
     function submit() {
-        {% if prefix == '' %}
-            let postUrl = '/{{ pluralVar }}/{{ action }}';
-        {% else %}
-            let postUrl = '/{{ prefix|lower }}/{{ pluralVar }}/{{ action }}';
-        {% endif %}
+{{- "\n" }}
+    {%- if prefix == '' %}
+        let postUrl = '/{{ pluralVar }}/{{ action }}';
+    {%- else %}
+        let postUrl = '/{{ prefix|lower }}/{{ pluralVar }}/{{ action }}';
+    {%- endif %}
+    {%- if 'edit' in action %}{{- "\n" }}        postUrl = postUrl + '/' + form.id;
+    {%- endif %}
 
         router.post(postUrl,
             {
-                {% if 'add' in action %}
-                    {% for field in fields %}
-                        {%- if field not in primaryKey %}
-                            {{field}} : form.{{field}},{{- "\n" }}
-                        {%- endif %}
-                    {%- endfor %}
-                {% endif %}
+                {{- "\n" }}
+                {%- for field in fields %}
+                    {%- if field not in primaryKey %}
+                {{field}} : form.{{field}},{{- "\n" }}
+                    {%- endif %}
+                {%- endfor %}
             },
             {
                 headers: {
