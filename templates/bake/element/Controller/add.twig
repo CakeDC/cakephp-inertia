@@ -42,7 +42,7 @@
             $collection = $db->getSchemaCollection();
             $tableSchema = $collection->describe('{{pluralHumanName}}');
             foreach ($tableSchema->columns() as $column) {
-                if ($tableSchema->getColumnType($column) == 'timestampfractional') {
+                if ($tableSchema->getColumnType($column) == 'timestampfractional'  && $data[$column] !== null) {
                     $data[$column] = \Cake\I18n\FrozenDate::parseDate($data[$column], 'YYYY-MM-dd');
                 }
             }

@@ -3,6 +3,7 @@
     import { onMounted, onUnmounted, ref } from 'vue'
     import { reactive } from 'vue'
     import { router } from '@inertiajs/vue3'
+    import { VueEditor } from "vue3-editor";
 
     const props = defineProps({
         csrfToken: String,
@@ -11,6 +12,10 @@
         errors: [],
         options_pages: [],
     })
+
+    const components = {
+        VueEditor
+    }
 
     const form = reactive({
         {%- if 'add' in action %}

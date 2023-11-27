@@ -2,6 +2,7 @@
     import { Link } from '@inertiajs/vue3'
     import Layout from '../Layout'
     import { onMounted, onUnmounted, ref } from 'vue'
+    import moment from 'moment'
 
     const props = defineProps({
         csrfToken: String,
@@ -18,6 +19,10 @@
         id: '',
         name: '',
     })
+
+    function formatDate(date) {
+        return moment(date).format("YYYY-MM-DD")
+    }
 
     function changeDirection(p) {
         if (direction === 'desc') {
