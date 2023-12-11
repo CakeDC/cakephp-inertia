@@ -1,9 +1,10 @@
 <script setup>
     import Layout from '../Layout'
-    import { onMounted, onUnmounted, ref } from 'vue'
-    import { reactive } from 'vue'
+    import { reactive, onMounted, onUnmounted, ref } from 'vue'
     import { router } from '@inertiajs/vue3'
     import { VueEditor } from "vue3-editor";
+    import Datepicker from 'vue3-datepicker';
+    import Multiselect from '@vueform/multiselect'
 
     const props = defineProps({
         csrfToken: String,
@@ -11,28 +12,46 @@
         {{singularVar}}: [],
         errors: [],
         options_pages: [],
+        {%- if associations.BelongsToMany is defined %}
+            {{- "\n" }}
+            {%- for assocName, assocData in associations.BelongsToMany %}
+        {{ assocData.property }}: [],{{- "\n" }}
+            {%- endfor %}
+        {%- endif %}
+
+        {%- for field in fields %}
+            {%- if field not in primaryKey %}
+                {%- if keyFields[field] is defined %}
+        {{ keyFields[field] }}: [],{{- "\n" }}
+                {%- endif %}
+            {%- endif %}
+        {%- endfor %}
     })
 
     const components = {
-        VueEditor
+        VueEditor, Datepicker, Multiselect
     }
 
     const form = reactive({
         {%- if 'add' in action %}
             {%- for field in fields %}
                 {%- if field not in primaryKey %}
-
-        {{field}} : null,{{- "\n" }}
-                {%- endif %}
+    {{- "\n" }}        {{field}} : null,{%- endif %}
             {%- endfor %}
-        {%- endif %}
+            {{- "\n" }}
+            {%- if associations.BelongsToMany is defined %}
+                {%- for assocName, assocData in associations.BelongsToMany %}
+        options_{{ assocData.property }}: [],
+                {%- endfor %}
+            {%- endif %}
+    {%- endif %}
         {%- if 'edit' in action %}
             {{- "\n" }}
             {%- for field in fields %}
                 {%- if field not in primaryKey %}
                     {%- set fieldData = Bake.columnData(field, schema) %}
                     {%- if fieldData.type in ['date', 'timestampfractional'] and fieldData.null %}
-        {{field}} : props.{{singularVar}}.{{field}},{{- "\n" }}
+        {{field}} : ref(new Date(props.{{singularVar}}.{{field}})),{{- "\n" }}
                     {%- else %}
         {{field}} : props.{{singularVar}}.{{field}},{{- "\n" }}
                     {%- endif %}
@@ -40,7 +59,13 @@
         {{field}} : props.{{singularVar}}.{{field}},{{- "\n" }}
                 {%- endif %}
             {%- endfor %}
+            {%- if associations.BelongsToMany is defined %}
+                {%- for assocName, assocData in associations.BelongsToMany %}
+        options_{{ assocData.property }}: [],
+                {%- endfor %}
+            {%- endif %}
         {%- endif %}
+
     })
 
     function submit() {
@@ -79,45 +104,54 @@
     <Layout>
         <div class="row">
             <div class="column-responsive column-80">
-                {% set vueVar = "{{ flash['message'] }}" %}
+                {%- set vueVar = "{{ flash['message'] }}" %}{{- "\n" }}
                 <div onclick="this.classList.add('hidden')" :class="[(flash['element'] === undefined) ? 'hidden' : '','message', (flash['element'] === 'flash-success' ? 'success' : 'error')]">{{ vueVar }}</div>
                 <div class="{{ pluralVar }} form content">
                     <h3>{{ action|capitalize }} {{ singularHumanName }}</h3>
                     <form @submit.prevent="submit">
-                        {% for field in fields %}
+                        {%- for field in fields %}
                             {%- if field not in primaryKey %}
-                                {%- if keyFields[field] is defined %}
-                                    <label for="{{ field|replace({'_id': ''}) }}">{{ field|replace({'_id': ''})|capitalize }}:</label>
-                                    <select v-model="form.{{field}}">
-                                        <option disabled value="">Please select one</option>
-                                        {% set vueVar = "{{ item }}" %}
-                                        <option v-for="(item, index) in categories" :value="index" :key="index">{{ vueVar }}</option>
-                                    </select>
-                                {%- elseif field not in ['created', 'modified', 'updated'] %}
+                                {%- if keyFields[field] is defined %}{{- "\n" }}
+                            <label for="{{ field|replace({'_id': ''}) }}">{{ field|replace({'_id': ''})|capitalize }}:</label>
+                            <select v-model="form.{{field}}">
+                                <option disabled value="">Please select one</option>
+                                {%- set vueVar = "{{ item }}" %}
+
+                                <option v-for="(item, index) in categories" :value="index" :key="index">{{ vueVar }}</option>
+                            </select>
+                                {%- elseif field not in ['created', 'modified', 'updated'] %}{{- "\n" }}
                                     {%- set fieldData = Bake.columnData(field, schema) %}
                                     {%- if fieldData.type in ['date', 'datetime', 'time', 'timestampfractional'] and fieldData.null %}
-                                        <label for="{{field}}">{{field|capitalize}}</label>
-                                        {%- if fieldData.type in ['date', 'timestampfractional'] %}
-                                            <date-picker v-model="form.{{field}}" valueType="format" format="YYYY-MM-DD"></date-picker>
-                                        {%- else %}
-                                            {{ fieldData.type }} Not Implemented in vueTemplate Baked {{- "\n" }}
-                                        {%- endif %}
-                                        {{- "\n" }}
+                            <label for="{{field}}">{{field|capitalize}}</label>
+                            {%- if fieldData.type in ['date', 'timestampfractional'] %}
+
+                            <Datepicker v-model="form.{{field}}" valueType="format" format="YYYY-MM-DD"></Datepicker>
+                            {%- else %}
+                                {{ fieldData.type }} Not Implemented in vueTemplate Baked {{- "\n" }}
+                            {%- endif %}
+                            {{- "\n" }}
                                     {%- elseif fieldData.type in ['text'] %}
-                                        <label for="{{field}}">{{field|capitalize}}:</label>
-                                        <vue-editor id="{{field}}" v-model="form.{{field}}"></vue-editor>
-                                        <br/>
-                                        {{- "\n" }}
+                            <label for="{{field}}">{{field|capitalize}}:</label>
+                            <vue-editor id="{{field}}" v-model="form.{{field}}"></vue-editor>
+                            <br/>
                                     {%- else %}
-                                        <label for="{{field}}">{{field|capitalize}}:</label>{{- "\n" }}
-                                        <input id="{{field}}" v-model="form.{{field}}" />{{- "\n" }}
-                                        {% set vueVar = "{{ props.errors." ~ field ~ "._empty }}" %}
-                                        <div class="message error" v-if="props.errors.{{field}}">{{ vueVar }}</div>{{- "\n" }}
-                                        {{- "\n" }}
+                            <label for="{{field}}">{{field|capitalize}}:</label>{{- "\n" }}
+                            <input id="{{field}}" v-model="form.{{field}}" />{{- "\n" }}
+                            {%- set vueVar = "{{ props.errors." ~ field ~ "._empty }}" %}
+                            <div class="message error" v-if="props.errors.{{field}}">{{ vueVar }}</div>{{- "\n" }}
+                            {{- "\n" }}
                                     {%- endif %}
                                 {%- endif %}
                             {%- endif %}
                         {%- endfor %}
+                        {%- if associations.BelongsToMany is defined %}
+                            {%- for assocName, assocData in associations.BelongsToMany %}
+                                <label for="{{ assocData.property }}">{{assocData.property|capitalize}}:</label>
+                                <div><Multiselect v-model="form.{{ assocData.property }}" :multiple="true" :options="options_{{ assocData.property }}" label="{{ assocData.displayField }}" track-by="id"></Multiselect></div>
+                                {{- "\n" }}
+                                <br/>
+                            {%- endfor %}
+                        {% endif %}
                         <button type="submit">Submit</button>
                     </form>
                 </div>

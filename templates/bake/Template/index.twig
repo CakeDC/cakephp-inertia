@@ -41,86 +41,95 @@
 <template>
     <Layout>
         <div class="column-responsive column-80">
-            {% if prefix == '' %}
+            {%- if prefix == '' %}
                 {% set baseUrl = '/' %}
-            {% else %}
+            {%- else %}
                 {% set baseUrl = '/' ~ prefix|lower ~ '/' %}
-            {% endif %}
-    {% set vueVar = "{{ flash['message'] }}" %}
+            {%- endif %}
+            {%- set vueVar = "{{ flash['message'] }}" %}
+            {{- "\n" }}
             <div onclick="this.classList.add('hidden')" :class="[(flash['element'] === undefined) ? 'hidden' : '','message', (flash['element'] === 'flash-success' ? 'success' : 'error')]">{{ vueVar }}</div>
             <div class="{{ pluralVar }} index content">
                 <h3>{{ pluralHumanName }}</h3>
-    {% if prefix == '' %}
+                {{- "\n" }}
+                {%- if prefix == '' %}
                 <Link as="button" href="/{{ pluralVar }}/add" class="button shadow radius right small">Add {{ singularHumanName }}</Link>
-    {% else %}
+                {%- else %}
                 <Link as="button" href="/{{ prefix|lower }}/{{ pluralVar }}/add" class="button shadow radius right small">Add {{ singularHumanName }}</Link>
-    {% endif %}
-    {% set fields = Bake.filterFields(fields, schema, modelObject, indexColumns, ['binary', 'text']) %}
+                {%- endif %}
+                {%- set fields = Bake.filterFields(fields, schema, modelObject, indexColumns, ['binary', 'text']) %}
+                {{ "\n" }}
                 <div class="table-responsive">
-                <table>
-                    <thead>
-                        <tr>
-    {% for field in fields %}
-                            <th scope="col">
-                                <Link href="{{ baseUrl }}{{ pluralVar }}/index" :class="defaultClass.{{ field }}" :data="{ sort: '{{ field }}', direction: changeDirection }">{{ field|capitalize }}</Link>
-                            </th>
-    {% endfor %}
-                            <th class="actions">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="{{ singularVar }} in {{ pluralVar }}">
-    {% for field in fields %}
-        {% set isKey = false %}
-        {% if associations.BelongsTo is defined %}
-            {% for alias, details in associations.BelongsTo %}
-                {% if field == details.foreignKey %}
-                    {% set isKey = true %}
-                    {% set vueVarParent = singularVar ~ "." ~  details.property %}
-                    {% set vueVar = "{{" ~ singularVar ~ "." ~ details.property ~ "." ~ details.displayField  ~ "}}" %}
-                    {% set vueVarIndex = singularVar ~ "." ~ details.property ~ "." ~ details.primaryKey[0] %}
-    <td><span v-if="{{ vueVarParent }}"><Link as="button" class=""  :href="'{{ baseUrl }}{{ details.controller|lower }}/view/' + {{ vueVarIndex }}">{{ vueVar }}</Link></span></td>
-                {% endif %}
-            {% endfor %}
-        {% endif %}
+                    <table>
+                        <thead>
+                            <tr>
 
-                            {% if isKey is not same as(true) %}
-                                {% set columnData = Bake.columnData(field, schema) %}
-                                {% if columnData.type not in ['integer', 'float', 'decimal', 'biginteger', 'smallinteger', 'tinyinteger', 'timestampfractional'] %}
-                                    <td>
-                                        {#  todo: need trucnate #}
-                                        {% set vueVar = "{{" ~ singularVar ~ "." ~ field ~ "}}" %}
-                                        {{ vueVar }}
-                                    </td>
-                                {% elseif columnData.type == 'timestampfractional' %}
-                                    <td>
-                                        {% set vueVar = "{{ formatDate(" ~ singularVar ~ "." ~ field ~ ") }}" %}
-                                        {{ vueVar }}
-                                    </td>
-                                {% elseif columnData.null %}
-                                    {#  todo: need check vueVar === null #}
-                                    <td>
-                                        {% set vueVar = "{{" ~ singularVar ~ "." ~ field ~ "}}" %}
-                                        {{ vueVar }}
-                                    </td>
-                                {% else %}
-                                    <td>
-                                        {% set vueVar = "{{" ~ singularVar ~ "." ~ field ~ "}}" %}
-                                        {{ vueVar }}
-                                    </td>
-                                {% endif %}
-                            {% endif %}
+                                {%- for field in fields %}
+                                    {{- "\n" }}
+                                <th scope="col">
+                                    <Link href="{{ baseUrl }}{{ pluralVar }}/index" :class="defaultClass.{{ field }}" :data="{ sort: '{{ field }}', direction: changeDirection }">{{ field|capitalize }}</Link>
+                                </th>
+                                {%- endfor %}
+                                {{- "\n" }}
+                                <th class="actions">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="{{ singularVar }} in {{ pluralVar }}">
+                                {%- for field in fields %}
+                                    {%- set isKey = false %}
+                                    {%- if associations.BelongsTo is defined %}
+                                        {%- for alias, details in associations.BelongsTo %}
+                                            {%- if field == details.foreignKey %}
+                                                {%- set isKey = true %}
+                                                {%- set vueVarParent = singularVar ~ "." ~  details.property %}
+                                                {%- set vueVar = "{{" ~ singularVar ~ "." ~ details.property ~ "." ~ details.displayField  ~ "}}" %}
+                                                {%- set vueVarIndex = singularVar ~ "." ~ details.property ~ "." ~ details.primaryKey[0] %}
+                                <td>
+                                    <span v-if="{{ vueVarParent }}">
+                                        <Link as="button" class=""  :href="'{{ baseUrl }}{{ details.controller|lower }}/view/' + {{ vueVarIndex }}">{{ vueVar }}</Link>
+                                    </span>
+                                </td>
+                                            {%- endif %}
+                                        {%- endfor %}
+                                    {%- endif %}
 
-
-                        {% endfor %}
-                            <td class="actions">
-                                <Link as="button" method="get" :href="'{{ baseUrl }}{{ pluralVar }}/view/' + {{ singularVar }}.id">View</Link>
-                                <Link as="button" method="get" :href="'{{ baseUrl }}{{ pluralVar }}/edit/' + {{ singularVar }}.id">Edit</Link>
-                                <Link as="button" :data="{ csrfToken:csrfToken }"  method="get" :href="'{{ baseUrl }}{{ pluralVar }}/delete/' + {{ singularVar }}.id">Delete</Link>
-                            </td>
-                        </tr>
-                   </tbody>
-               </table>
+                                    {{- "\n" }}
+                                    {%- if isKey is not same as(true) %}
+                                        {%- set columnData = Bake.columnData(field, schema) %}
+                                        {%- if columnData.type not in ['integer', 'float', 'decimal', 'biginteger', 'smallinteger', 'tinyinteger', 'timestampfractional'] %}
+                                <td>
+                                    {#  todo: need trucnate #}
+                                    {%- set vueVar = "{{" ~ singularVar ~ "." ~ field ~ "}}" %}
+                                    {{- vueVar }}
+                                </td>
+                                        {%- elseif columnData.type == 'timestampfractional' %}
+                                <td>
+                                    {%- set vueVar = "{{ formatDate(" ~ singularVar ~ "." ~ field ~ ") }}" %}
+                                    {{- vueVar }}</td>
+                                        {%- elseif columnData.null %}
+                                            {#  todo: need check vueVar === null #}
+                                <td>4
+                                    {%- set vueVar = "{{" ~ singularVar ~ "." ~ field ~ "}}" %}
+                                    {{- vueVar }}
+                                </td>
+                                        {%- else %}
+                                <td>
+                                    {%- set vueVar = "{{" ~ singularVar ~ "." ~ field ~ "}}" %}
+                                    {{- vueVar }}</td>
+                                        {%- endif %}
+                                    {%- endif %}
+                            {%- endfor %}
+                                {{- "\n" }}
+                                <td class="actions">
+                                    <Link as="button" method="get" :href="'{{ baseUrl }}{{ pluralVar }}/view/' + {{ singularVar }}.id">View</Link>
+                                    <Link as="button" method="get" :href="'{{ baseUrl }}{{ pluralVar }}/edit/' + {{ singularVar }}.id">Edit</Link>
+                                    <Link as="button" :data="{ csrfToken:csrfToken }"  method="get" :href="'{{ baseUrl }}{{ pluralVar }}/delete/' + {{ singularVar }}.id">Delete</Link>
+                                </td>
+                            </tr>
+                       </tbody>
+                   </table>
+                </div>
            </div>
            <span v-if="links.length > 1">
                <div class="paginator">
@@ -134,7 +143,6 @@
                    </ul>
                </div>
            </span>
-       </div>
         </div>
     </Layout>
 </template>
