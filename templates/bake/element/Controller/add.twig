@@ -25,6 +25,23 @@
         ${{ singularName }} = $this->{{ currentModelName }}->newEmptyEntity();
         if ($this->request->is('post')) {
             $data = $this->request->getData();
+
+            foreach ($data as $key => $val) {
+                if (is_array($val)) {
+                    if (array_key_exists('_ids', $val)) {
+                        $newItems = [];
+                        foreach ($val as $item) {
+                            foreach ($item as $value) {
+                                if (array_key_exists('value', $value)) {
+                                    $newItems[] = $value['value'];
+                                }
+                            }
+                        }
+                        $data[$key]['_ids'] = $newItems;
+                    }
+                }
+            }
+
             $db = \Cake\Datasource\ConnectionManager::get('default');
             $collection = $db->getSchemaCollection();
             $tableSchema = $collection->describe('{{pluralHumanName}}');
