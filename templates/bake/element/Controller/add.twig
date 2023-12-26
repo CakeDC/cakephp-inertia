@@ -25,28 +25,14 @@
         ${{ singularName }} = $this->{{ currentModelName }}->newEmptyEntity();
         if ($this->request->is('post')) {
             $data = $this->request->getData();
-            foreach ($data as $key => $val) {
-                if (is_array($val)) {
-                    $newValues = [];
-                    foreach ($val as $item) {
-                        if (array_key_exists('id', $item)) {
-                            $newItem['id'] = $item['id'];
-                        }
-                        $newValues[] = $newItem;
-                    }
-                    $data[$key] = $newValues;
-                }
-            }
-
             $db = \Cake\Datasource\ConnectionManager::get('default');
             $collection = $db->getSchemaCollection();
             $tableSchema = $collection->describe('{{pluralHumanName}}');
             foreach ($tableSchema->columns() as $column) {
-                if ($tableSchema->getColumnType($column) == 'timestampfractional'  && $data[$column] !== null) {
+                if ($tableSchema->getColumnType($column) == 'timestampfractional' && $data[$column] !== null) {
                     $data[$column] = \Cake\I18n\FrozenDate::parseDate($data[$column], 'YYYY-MM-dd');
                 }
             }
-
             ${{ singularName }} = $this->{{ currentModelName }}->patchEntity(${{ singularName }}, $data);
             if ($this->{{ currentModelName }}->save(${{ singularName }})) {
                 $this->Flash->success(__('The {{ singularHumanName|lower }} has been saved.'));
@@ -60,7 +46,7 @@
 {%- for assoc in associations %}
     {%- set otherName = Bake.getAssociatedTableAlias(modelObj, assoc) %}
     {%- set otherPlural = otherName|variable %}
-    ${{ otherPlural }} = $this->{{ currentModelName }}->{{ otherName }}->find('list', ['limit' => 200])->toArray();
+        ${{ otherPlural }} = $this->{{ currentModelName }}->{{ otherName }}->find('list', ['limit' => 200])->toArray();
     {{- "\n" }}
     {%- set compact = compact|merge(["'#{otherPlural}'"]) %}
 {% endfor %}
@@ -71,7 +57,17 @@
         ${{ otherPlural }} = $this->{{ currentModelName }}->{{ otherName }}->find('all', ['limit' => 200])->toArray();
         {{- "\n" }}
     {%- set compact = compact|merge(["'#{otherPlural}'"]) %}
+        $new{{ otherPlural|capitalize }} = [];
+        foreach (${{ otherPlural }} as $tag) {
+            $new{{ otherPlural|capitalize }}[] = [
+                'value' => $tag['id'],
+                'label' => $tag['name'],
+            ];
+        }
+        $options_tags = $newTags;
+        {%- set compact = compact|merge(["'options_tags'"]) %}
 {% endfor %}
         {%- set compact = compact|merge(["'errors'"]) %}
+
         $this->set(compact({{ compact|join(', ')|raw }}));
-    }
+}
