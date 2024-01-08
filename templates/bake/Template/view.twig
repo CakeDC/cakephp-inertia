@@ -1,19 +1,30 @@
-{% set associations = {'BelongsTo': [], 'HasOne': [], 'HasMany': [], 'BelongsToMany': []}|merge(associations) %}
-{% set fieldsData = Bake.getViewFieldsData(fields, schema, associations) %}
-{% set associationFields = fieldsData.associationFields %}
-{% set groupedFields = fieldsData.groupedFields %}
-{% set pK = '$' ~ singularVar ~ '->' ~ primaryKey[0] %}
-{% if prefix == '' %}
-    {% set baseUrl = '/' %}
-{% else %}
-    {% set baseUrl = '/' ~ prefix|lower ~ '/' %}
-{% endif %}
+{%- set associations = {'BelongsTo': [], 'HasOne': [], 'HasMany': [], 'BelongsToMany': []}|merge(associations) %}
+{%- set fieldsData = Bake.getViewFieldsData(fields, schema, associations) %}
+{%- set associationFields = fieldsData.associationFields %}
+{%- set groupedFields = fieldsData.groupedFields %}
+{%- set pK = '$' ~ singularVar ~ '->' ~ primaryKey[0] %}
+{%- if prefix == '' %}
+    {%- set baseUrl = '/' %}
+{%- else %}
+    {%- set baseUrl = '/' ~ prefix|lower ~ '/' %}
+{%- endif %}
 <script setup>
     import Layout from '../Layout'
+    import { Link } from '@inertiajs/vue3'
+    import { onMounted, onUnmounted, ref } from 'vue'
+    import moment from 'moment'
 
     const props = defineProps({
         csrfToken: String,
         {{singularVar}}: [],
+    })
+
+    function formatDate(date) {
+        return moment(date).format("YYYY-MM-DD")
+    }
+
+    onMounted(() => {
+        console.log('Component categories/add onMounted hook called')
     })
 </script>
 
@@ -21,88 +32,88 @@
     <Layout>
         <div class="column-responsive column-80">
             <div class="{{ pluralVar }} view content">
-    {% set vueLabel = "{{" ~ singularVar ~ "." ~  displayField ~ "}}" %}
+    {%- set vueLabel = "{{" ~ singularVar ~ "." ~  displayField ~ "}}" %}
                 <h3>{{ vueLabel }}</h3>
                 <table>
-                    {% if groupedFields['string'] %}
-                        {% for field in groupedFields['string'] %}
-                            {% if associationFields[field] is defined %}
-                                {% set details = associationFields[field] %}
+                    {%- if groupedFields['string'] %}
+                        {%- for field in groupedFields['string'] %}
+                            {%- if associationFields[field] is defined %}
+                                {%- set details = associationFields[field] %}
                                 <tr>
                                     <th>{{ field|humanize }}</th>
                                     <td>
-                                           {% set vueVarParent = singularVar ~ "." ~  details.property %}
-                                           {% set vueVar = "{{" ~ singularVar ~ "." ~ details.property ~ "." ~ details.displayField  ~ "}}" %}
-                                           {% set vueVarIndex = singularVar ~ "." ~ details.property ~ "." ~ details.primaryKey[0] %}
+                                           {%- set vueVarParent = singularVar ~ "." ~  details.property %}
+                                           {%- set vueVar = "{{" ~ singularVar ~ "." ~ details.property ~ "." ~ details.displayField  ~ "}}" %}
+                                           {%- set vueVarIndex = singularVar ~ "." ~ details.property ~ "." ~ details.primaryKey[0] %}
                                            <span v-if="{{ vueVarParent }}">
                                                 <Link as="button" class=""  :href="'{{ baseUrl }}{{ details.controller|lower }}/view/' + {{ vueVarIndex }}">{{ vueVar }}</Link>
                                            </span>
                                     </td>
                                 </tr>
-                            {% else %}
+                            {%- else %}
                                 <tr>
                                     <th>{{ field|humanize }}</th>
-                                    {% set vueValue = "{{" ~ singularVar ~ "." ~  field ~ "}}" %}
+                                    {%- set vueValue = "{{" ~ singularVar ~ "." ~  field ~ "}}" %}
                                     <td>{{ vueValue }}</td>
                                 </tr>
-                            {% endif %}
-                        {% endfor %}
-                    {% endif %}
-                    {% if groupedFields.number %}
-                        {% for field in groupedFields.number %}
+                            {%- endif %}
+                        {%- endfor %}
+                    {%- endif %}
+                    {%- if groupedFields.number %}
+                        {%- for field in groupedFields.number %}
                             <tr>
                                 <th>{{ field|humanize }}</th>
                                 <td>
-                                    {% set vueVar = "{{" ~ singularVar ~ "." ~ field ~ "}}" %}
+                                    {%- set vueVar = "{{" ~ singularVar ~ "." ~ field ~ "}}" %}
                                     {{ vueVar }}
                                 </td>
                             </tr>
-                        {% endfor %}
-                    {% endif %}
-                    {% if groupedFields.date %}
-                        {% for field in groupedFields.date %}
+                        {%- endfor %}
+                    {%- endif %}
+                    {%- if groupedFields.date %}
+                        {%- for field in groupedFields.date %}
                             <tr>
                                 <th>{{ field|humanize }}</th>
                                 <td>
-                                    {% set vueVar = "{{ formatDate(" ~ singularVar ~ "." ~ field ~ ") }}" %}
+                                    {%- set vueVar = "{{ formatDate(" ~ singularVar ~ "." ~ field ~ ") }}" %}
                                     {{ vueVar }}
                                 </td>
                             </tr>
-                        {% endfor %}
-                    {% endif %}
+                        {%- endfor %}
+                    {%- endif %}
                 </table>
-                {% if groupedFields.text %}
-                    {% for field in groupedFields.text %}
+                {%- if groupedFields.text %}
+                    {%- for field in groupedFields.text %}
                         <div class="text">
                             <strong>{{ field|humanize }}</strong>
                             <blockquote>
-                                {% set vueVar = singularVar ~ "." ~ field %}
+                                {%- set vueVar = singularVar ~ "." ~ field %}
                                 <span v-html="{{ vueVar }}"></span>
                             </blockquote>
                         </div>
-                    {% endfor %}
-                {% endif %}
-                {% set relations = associations.BelongsToMany|merge(associations.HasMany) %}
-                {% for alias, details in relations %}
-                    {% set otherSingularVar = alias|variable %}
-                    {% set otherPluralHumanName = details.controller|underscore|humanize %}
+                    {%- endfor %}
+                {%- endif %}
+                {%- set relations = associations.BelongsToMany|merge(associations.HasMany) %}
+                {%- for alias, details in relations %}
+                    {%- set otherSingularVar = alias|variable %}
+                    {%- set otherPluralHumanName = details.controller|underscore|humanize %}
                     <div class="related">
                         <h4>{{ otherPluralHumanName }}</h4>
                         <span v-if="{{ singularVar }}.{{ details.property }} && {{ singularVar }}.{{ details.property }}.length != 0">
                             <div class="table-responsive">
                                 <table>
                                     <tr>
-                                        {% for field in details.fields %}
+                                        {%- for field in details.fields %}
                                             <th>{{ field|humanize }}</th>
-                                        {% endfor %}
+                                        {%- endfor %}
                                         <th class="actions">Actions</th>
                                     </tr>
                                     <tr v-for="{{ otherSingularVar }} in {{ singularVar }}.{{ details.property }}">
-                                        {% for field in details.fields %}
-                                            {% set vueValue = "{{" ~ otherSingularVar ~ "." ~  field ~ "}}" %}
+                                        {%- for field in details.fields %}
+                                            {%- set vueValue = "{{" ~ otherSingularVar ~ "." ~  field ~ "}}" %}
                                             <td>{{ vueValue }}</td>
-                                        {% endfor %}
-                                        {% set otherPk = otherSingularVar ~ '.' ~ details.primaryKey[0] %}
+                                        {%- endfor %}
+                                        {%- set otherPk = otherSingularVar ~ '.' ~ details.primaryKey[0] %}
                                         <td class="actions">
                                             <Link as="button" :href="'{{ baseUrl }}{{ otherSingularVar }}/view/' + {{ otherPk }}">View</Link>
                                             <Link as="button" :href="'{{ baseUrl }}{{ otherSingularVar }}/edit/' + {{ otherPk }}">Edit</Link>
@@ -113,7 +124,7 @@
                             </div>
                         </span>
                     </div>
-                {% endfor %}
+                {%- endfor %}
             </div>
         </div>
     </Layout>

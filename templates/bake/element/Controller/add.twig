@@ -78,13 +78,16 @@
         foreach (${{ otherPlural }} as $tag) {
             $new{{ otherPlural|capitalize }}[] = [
                 'value' => $tag['id'],
-                'label' => $tag['name'],
+                'label' => $tag[$this->{{ currentModelName }}->{{ otherName }}->getDisplayField()],
             ];
         }
-        $options_tags = $newTags;
-        {%- set compact = compact|merge(["'options_tags'"]) %}
-{% endfor %}
+        $options_{{ otherPlural }} = $new{{ otherPlural|capitalize }};
+        {%- set optionsOtherPlural = 'options_' ~ otherPlural %}
+        {%- set compact = compact|merge(["'#{optionsOtherPlural}'"]) %}
+
+{%- endfor %}
+
         {%- set compact = compact|merge(["'errors'"]) %}
 
         $this->set(compact({{ compact|join(', ')|raw }}));
-}
+    }

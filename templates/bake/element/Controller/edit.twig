@@ -82,24 +82,26 @@
         {{- "\n" }}
     {%- set compact = compact|merge(["'#{otherPlural}'"]) %}
         $new{{ otherPlural|capitalize }} = [];
-        foreach (${{ otherPlural }} as $tag) {
+        foreach (${{ otherPlural }} as $tmp) {
             $new{{ otherPlural|capitalize }}[] = [
-                'value' => $tag['id'],
-                'label' => $tag['name'],
+                'value' => $tmp['id'],     
+                'label' => $tmp[$this->{{ currentModelName }}->{{ otherName }}->getDisplayField()],
             ];
         }
-        $options_tags = $new{{ otherPlural|capitalize }};
+        $options_{{ otherPlural }} = $new{{ otherPlural|capitalize }};
 
         $new{{ otherPlural|capitalize }} = [];
-        foreach (${{ singularName }}->{{ otherPlural}} as $tag) {
+        foreach (${{ singularName }}->{{ otherPlural}} as $tmp) {
             $new{{ otherPlural|capitalize }}[] = [
-                'value' => $tag['id'],
-                'label' => $tag['name'],
+                'value' => $tmp['id'],
+                'label' => $tmp[$this->{{ currentModelName }}->{{ otherName }}->getDisplayField()],
             ];
         }
         ${{ singularName }}->{{ otherPlural}} = $new{{ otherPlural|capitalize }};
 
-        {%- set compact = compact|merge(["'options_tags'"]) %}
+    {%- set optionsOtherPlural = 'options_' ~ otherPlural %}
+    {%- set compact = compact|merge(["'#{optionsOtherPlural}'"]) %}
+
 {% endfor %}
         {%- set compact = compact|merge(["'errors'"]) %}
         $this->set(compact({{ compact|join(', ')|raw }}));
