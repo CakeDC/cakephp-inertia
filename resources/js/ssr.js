@@ -7,7 +7,7 @@ createServer((page) => createInertiaApp({
     page,
     render: renderToString,
     resolve: name => require(`./Components/Pages/${name}`),
-    title: title => title ? `${title} - Ping CRM` : 'Ping CRM',
+    title: title => title ? `${title} - Vue App` : 'Vue App',
     setup({ app, props, plugin }) {
         return createSSRApp({
             render: () => h(app, props),

@@ -19,11 +19,5 @@ mix.setPublicPath('./webroot')
     .js('resources/js/app.js', 'webroot/js')
     .vue({ runtimeOnly: (process.env.NODE_ENV || 'production') === 'production' })
     .webpackConfig(webpackConfig)
-    //.postCss('resources/css/app.css', 'webroot/css', [
-    //    // prettier-ignore
-    //    cssImport(),
-    //    cssNesting(),
-    //    require('tailwindcss'),
-    //])
     .version()
     .sourceMaps()
