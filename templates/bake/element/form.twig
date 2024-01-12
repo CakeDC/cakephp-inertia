@@ -154,7 +154,7 @@
                     {%- if associations.BelongsToMany is defined %}
                         {%- for assocName, assocData in associations.BelongsToMany %}
                         <label for="{{ assocData.property }}">{{assocData.property|capitalize}}:</label>
-                        <div><Multiselect v-model="form.{{ assocData.property }}" :object="true" mode="tags" :options="props.options_{{ assocData.property }}" /></div>
+                        <div><Multiselect v-model="form.{{ assocData.property }}" label="{{ assocData.displayField }}" valueProp="id" :object="true" mode="tags" :options="props.options_{{ assocData.property }}" /></div>
                         <br/>
                         {%- endfor %}
                     {% endif %}

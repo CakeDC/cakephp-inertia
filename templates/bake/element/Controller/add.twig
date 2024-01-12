@@ -32,9 +32,7 @@
                         $newItems = [];
                         foreach ($val as $item) {
                             foreach ($item as $value) {
-                                if (array_key_exists('value', $value)) {
-                                    $newItems[] = $value['value'];
-                                }
+                                $newItems[] = $value['id'];
                             }
                         }
                         $data[$key]['_ids'] = $newItems;
@@ -71,23 +69,11 @@
 {%- for assoc in associations %}
     {%- set otherName = Bake.getAssociatedTableAlias(modelObj, assoc) %}
     {%- set otherPlural = otherName|variable %}
-        ${{ otherPlural }} = $this->{{ currentModelName }}->{{ otherName }}->find('all', ['limit' => 200])->toArray();
-        {{- "\n" }}
-    {%- set compact = compact|merge(["'#{otherPlural}'"]) %}
-        $new{{ otherPlural|capitalize }} = [];
-        foreach (${{ otherPlural }} as $tag) {
-            $new{{ otherPlural|capitalize }}[] = [
-                'value' => $tag['id'],
-                'label' => $tag[$this->{{ currentModelName }}->{{ otherName }}->getDisplayField()],
-            ];
-        }
-        $options_{{ otherPlural }} = $new{{ otherPlural|capitalize }};
+        $options_{{ otherPlural }} = $this->{{ currentModelName }}->{{ otherName }}->find('all', ['limit' => 200])->disableHydration()->toArray();
+    {{- "\n" }}
         {%- set optionsOtherPlural = 'options_' ~ otherPlural %}
         {%- set compact = compact|merge(["'#{optionsOtherPlural}'"]) %}
-
 {%- endfor %}
-
         {%- set compact = compact|merge(["'errors'"]) %}
-
         $this->set(compact({{ compact|join(', ')|raw }}));
     }
