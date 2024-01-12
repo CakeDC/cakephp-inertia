@@ -40,6 +40,7 @@
         "vue-loader": "^16.2.0",
         "vue3-datepicker": "^0.4.0",
         "vue3-editor": "^0.1.1",
+        "@vueform/multiselect": "^2.6.6",
         "webpack-node-externals": "^3.0.0"
     }
 }
