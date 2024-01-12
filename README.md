@@ -149,7 +149,7 @@ Go to http://localhost:9099/pages/dashboard to see that Dashboard Vue Component 
 
 ### bake CRUD system
 
-For this example we use sql file on *config/sql/example/postgresql).pgsql*
+For this example we use sql file on *config/sql/example/postgresql.pgsql*
 
 Once the database has been created, bake models and controllers as normal using
 
