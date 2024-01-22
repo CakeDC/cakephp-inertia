@@ -31,16 +31,18 @@
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $data = $this->request->getData();
+
             foreach ($data as $key => $val) {
                 if (is_array($val)) {
-                    $newValues = [];
-                    foreach ($val as $item) {
-                        if (array_key_exists('id', $item)) {
-                            $newItem['id'] = $item['id'];
+                    if (array_key_exists('_ids', $val)) {
+                        $newItems = [];
+                        foreach ($val as $item) {
+                            foreach ($item as $value) {
+                                $newItems[] = $value['id'];
+                            }
                         }
-                        $newValues[] = $newItem;
+                        $data[$key]['_ids'] = $newItems;
                     }
-                    $data[$key] = $newValues;
                 }
             }
 
@@ -66,7 +68,7 @@
 {%- for assoc in associations %}
     {%- set otherName = Bake.getAssociatedTableAlias(modelObj, assoc) %}
     {%- set otherPlural = otherName|variable %}
-    ${{ otherPlural }} = $this->{{ currentModelName }}->{{ otherName }}->find('list', ['limit' => 200])->toArray();
+        ${{ otherPlural }} = $this->{{ currentModelName }}->{{ otherName }}->find('list', ['limit' => 200])->toArray();
     {{- "\n" }}
     {%- set compact = compact|merge(["'#{otherPlural}'"]) %}
 {% endfor %}
@@ -74,9 +76,10 @@
 {%- for assoc in associations %}
     {%- set otherName = Bake.getAssociatedTableAlias(modelObj, assoc) %}
     {%- set otherPlural = otherName|variable %}
-        ${{ otherPlural }} = $this->{{ currentModelName }}->{{ otherName }}->find('all', ['limit' => 200])->toArray();
-        {{- "\n" }}
-    {%- set compact = compact|merge(["'#{otherPlural}'"]) %}
+        $options_{{ otherPlural }} = $this->{{ currentModelName }}->{{ otherName }}->find('all', ['limit' => 200])->disableHydration()->toArray();
+    {{- "\n" }}
+        {%- set optionsOtherPlural = 'options_' ~ otherPlural %}
+        {%- set compact = compact|merge(["'#{optionsOtherPlural}'"]) %}
 {% endfor %}
         {%- set compact = compact|merge(["'errors'"]) %}
         $this->set(compact({{ compact|join(', ')|raw }}));

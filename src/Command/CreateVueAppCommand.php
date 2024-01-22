@@ -42,6 +42,18 @@ class CreateVueAppCommand extends Command
         $filename = $path . 'app.js';
         $io->createFile($filename, $content, false);
 
+        $filepath = $initialPath . 'resources' . DS . 'js' . DS . 'ssr.js';
+        $content = file_get_contents($filepath);
+        $path = ROOT . DS . 'resources' . DS . 'js' . DS;
+        $filename = $path . 'ssr.js';
+        $io->createFile($filename, $content, false);
+
+        $filepath = $initialPath . 'resources' . DS . 'css' . DS . 'app.css';
+        $content = file_get_contents($filepath);
+        $path = ROOT . DS . 'resources' . DS . 'css' . DS;
+        $filename = $path . 'app.css';
+        $io->createFile($filename, $content, false);
+
         $filepath = $initialPath . 'resources' . DS . 'js' . DS . 'Components' . DS . 'Layout.vue';
         $content = file_get_contents($filepath);
         $path = ROOT . DS . 'resources' . DS . 'js' . DS . 'Components' . DS;
@@ -58,6 +70,18 @@ class CreateVueAppCommand extends Command
         $content = file_get_contents($filepath);
         $path = ROOT . DS;
         $filename = $path . 'webpack.mix.js';
+        $io->createFile($filename, $content, false);
+
+        $filepath = $initialPath . 'resources' .  DS . 'webpack.ssr.mix.js';
+        $content = file_get_contents($filepath);
+        $path = ROOT . DS;
+        $filename = $path . 'webpack.ssr.mix.js';
+        $io->createFile($filename, $content, false);
+
+        $filepath = $initialPath . 'resources' .  DS . 'webpack.config.js';
+        $content = file_get_contents($filepath);
+        $path = ROOT . DS;
+        $filename = $path . 'webpack.config.js';
         $io->createFile($filename, $content, false);
 
         return static::CODE_SUCCESS;

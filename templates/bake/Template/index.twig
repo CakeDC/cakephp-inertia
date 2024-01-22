@@ -1,143 +1,148 @@
-<template>
-    <div class="column-responsive column-80">
-        {% if prefix == '' %}
-            {% set baseUrl = '/' %}
-        {% else %}
-            {% set baseUrl = '/' ~ prefix|lower ~ '/' %}
-        {% endif %}
-{% set vueVar = "{{ flash['message'] }}" %}
-        <div onclick="this.classList.add('hidden')" :class="[(flash['element'] === undefined) ? 'hidden' : '','message', (flash['element'] === 'flash-success' ? 'success' : 'error')]">{{ vueVar }}</div>
-        <div class="{{ pluralVar }} index content">
-            <h3>{{ pluralHumanName }}</h3>
-{% if prefix == '' %}
-            <InertiaLink as="button" href="/{{ pluralVar }}/add" class="button shadow radius right small">Add {{ singularHumanName }}</InertiaLink>
-{% else %}
-            <InertiaLink as="button" href="/{{ prefix|lower }}/{{ pluralVar }}/add" class="button shadow radius right small">Add {{ singularHumanName }}</InertiaLink>
-{% endif %}
-{% set fields = Bake.filterFields(fields, schema, modelObject, indexColumns, ['binary', 'text']) %}
-            <div class="table-responsive">
-            <table>
-                <thead>
-                    <tr>
-{% for field in fields %}
-                        <th scope="col">
-                            <InertiaLink href="{{ baseUrl }}{{ pluralVar }}/index" :class="defaultClass.{{ field }}" :data="{ sort: '{{ field }}', direction: changeDirection }">{{ field|capitalize }}</InertiaLink>
-                        </th>
-{% endfor %}
-                        <th class="actions">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="{{ singularVar }} in {{ pluralVar }}">
-{% for field in fields %}
-    {% set isKey = false %}
-    {% if associations.BelongsTo is defined %}
-        {% for alias, details in associations.BelongsTo %}
-            {% if field == details.foreignKey %}
-                {% set isKey = true %}
-                {% set vueVarParent = singularVar ~ "." ~  details.property %}
-                {% set vueVar = "{{" ~ singularVar ~ "." ~ details.property ~ "." ~ details.displayField  ~ "}}" %}
-                {% set vueVarIndex = singularVar ~ "." ~ details.property ~ "." ~ details.primaryKey[0] %}
-<td><span v-if="{{ vueVarParent }}"><InertiaLink as="button" class=""  :href="'{{ baseUrl }}{{ details.controller|lower }}/view/' + {{ vueVarIndex }}">{{ vueVar }}</InertiaLink></span></td>
-            {% endif %}
-        {% endfor %}
-    {% endif %}
+<script setup>
+    import { Link } from '@inertiajs/vue3'
+    import Layout from '../Layout'
+    import { onMounted, onUnmounted, ref } from 'vue'
+    import moment from 'moment'
 
-                        {% if isKey is not same as(true) %}
-                            {% set columnData = Bake.columnData(field, schema) %}
-                            {% if columnData.type not in ['integer', 'float', 'decimal', 'biginteger', 'smallinteger', 'tinyinteger', 'timestampfractional'] %}
-                                <td>
-                                    {#  todo: need trucnate #}
-                                    {% set vueVar = "{{" ~ singularVar ~ "." ~ field ~ "}}" %}
-                                    {{ vueVar }}
-                                </td>
-                            {% elseif columnData.type == 'timestampfractional' %}
-                                <td>
-                                    {% set vueVar = "{{ formatDate(" ~ singularVar ~ "." ~ field ~ ") }}" %}
-                                    {{ vueVar }}
-                                </td>
-                            {% elseif columnData.null %}
-                                {#  todo: need check vueVar === null #}
-                                <td>
-                                    {% set vueVar = "{{" ~ singularVar ~ "." ~ field ~ "}}" %}
-                                    {{ vueVar }}
-                                </td>
-                            {% else %}
-                                <td>
-                                    {% set vueVar = "{{" ~ singularVar ~ "." ~ field ~ "}}" %}
-                                    {{ vueVar }}
-                                </td>
-                            {% endif %}
-                        {% endif %}
-
-
-                    {% endfor %}
-                        <td class="actions">
-                            <InertiaLink as="button" :href="'{{ baseUrl }}{{ pluralVar }}/view/' + {{ singularVar }}.id">View</InertiaLink>
-                            <InertiaLink as="button" :href="'{{ baseUrl }}{{ pluralVar }}/edit/' + {{ singularVar }}.id">Edit</InertiaLink>
-                            <InertiaLink as="button" :data="{ csrfToken:csrfToken }"  method="get" :href="'{{ baseUrl }}{{ pluralVar }}/delete/' + {{ singularVar }}.id">Delete</InertiaLink>
-                        </td>
-                    </tr>
-               </tbody>
-           </table>
-       </div>
-       <span v-if="links.length > 1">
-           <div class="paginator">
-               <ul class="pagination">
-                   <template v-for="(link, key) in links">
-                       <li>
-                           {% set vueLabel = "{{ link.label }}" %}
-<InertiaLink as="button" :key="key" class="" :href="link.url">{{ vueLabel }}</InertiaLink>
-                       </li>
-                   </template>
-               </ul>
-           </div>
-       </span>
-   </div>
-  </div>
-</template>
-
-<script>
-import Layout from '@/Components/Layout'
-import moment from 'moment'
-export default {
-    components: {
-    },
-    props: {
-        menuOptions: [],
-        {{ pluralVar }}: [],
+    const props = defineProps({
         csrfToken: String,
         flash: [],
+        {{ pluralVar }}: [],
         sort: String,
         direction: String,
         links: [],
-    },
-    data() {
-        return {
-            page: 1,
-            currentRoute: '/{{ pluralVar }}/index',
-            defaultClass: {
-                id: '',
-                name: '',
-            }
-        };
-    },
-    computed: {
-        changeDirection(p) {
-            if (this.direction === 'desc') {
-                return 'asc';
-            } else {
-                return 'desc';
-            }
+    })
+
+    const direction = ref(0)
+
+    const defaultClass = Object ({
+        id: '',
+        name: '',
+    })
+
+    function formatDate(date) {
+        return moment(date).format("YYYY-MM-DD")
+    }
+
+    function changeDirection(p) {
+        if (direction === 'desc') {
+            return 'asc';
+        } else {
+            return 'desc';
         }
-    },
-    methods: {
-        formatDate(date) {
-            return moment(date).format("YYYY-MM-DD")
-        }
-    },
-    mounted() {
-    },
-    layout: Layout
- }
+    }
+
+    onMounted(() => {
+        console.log('Component {{ pluralVar }}/{{ action }} onMounted hook called')
+    })
+
 </script>
+
+<template>
+    <Layout>
+        <div class="column-responsive column-80">
+            {%- if prefix == '' %}
+                {% set baseUrl = '/' %}
+            {%- else %}
+                {% set baseUrl = '/' ~ prefix|lower ~ '/' %}
+            {%- endif %}
+            {%- set vueVar = "{{ flash['message'] }}" %}
+            {{- "\n" }}
+            <div onclick="this.classList.add('hidden')" :class="[(flash['element'] === undefined) ? 'hidden' : '','message', (flash['element'] === 'flash-success' ? 'success' : 'error')]">{{ vueVar }}</div>
+            <div class="{{ pluralVar }} index content">
+                <h3>{{ pluralHumanName }}</h3>
+                {{- "\n" }}
+                {%- if prefix == '' %}
+                <Link as="button" href="/{{ pluralVar }}/add" class="button shadow radius right small">Add {{ singularHumanName }}</Link>
+                {%- else %}
+                <Link as="button" href="/{{ prefix|lower }}/{{ pluralVar }}/add" class="button shadow radius right small">Add {{ singularHumanName }}</Link>
+                {%- endif %}
+                {%- set fields = Bake.filterFields(fields, schema, modelObject, indexColumns, ['binary', 'text']) %}
+                {{ "\n" }}
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+
+                                {%- for field in fields %}
+                                    {{- "\n" }}
+                                <th scope="col">
+                                    <Link href="{{ baseUrl }}{{ pluralVar }}/index" :class="defaultClass.{{ field }}" :data="{ sort: '{{ field }}', direction: changeDirection }">{{ field|capitalize }}</Link>
+                                </th>
+                                {%- endfor %}
+                                {{- "\n" }}
+                                <th class="actions">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="{{ singularVar }} in {{ pluralVar }}">
+                                {%- for field in fields %}
+                                    {%- set isKey = false %}
+                                    {%- if associations.BelongsTo is defined %}
+                                        {%- for alias, details in associations.BelongsTo %}
+                                            {%- if field == details.foreignKey %}
+                                                {%- set isKey = true %}
+                                                {%- set vueVarParent = singularVar ~ "." ~  details.property %}
+                                                {%- set vueVar = "{{" ~ singularVar ~ "." ~ details.property ~ "." ~ details.displayField  ~ "}}" %}
+                                                {%- set vueVarIndex = singularVar ~ "." ~ details.property ~ "." ~ details.primaryKey[0] %}
+                                <td>
+                                    <span v-if="{{ vueVarParent }}">
+                                        <Link as="button" class=""  :href="'{{ baseUrl }}{{ details.controller|lower }}/view/' + {{ vueVarIndex }}">{{ vueVar }}</Link>
+                                    </span>
+                                </td>
+                                            {%- endif %}
+                                        {%- endfor %}
+                                    {%- endif %}
+
+                                    {{- "\n" }}
+                                    {%- if isKey is not same as(true) %}
+                                        {%- set columnData = Bake.columnData(field, schema) %}
+                                        {%- if columnData.type not in ['integer', 'float', 'decimal', 'biginteger', 'smallinteger', 'tinyinteger', 'timestampfractional'] %}
+                                <td>
+                                    {#  todo: need trucnate #}
+                                    {%- set vueVar = "{{" ~ singularVar ~ "." ~ field ~ "}}" %}
+                                    {{- vueVar }}
+                                </td>
+                                        {%- elseif columnData.type == 'timestampfractional' %}
+                                <td>
+                                    {%- set vueVar = "{{ formatDate(" ~ singularVar ~ "." ~ field ~ ") }}" %}
+                                    {{- vueVar }}</td>
+                                        {%- elseif columnData.null %}
+                                            {#  todo: need check vueVar === null #}
+                                <td>4
+                                    {%- set vueVar = "{{" ~ singularVar ~ "." ~ field ~ "}}" %}
+                                    {{- vueVar }}
+                                </td>
+                                        {%- else %}
+                                <td>
+                                    {%- set vueVar = "{{" ~ singularVar ~ "." ~ field ~ "}}" %}
+                                    {{- vueVar }}</td>
+                                        {%- endif %}
+                                    {%- endif %}
+                            {%- endfor %}
+                                {{- "\n" }}
+                                <td class="actions">
+                                    <Link as="button" method="get" :href="'{{ baseUrl }}{{ pluralVar }}/view/' + {{ singularVar }}.id">View</Link>
+                                    <Link as="button" method="get" :href="'{{ baseUrl }}{{ pluralVar }}/edit/' + {{ singularVar }}.id">Edit</Link>
+                                    <Link as="button" :data="{ csrfToken:csrfToken }"  method="get" :href="'{{ baseUrl }}{{ pluralVar }}/delete/' + {{ singularVar }}.id">Delete</Link>
+                                </td>
+                            </tr>
+                       </tbody>
+                   </table>
+                </div>
+           </div>
+           <span v-if="links.length > 1">
+               <div class="paginator">
+                   <ul class="pagination">
+                       <template v-for="(link, key) in links">
+                           <li>
+                               {% set vueLabel = "{{ link.label }}" %}
+    <Link as="button" :key="key" class="" :href="link.url">{{ vueLabel }}</Link>
+                           </li>
+                       </template>
+                   </ul>
+               </div>
+           </span>
+        </div>
+    </Layout>
+</template>
