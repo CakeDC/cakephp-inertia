@@ -215,8 +215,8 @@ Edit *resources/Components/Layout.vue* and put inside header tag links as
 
 ```
 <header>
-    <InertiaLink as="button" href="/pages/index" class="button shadow radius right small">Pages</InertiaLink>
-    <InertiaLink as="button" href="/tags/index" class="button shadow radius right small">Tags</InertiaLink>
-    <InertiaLink as="button" href="/categories/index" class="button shadow radius right small">Categories</InertiaLink>
+    <Link as="button" href="/pages/index" class="button shadow radius right small">Pages</Link>
+    <Link as="button" href="/tags/index" class="button shadow radius right small">Tags</Link>
+    <Link as="button" href="/categories/index" class="button shadow radius right small">Categories</Link>
 </header>
 ```
