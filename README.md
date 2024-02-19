@@ -3,7 +3,7 @@ Requirements
 
 * CakePHP 4.5
 * PHP >= 7.2
-* NodeJS 16.0 (only for build Vue Components, not required on running site)
+* NodeJS 18.9 (only for build Vue Components, not required on running site)
 
 Documentation
 -------------
