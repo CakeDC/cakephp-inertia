@@ -11,7 +11,7 @@ That it works out of the box doesn't mean it is thought to be used exactly like 
 Documentation
 -------------
 
-* [Installation](Documentation/Installation.md)
+* [CakePHP Docker](Documentation/CakePHP-Docker.md) (optional)
 * [Installation](Documentation/Installation.md)
 * [Configuration](Documentation/Configuration.md)
 * [How to Use](Documentation/How-to-Use.md)
