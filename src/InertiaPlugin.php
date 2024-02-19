@@ -51,8 +51,6 @@ class InertiaPlugin extends BasePlugin
      */
     public function middleware(MiddlewareQueue $middlewareQueue): MiddlewareQueue
     {
-        // Add your middlewares here
-
         $middlewareQueue->add(new InertiaMiddleware());
 
         return $middlewareQueue;

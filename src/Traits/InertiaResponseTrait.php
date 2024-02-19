@@ -39,31 +39,21 @@ trait InertiaResponseTrait
 
     /**
      * Checks if response status code is 404.
+     *
+     * @return bool
      */
     private function isErrorStatus(): bool
     {
-        $statusCode = $this->getResponse()->getStatusCode();
-        $errorCodes = [404];
-
-        if (in_array($statusCode, $errorCodes)) {
-            return true;
-        }
-
-        return false;
+        return $this->getResponse()->getStatusCode() === 404;
     }
 
     /**
      * Checks if response status code is 500.
+     *
+     * @return bool
      */
     private function isFailureStatus(): bool
     {
-        $statusCode = $this->getResponse()->getStatusCode();
-        $failureCodes = [500];
-
-        if (in_array($statusCode, $failureCodes)) {
-            return true;
-        }
-
-        return false;
+        return $this->getResponse()->getStatusCode() === 500;
     }
 }

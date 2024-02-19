@@ -24,7 +24,7 @@ class InertiaHelper extends Helper
         return sprintf(
             '<div id="%s" data-page="%s" class="%s"></div>',
             $id,
-            htmlentities($encodedPageData),
+            h($encodedPageData),
             $class
         );
     }
