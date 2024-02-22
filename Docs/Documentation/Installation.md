@@ -1,20 +1,40 @@
 ## Installation
 
-You can install this plugin into your CakePHP application using [composer](https://getcomposer.org).
-
-Edit composer.json and add repository
-
-```
-    "repositories": [
-        {
-            "type": "git",
-            "url": "git@git.cakedc.com:plugins/cakephp-inertia.git"
-        }
-    ]
-```
-
 Install plugin via command line:
 
 ```
 $> composer require cakedc/cakephp-inertia
+```
+
+## Configuration
+
+Once installed enable it in *src/Application.php*, adding at the bottom of bootstrap function:
+
+```
+$this->addPlugin('CakeDC/Inertia');
+```
+
+or type in command line
+
+```
+$> bin/cake plugin load CakeDC/Inertia
+```
+
+
+## Create Vue App
+
+To create Vue App type in command line:
+
+```
+$> bin/cake create_vue_app
+```
+
+This command create in the resources directory the files that use our App, also create in root directory the files
+- webpack.mix.js
+- package.json
+
+Then in root directory install with NPM
+
+```
+$> npm install
 ```

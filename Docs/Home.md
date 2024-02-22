@@ -12,7 +12,6 @@ Documentation
 -------------
 
 * [CakePHP Docker](Documentation/CakePHP-Docker.md) (optional)
-* [Installation](Documentation/Installation.md)
-* [Configuration](Documentation/Configuration.md)
+* [Install and Configure](Documentation/Installation.md)
 * [How to Use](Documentation/How-to-Use.md)
 * [Bake CRUD](Documentation/Bake-CRUD.md)
