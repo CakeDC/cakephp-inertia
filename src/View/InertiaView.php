@@ -7,6 +7,7 @@ use Cake\Routing\Router;
 use Cake\View\Exception\MissingTemplateException;
 use Cake\Core\InstanceConfigTrait;
 use Cake\View\View;
+use CakeDC\Inertia\Exception\TemplateNameException;
 
 /**
  * Renders view with provided view vars
@@ -14,7 +15,7 @@ use Cake\View\View;
 class InertiaView extends View
 {
     use InstanceConfigTrait;
-    
+
     /**
      * Default config for this view.
      *
@@ -65,7 +66,7 @@ class InertiaView extends View
         }
 
         if (empty($name)) {
-            throw new RuntimeException('Template name not provided');
+            throw new TemplateNameException('Template name not provided');
         }
 
         [$plugin, $name] = $this->pluginSplit($name);
