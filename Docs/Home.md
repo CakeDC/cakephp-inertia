@@ -13,5 +13,6 @@ Documentation
 
 * [CakePHP Docker](Documentation/CakePHP-Docker.md) (optional)
 * [Install and Configure](Documentation/Installation.md)
+* [Create Vue App](Documentation/Create-Vue-App.md)
 * [How to Use](Documentation/How-to-Use.md)
 * [Bake CRUD](Documentation/Bake-CRUD.md)
