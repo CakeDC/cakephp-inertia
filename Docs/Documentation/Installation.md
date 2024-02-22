@@ -16,5 +16,5 @@ Edit composer.json and add repository
 Install plugin via command line:
 
 ```
-$> composer require cakedc/cakephp-inertia:dev-initial-inertia-plugin
+$> composer require cakedc/cakephp-inertia
 ```

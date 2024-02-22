@@ -1,3 +1,12 @@
+CakeDC Inertia Plugin
+=====================
+
+The **Inertia** plugin covers the following features:
+
+* Build a Vue 3 app in front and load it on CakePHP site
+* Communicate Vue 3 Component on front with back without implement and use an API interface using a Middleware
+* Bake an CRUD system of basic Vue 3 components templates for a defined model
+
 Requirements
 ------------
 
