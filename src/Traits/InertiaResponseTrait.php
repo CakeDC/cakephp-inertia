@@ -4,9 +4,21 @@ declare(strict_types=1);
 namespace CakeDC\Inertia\Traits;
 
 use Cake\Event\EventInterface;
+use Cake\Core\InstanceConfigTrait;
 
 trait InertiaResponseTrait
 {
+    use InstanceConfigTrait;
+
+    /**
+     * Default config for this view.
+     *
+     * @var array<string, mixed>
+     */
+    protected $_defaultConfig = [
+        'JsonViewClass' => \CakeDC\Inertia\View\InertiaJsonView::class,
+    ];
+
     /**
      * @inheritDoc
      */
@@ -19,7 +31,7 @@ trait InertiaResponseTrait
         //set view class
         $viewClass = \CakeDC\Inertia\View\InertiaView::class;
         if ($this->getRequest()->is('inertia')) {
-            $viewClass = \CakeDC\Inertia\View\InertiaJsonView::class;
+            $viewClass = $this->getConfig('JsonViewClass');
         }
         $this->viewBuilder()->setClassName($viewClass);
 

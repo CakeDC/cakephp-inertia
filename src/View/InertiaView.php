@@ -5,6 +5,7 @@ namespace CakeDC\Inertia\View;
 
 use Cake\Routing\Router;
 use Cake\View\Exception\MissingTemplateException;
+use Cake\Core\InstanceConfigTrait;
 use Cake\View\View;
 
 /**
@@ -12,6 +13,17 @@ use Cake\View\View;
  */
 class InertiaView extends View
 {
+    use InstanceConfigTrait;
+    
+    /**
+     * Default config for this view.
+     *
+     * @var array<string, mixed>
+     */
+    protected $_defaultConfig = [
+        'componentsPaths' => ROOT . '/resources/js/Components/',
+    ];
+
     public function initialize(): void
     {
         $this->loadHelper('Inertia', ['className' => 'CakeDC/Inertia.Inertia']);
@@ -28,7 +40,7 @@ class InertiaView extends View
     protected function _paths(?string $plugin = null, bool $cached = true): array
     {
         $paths = parent::_paths($plugin, $cached);
-        $newPath =  ROOT . '/resources/js/Components/';
+        $newPath =  $this->getConfig('componentsPaths');
         array_unshift($paths, $newPath);
 
         return $paths;
