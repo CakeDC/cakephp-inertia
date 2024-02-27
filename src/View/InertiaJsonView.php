@@ -97,9 +97,14 @@ class InertiaJsonView extends JsonView
             return [];
         }
 
+        $headerRequest = $this->getRequest()->getHeader('X-Inertia-Partial-Data');
+        if (!array_key_exists(0, $headerRequest)){
+            return [];
+        }
+
         return explode(
             ',',
-            $this->getRequest()->getHeader('X-Inertia-Partial-Data')[0]
+            $headerRequest[0]
         );
     }
 }

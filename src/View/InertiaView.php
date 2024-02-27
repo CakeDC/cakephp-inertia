@@ -5,13 +5,26 @@ namespace CakeDC\Inertia\View;
 
 use Cake\Routing\Router;
 use Cake\View\Exception\MissingTemplateException;
+use Cake\Core\InstanceConfigTrait;
 use Cake\View\View;
+use CakeDC\Inertia\Exception\TemplateNameException;
 
 /**
  * Renders view with provided view vars
  */
 class InertiaView extends View
 {
+    use InstanceConfigTrait;
+
+    /**
+     * Default config for this view.
+     *
+     * @var array<string, mixed>
+     */
+    protected $_defaultConfig = [
+        'componentsPaths' => ROOT . '/resources/js/Components/',
+    ];
+
     public function initialize(): void
     {
         $this->loadHelper('Inertia', ['className' => 'CakeDC/Inertia.Inertia']);
@@ -28,7 +41,7 @@ class InertiaView extends View
     protected function _paths(?string $plugin = null, bool $cached = true): array
     {
         $paths = parent::_paths($plugin, $cached);
-        $newPath =  ROOT . '/resources/js/Components/';
+        $newPath =  $this->getConfig('componentsPaths');
         array_unshift($paths, $newPath);
 
         return $paths;
@@ -53,7 +66,7 @@ class InertiaView extends View
         }
 
         if (empty($name)) {
-            throw new RuntimeException('Template name not provided');
+            throw new TemplateNameException('Template name not provided');
         }
 
         [$plugin, $name] = $this->pluginSplit($name);
@@ -171,9 +184,14 @@ class InertiaView extends View
             return [];
         }
 
+        $headerRequest = $this->getRequest()->getHeader('X-Inertia-Partial-Data');
+        if (!array_key_exists(0, $headerRequest)){
+            return [];
+        }
+
         return explode(
             ',',
-            $this->getRequest()->getHeader('X-Inertia-Partial-Data')[0]
+            $headerRequest[0]
         );
     }
 }
