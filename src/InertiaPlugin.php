@@ -1,6 +1,8 @@
 <?php
 declare(strict_types=1);
 
+
+
 namespace CakeDC\Inertia;
 
 use Cake\Console\CommandCollection;
