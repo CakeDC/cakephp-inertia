@@ -25,7 +25,7 @@ trait InertiaResponseTrait
      *
      * @var array<string, mixed>
      */
-    protected $_defaultConfig = [
+    protected array $_defaultConfig = [
         'JsonViewClass' => \CakeDC\Inertia\View\InertiaJsonView::class,
     ];
 

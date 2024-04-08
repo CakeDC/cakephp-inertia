@@ -10,8 +10,8 @@ The **Inertia** plugin covers the following features:
 Requirements
 ------------
 
-* CakePHP 4.5
-* PHP >= 7.2
+* CakePHP 5.x
+* PHP >= 8.1
 * NodeJS 18.9 (only for build Vue Components, not required on running site)
 
 Documentation

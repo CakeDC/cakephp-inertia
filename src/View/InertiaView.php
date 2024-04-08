@@ -31,7 +31,7 @@ class InertiaView extends View
      *
      * @var array<string, mixed>
      */
-    protected $_defaultConfig = [
+    protected array $_defaultConfig = [
         'componentsPaths' => ROOT . '/resources/js/Components/',
     ];
 
