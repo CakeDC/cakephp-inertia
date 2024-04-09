@@ -45,7 +45,7 @@ class {{ name }} extends Entity{{ fileBuilder.classBuilder.implements ? ' implem
      *
      * @var array<string, bool>
      */
-    protected $_accessible = {{ Bake.exportVar(accessible, 1)|raw }};
+    protected array $_accessible = {{ Bake.exportVar(accessible, 1)|raw }};
 {% endif %}
 {% if accessible and hidden %}
 
@@ -57,7 +57,7 @@ class {{ name }} extends Entity{{ fileBuilder.classBuilder.implements ? ' implem
      *
      * @var array<string>
      */
-    protected $_hidden = {{ Bake.exportVar(hidden, 1)|raw }};
+    protected array $_hidden = {{ Bake.exportVar(hidden, 1)|raw }};
 {% endif %}
 {% set userProperties = fileBuilder.classBuilder.userProperties(generatedProperties) %}
 {% if userProperties %}
