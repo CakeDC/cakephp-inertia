@@ -15,6 +15,7 @@ namespace CakeDC\Inertia\Traits;
 
 use Cake\Event\EventInterface;
 use Cake\Core\InstanceConfigTrait;
+use Cake\Datasource\Paging\PaginatedInterface;
 
 trait InertiaResponseTrait
 {
@@ -28,6 +29,43 @@ trait InertiaResponseTrait
     protected array $_defaultConfig = [
         'JsonViewClass' => \CakeDC\Inertia\View\InertiaJsonView::class,
     ];
+
+    public function buildPaginationLinks(PaginatedInterface $paging)
+    {
+        $pagingParams = $paging->pagingParams();
+        $params = [];
+        if (isset($pagingParams['sort'])) {
+            $params[] = 'sort' . '=' . $pagingParams['sort'];
+        }
+        if (isset($pagingParams['direction'])) {
+            $params[] = 'direction' . '=' . $pagingParams['direction'];
+        }
+        $params = implode('&', $params);
+
+        if ($pagingParams['currentPage'] > 1) {
+            $links[] = ['url' => 'index?page=1' . $params, 'label' => '<< ' . __('first')];
+        }
+        if ($pagingParams['hasPrevPage']) {
+            $links[] = [
+                'url' => 'index?page=' . ($pagingParams['currentPage'] - 1) . $params,
+                'label' => '< ' . __('previous')];
+        }
+        for ($i = 1; $i <= $pagingParams['pageCount']; $i++) {
+            $links[] = ['url' => 'index?page=' . $i . $params, 'label' => $i];
+        }
+        if ($pagingParams['hasNextPage']) {
+            $links[] = [
+                'url' => 'index?page=' . ($pagingParams['currentPage'] + 1) . $params,
+                'label' => __('next') . ' >'];
+        }
+        if ($pagingParams['currentPage'] < $pagingParams['pageCount']) {
+            $links[] = [
+                'url' => 'index?page=' . $pagingParams['pageCount'] . $params,
+                'label' => __('last') . ' >>'];
+        }
+
+        return $links;
+    }
 
     /**
      * @inheritDoc
