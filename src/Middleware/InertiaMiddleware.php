@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace CakeDC\Inertia\Middleware;
 
 use Cake\Http\ServerRequest;
-use Cake\Datasource\Paging\PaginatedInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -22,44 +21,6 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 class InertiaMiddleware implements MiddlewareInterface
 {
-
-    public function buildPaginationLinks(PaginatedInterface $paging)
-    {
-        $pagingParams = $paging->pagingParams();
-        $params = [];
-        if (isset($pagingParams['sort'])) {
-            $params[] = 'sort' . '=' . $pagingParams['sort'];
-        }
-        if (isset($pagingParams['direction'])) {
-            $params[] = 'direction' . '=' . $pagingParams['direction'];
-        }
-        $params = implode('&', $params);
-
-        if ($pagingParams['currentPage'] > 1) {
-            $links[] = ['url' => 'index?page=1' . $params, 'label' => '<< ' . __('first')];
-        }
-        if ($pagingParams['hasPrevPage']) {
-            $links[] = [
-                'url' => 'index?page=' . ($pagingParams['currentPage'] - 1) . $params,
-                'label' => '< ' . __('previous')];
-        }
-        for ($i = 1; $i <= $pagingParams['pageCount']; $i++) {
-            $links[] = ['url' => 'index?page=' . $i . $params, 'label' => $i];
-        }
-        if ($pagingParams['hasNextPage']) {
-            $links[] = [
-                'url' => 'index?page=' . ($pagingParams['currentPage'] + 1) . $params,
-                'label' => __('next') . ' >'];
-        }
-        if ($pagingParams['currentPage'] < $pagingParams['pageCount']) {
-            $links[] = [
-                'url' => 'index?page=' . $pagingParams['pageCount'] . $params,
-                'label' => __('last') . ' >>'];
-        }
-
-        return $links;
-    }
-
     /**
      * process method
      */
