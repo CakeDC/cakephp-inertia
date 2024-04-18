@@ -17,21 +17,23 @@
     public function index()
     {
 {% set belongsTo = Bake.aliasExtractor(modelObj, 'BelongsTo') %}
-{% if belongsTo %}
         $settings = [
             'limit' => 1,
             'finder' => 'withRelated',
         ];
-{% endif %}
 
         $paginator = new NumericPaginator();
-        $pages = $paginator->paginate(
+        ${{ pluralName }} = $paginator->paginate(
             $this->fetchTable('{{ currentModelName }}'),
             $this->request->getQueryParams(),
             $settings
         );
 
-        $links = $this->buildPaginationLinks(${{ pluralName }});
+        $links = $this->buildPaginationLinks(
+            ${{ pluralName }},
+            $this->getRequest()->getParam('controller'),
+            $this->getRequest()->getParam('action')
+        );
 
         $this->set(compact('{{ pluralName }}', 'links'));
     }
