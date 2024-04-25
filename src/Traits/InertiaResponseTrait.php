@@ -18,7 +18,6 @@ use Cake\Core\InstanceConfigTrait;
 use Cake\Datasource\Paging\PaginatedInterface;
 use Cake\I18n\Date;
 use Cake\Routing\Router;
-use Cake\Datasource\ConnectionManager;
 
 trait InertiaResponseTrait
 {
