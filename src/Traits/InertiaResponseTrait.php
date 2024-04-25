@@ -33,27 +33,11 @@ trait InertiaResponseTrait
         'JsonViewClass' => \CakeDC\Inertia\View\InertiaJsonView::class,
     ];
 
-    public function parseRelated(array $data, string $model): array
+    public function adjustDate(array $data, string $model): array
     {
-        foreach ($data as $key => $val) {
-            if (is_array($val)) {
-                if (array_key_exists('_ids', $val)) {
-                    $newItems = [];
-                    foreach ($val as $item) {
-                        foreach ($item as $value) {
-                            $newItems[] = $value['id'];
-                        }
-                    }
-                    $data[$key]['_ids'] = $newItems;
-                }
-            }
-        }
-
-        $db = ConnectionManager::get('default');
-        $collection = $db->getSchemaCollection();
-        $tableSchema = $collection->describe($model);
-        foreach ($tableSchema->columns() as $column) {
-            if ($tableSchema->getColumnType($column) == 'timestampfractional' && $data[$column] !== null) {
+        $model = $this->fetchTable($model);
+        foreach ($model->getSchema()->columns() as $column) {
+            if ($model->getSchema()->getColumnType($column) === 'timestampfractional' && $data[$column] !== null) {
                 $data[$column] = Date::parseDate($data[$column], 'YYYY-MM-dd');
             }
         }

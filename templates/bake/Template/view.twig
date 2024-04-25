@@ -27,7 +27,7 @@
 
     const props = defineProps({
         csrfToken: String,
-        {{singularVar}}: [],
+        {{singularVar}}: Array|Object,
     })
 
     function formatDate(date) {

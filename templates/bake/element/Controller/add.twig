@@ -20,8 +20,7 @@
         $errors = [];
         ${{ singularName }} = $this->{{ currentModelName }}->newEmptyEntity();
         if ($this->getRequest()->is('post')) {
-            $data = $this->getRequest()->getData();
-            $data = $this->parseRelated($data, '{{ pluralName }}');
+            $data = $this->adjustDate($this->getRequest()->getData(), '{{ currentModelName }}');
             ${{ singularName }} = $this->{{ currentModelName }}->patchEntity(${{ singularName }}, $data);
             if ($this->{{ currentModelName }}->save(${{ singularName }})) {
                 $this->Flash->success(__('The {{ singularHumanName|lower }} has been saved.'));

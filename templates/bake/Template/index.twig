@@ -17,11 +17,11 @@
 
     const props = defineProps({
         csrfToken: String,
-        flash: [],
-        {{ pluralVar }}: [],
+        flash: Array|Object,
+        {{ pluralVar }}: Array|Object,
         sort: String,
         direction: String,
-        links: [],
+        links: Array|Object,
     })
 
     const direction = ref(0)

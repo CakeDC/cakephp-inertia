@@ -19,19 +19,19 @@
 
     const props = defineProps({
         csrfToken: String,
-        flash: [],
-        {{singularVar}}: [],
-        errors: [],{{- "\n" }}
+        flash: Array|Object,
+        {{singularVar}}: Array|Object,
+        errors: Array|Object,{{- "\n" }}
         {%- for field in fields %}
             {%- if field not in primaryKey %}
                 {%- if keyFields[field] is defined %}
-        {{ keyFields[field] }}: [],
+        {{ keyFields[field] }}: Array|Object,
                 {%- endif %}
             {%- endif %}
         {%- endfor %}
         {%- if associations.BelongsToMany is defined %}
             {%- for assocName, assocData in associations.BelongsToMany %}
-                {{- "\n" }}        options_{{ assocData.property }}: [],
+                {{- "\n" }}        options_{{ assocData.property }}: Array|Object,
             {%- endfor %}
         {%- endif %}
     {{- "\n" }}     })
@@ -78,6 +78,15 @@
 
     function submit() {
 {{- "\n" }}
+{%- if associations.BelongsToMany is defined %}
+    {%- for assocName, assocData in associations.BelongsToMany %}
+        let {{ assocData.property }}Values = [];
+        for (let key in form.{{ assocData.property }}){
+            {{ assocData.property }}Values.push(form.{{ assocData.property }}[key].id);
+        }
+    {%- endfor %}
+    {%- endif %}
+{{- "\n" }}
     {%- if prefix == '' %}
         let postUrl = '/{{ pluralVar }}/{{ action }}';
     {%- else %}
@@ -98,7 +107,7 @@
         {%- if associations.BelongsToMany is defined %}
             {%- for assocName, assocData in associations.BelongsToMany %}
                 {{ assocData.property }}: {
-                    _ids : form.{{ assocData.property }}
+                    _ids : {{ assocData.property }}Values
                 }{{- "\n" }}
             {%- endfor %}
         {%- endif %}
