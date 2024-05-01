@@ -16,6 +16,8 @@ namespace CakeDC\Inertia\Traits;
 use Cake\Event\EventInterface;
 use Cake\Core\InstanceConfigTrait;
 use Cake\Datasource\Paging\PaginatedInterface;
+use Cake\I18n\Date;
+use Cake\Routing\Router;
 
 trait InertiaResponseTrait
 {
@@ -30,10 +32,12 @@ trait InertiaResponseTrait
         'JsonViewClass' => \CakeDC\Inertia\View\InertiaJsonView::class,
     ];
 
-    public function buildPaginationLinks(PaginatedInterface $paging)
+    public function buildPaginationLinks(PaginatedInterface $paging, string $controller, string $action)
     {
         $pagingParams = $paging->pagingParams();
         $params = [];
+        $baseUrl = Router::url(['controller' => $controller, 'action' => $action]);
+
         if (isset($pagingParams['sort'])) {
             $params[] = 'sort' . '=' . $pagingParams['sort'];
         }
@@ -43,24 +47,24 @@ trait InertiaResponseTrait
         $params = implode('&', $params);
 
         if ($pagingParams['currentPage'] > 1) {
-            $links[] = ['url' => 'index?page=1' . $params, 'label' => '<< ' . __('first')];
+            $links[] = ['url' => $baseUrl . '?page=1' . $params, 'label' => '<< ' . __('first')];
         }
         if ($pagingParams['hasPrevPage']) {
             $links[] = [
-                'url' => 'index?page=' . ($pagingParams['currentPage'] - 1) . $params,
+                'url' => $baseUrl . '?page=' . ($pagingParams['currentPage'] - 1) . $params,
                 'label' => '< ' . __('previous')];
         }
         for ($i = 1; $i <= $pagingParams['pageCount']; $i++) {
-            $links[] = ['url' => 'index?page=' . $i . $params, 'label' => $i];
+            $links[] = ['url' => $baseUrl . '?page=' . $i . $params, 'label' => $i];
         }
         if ($pagingParams['hasNextPage']) {
             $links[] = [
-                'url' => 'index?page=' . ($pagingParams['currentPage'] + 1) . $params,
+                'url' => $baseUrl . '?page=' . ($pagingParams['currentPage'] + 1) . $params,
                 'label' => __('next') . ' >'];
         }
         if ($pagingParams['currentPage'] < $pagingParams['pageCount']) {
             $links[] = [
-                'url' => 'index?page=' . $pagingParams['pageCount'] . $params,
+                'url' => $baseUrl . '?page=' . $pagingParams['pageCount'] . $params,
                 'label' => __('last') . ' >>'];
         }
 

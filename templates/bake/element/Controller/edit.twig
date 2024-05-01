@@ -26,32 +26,7 @@
             'contain' => {{ Bake.exportArray(belongsToMany)|raw }},
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $data = $this->request->getData();
-
-            foreach ($data as $key => $val) {
-                if (is_array($val)) {
-                    if (array_key_exists('_ids', $val)) {
-                        $newItems = [];
-                        foreach ($val as $item) {
-                            foreach ($item as $value) {
-                                $newItems[] = $value['id'];
-                            }
-                        }
-                        $data[$key]['_ids'] = $newItems;
-                    }
-                }
-            }
-
-            $db = \Cake\Datasource\ConnectionManager::get('default');
-            $collection = $db->getSchemaCollection();
-            $tableSchema = $collection->describe('{{pluralHumanName}}');
-            foreach ($tableSchema->columns() as $column) {
-                if ($tableSchema->getColumnType($column) == 'timestampfractional') {
-                    $data[$column] = \Cake\I18n\FrozenDate::parseDate($data[$column], 'YYYY-MM-dd');
-                }
-            }
-
-            ${{ singularName }} = $this->{{ currentModelName }}->patchEntity(${{ singularName }}, $data);
+            ${{ singularName }} = $this->{{ currentModelName }}->patchEntity(${{ singularName }}, $this->getRequest()->getData());
             if ($this->{{ currentModelName }}->save(${{ singularName }})) {
                 $this->Flash->success(__('The {{ singularHumanName|lower }} has been saved.'));
 

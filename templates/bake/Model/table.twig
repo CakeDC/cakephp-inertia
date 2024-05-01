@@ -19,6 +19,8 @@
     namespace: fileBuilder.namespace,
     classImports: fileBuilder.classImports(['Cake\\ORM\\Query\\SelectQuery', 'Cake\\ORM\\RulesChecker', 'Cake\\ORM\\Table', 'Cake\\Validation\\Validator']),
 }) }}
+use ArrayObject;
+use Cake\Event\EventInterface;
 
 {{ DocBlock.classDescription(name, 'Model', annotations)|raw }}
 class {{ name }}Table extends Table{{ fileBuilder.classBuilder.implements ? ' implements ' ~ fileBuilder.classBuilder.implements|join(', ') : '' }}
@@ -187,5 +189,22 @@ class {{ name }}Table extends Table{{ fileBuilder.classBuilder.implements ? ' im
 {% endfor %}
 
         return $query;
+    }
+
+    /**
+     * Parse date fields before patch entity
+     *
+     * @param \Cake\Event\EventInterface $event
+     * @param \ArrayObject $data
+     * @param \ArrayObject $options
+     * @return void
+     */
+    public function beforeMarshal(EventInterface $event, ArrayObject $data, ArrayObject $options): void
+    {
+        foreach ($this->getSchema()->columns() as $column) {
+            if ($this->getSchema()->getColumnType($column) === 'timestampfractional' && $data[$column] !== null) {
+                $data[$column] = Date::parseDate($data[$column], 'YYYY-MM-dd');
+            }
+        }
     }
 }
