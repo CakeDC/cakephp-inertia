@@ -49,7 +49,7 @@ class InertiaJsonView extends JsonView
     {
         $url = Router::url($this->getRequest()->getRequestTarget(), true);
         if ($this->getRequest()->scheme() === 'https') {
-            $url = str_replace('http','https',$url);
+            $url = str_replace('http','https', $url);
         }
 
         return $url;
