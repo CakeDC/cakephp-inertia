@@ -125,7 +125,12 @@ class InertiaView extends View
      */
     private function getCurrentUri(): string
     {
-        return Router::url($this->getRequest()->getRequestTarget(), true);
+        $url = Router::url($this->getRequest()->getRequestTarget(), true);
+        if ($this->getRequest()->scheme() === 'https') {
+            $url = str_replace('http','https',$url);
+        }
+
+        return $url;
     }
 
     /**
