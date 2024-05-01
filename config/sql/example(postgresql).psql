@@ -26,7 +26,7 @@ CREATE TABLE public.pages (
 	created timestamp NOT NULL,
 	modified timestamp NOT NULL,
 	category_id int4 NULL,
-	published_date timestamp NULL,
+	published_date date NULL,
 	CONSTRAINT pages_pkey PRIMARY KEY (id)
 );
 

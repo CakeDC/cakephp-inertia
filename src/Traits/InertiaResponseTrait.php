@@ -34,13 +34,14 @@ trait InertiaResponseTrait
 
     public function adjustDate(array $data, string $model): array
     {
+        /*
         $model = $this->fetchTable($model);
         foreach ($model->getSchema()->columns() as $column) {
             if ($model->getSchema()->getColumnType($column) === 'timestampfractional' && $data[$column] !== null) {
                 $data[$column] = Date::parseDate($data[$column], 'YYYY-MM-dd');
             }
         }
-
+        */
         return $data;
     }
 

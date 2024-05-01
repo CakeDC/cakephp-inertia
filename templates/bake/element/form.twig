@@ -16,6 +16,7 @@
     import { VueEditor } from "vue3-editor";
     import Datepicker from 'vue3-datepicker';
     import Multiselect from '@vueform/multiselect'
+    import moment from 'moment'
 
     const props = defineProps({
         csrfToken: String,
@@ -100,10 +101,14 @@
                 {{- "\n" }}
                 {%- for field in fields %}
                     {%- if field not in primaryKey %}
-                {{field}} : form.{{field}},{{- "\n" }}
+                        {%- set fieldData = Bake.columnData(field, schema) %}
+                        {%- if fieldData.type in ['date', 'timestampfractional'] and fieldData.null %}
+                        {{field}} : form.{{field}} !== null ? moment(form.{{field}}.toString()).format("YYYY-MM-DD") : '',{{- "\n" }}
+                        {%- else %}
+                        {{field}} : form.{{field}},{{- "\n" }}
+                        {%- endif %}
                     {%- endif %}
                 {%- endfor %}
-
         {%- if associations.BelongsToMany is defined %}
             {%- for assocName, assocData in associations.BelongsToMany %}
                 {{ assocData.property }}: {
