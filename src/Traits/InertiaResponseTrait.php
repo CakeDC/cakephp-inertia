@@ -32,19 +32,6 @@ trait InertiaResponseTrait
         'JsonViewClass' => \CakeDC\Inertia\View\InertiaJsonView::class,
     ];
 
-    public function adjustDate(array $data, string $model): array
-    {
-        /*
-        $model = $this->fetchTable($model);
-        foreach ($model->getSchema()->columns() as $column) {
-            if ($model->getSchema()->getColumnType($column) === 'timestampfractional' && $data[$column] !== null) {
-                $data[$column] = Date::parseDate($data[$column], 'YYYY-MM-dd');
-            }
-        }
-        */
-        return $data;
-    }
-
     public function buildPaginationLinks(PaginatedInterface $paging, string $controller, string $action)
     {
         $pagingParams = $paging->pagingParams();
