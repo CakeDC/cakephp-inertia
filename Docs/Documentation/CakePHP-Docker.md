@@ -12,7 +12,7 @@ $> cp config/app_local.example.php config/app_local.php
 
 create docker-compose.yml file as
 ```
-version: '3'
+version: '3.8'
 services:
   psql13:
     image: postgres:13
@@ -46,7 +46,7 @@ services:
 launch container
 
 ```
-$> docker-compose up -d
+$> docker compose up -d
 ```
 
 go to http://localhost:9099/

@@ -53,9 +53,9 @@ Create file *resources/js/Components/Pages/Dashboard.vue* that would look like t
 
 ```
 <script setup>
-import Layout from '../Layout'
+import Layout from '@/Components/Layout.vue'
 import { Head } from '@inertiajs/vue3'
-import {onMounted} from "vue";
+import { onMounted, onUnmounted, ref } from 'vue'
 
 defineProps({
     csrfToken: String,
