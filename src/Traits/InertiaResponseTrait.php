@@ -30,6 +30,7 @@ trait InertiaResponseTrait
      */
     protected array $_defaultConfig = [
         'JsonViewClass' => \CakeDC\Inertia\View\InertiaJsonView::class,
+        'ViewClass' => \CakeDC\Inertia\View\InertiaView::class,
     ];
 
     public function buildPaginationLinks(PaginatedInterface $paging, string $controller, string $action)

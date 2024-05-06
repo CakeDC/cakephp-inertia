@@ -15,12 +15,14 @@ namespace CakeDC\Inertia\View;
 
 use Cake\Routing\Router;
 use Cake\View\JsonView;
+use CakeDC\Inertia\View\Traits\InertiaViewTrait;
 
 /**
  * Returns json response with provided view vars.
  */
 class InertiaJsonView extends JsonView
 {
+    use InertiaViewTrait;
     /**
      * @inheritDoc
      */
@@ -38,16 +40,6 @@ class InertiaJsonView extends JsonView
         ]);
 
         return parent::render($view, $layout);
-    }
-
-    /**
-     * Get current absolute url.
-     *
-     * @return string
-     */
-    private function getCurrentUri(): string
-    {
-        return Router::url($this->getRequest()->getRequestTarget(), true);
     }
 
     /**
@@ -75,46 +67,4 @@ class InertiaJsonView extends JsonView
         );
     }
 
-    /**
-     * Returns props array excluding the default variables.
-     */
-    private function getProps(): array
-    {
-        $props = [];
-        $only = $this->getPartialData();
-        $onlyViewVars = ! empty($only) ? $only : array_keys($this->viewVars);
-        $passedViewVars = $this->viewVars;
-
-        $this->viewVars = [];
-
-        foreach ($onlyViewVars as $varName) {
-            if (! isset($passedViewVars[$varName])) {
-                continue;
-            }
-
-            $props[$varName] = $passedViewVars[$varName];
-        }
-
-        return $props;
-    }
-
-    /**
-     * Returns view variable names from `X-Inertia-Partial-Data` header.
-     */
-    public function getPartialData(): array
-    {
-        if (!$this->getRequest()->is('inertia-partial-data')) {
-            return [];
-        }
-
-        $headerRequest = $this->getRequest()->getHeader('X-Inertia-Partial-Data');
-        if (!array_key_exists(0, $headerRequest)){
-            return [];
-        }
-
-        return explode(
-            ',',
-            $headerRequest[0]
-        );
-    }
 }
