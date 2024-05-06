@@ -39,7 +39,6 @@ class InertiaView extends View
 
     public function initialize(): void
     {
-        debug(__METHOD__);
         $this->loadHelper('Inertia', ['className' => 'CakeDC/Inertia.Inertia']);
     }
 
@@ -122,7 +121,6 @@ class InertiaView extends View
 
         return parent::render($view);
     }
-
 
     /**
      * Returns component name.

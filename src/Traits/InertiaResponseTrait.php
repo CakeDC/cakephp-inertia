@@ -82,7 +82,7 @@ trait InertiaResponseTrait
         }
 
         //set view class
-        $viewClass = \CakeDC\Inertia\View\InertiaView::class;
+        $viewClass = $this->getConfig('ViewClass');
         if ($this->getRequest()->is('inertia')) {
             $viewClass = $this->getConfig('JsonViewClass');
         }
