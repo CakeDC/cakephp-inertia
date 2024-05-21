@@ -31,6 +31,7 @@ trait InertiaResponseTrait
     protected array $_defaultConfig = [
         'JsonViewClass' => \CakeDC\Inertia\View\InertiaJsonView::class,
         'ViewClass' => \CakeDC\Inertia\View\InertiaView::class,
+        'FlashPrefixElement' => 'flash',
     ];
 
     public function buildPaginationLinks(PaginatedInterface $paging, string $controller, string $action)
@@ -91,9 +92,15 @@ trait InertiaResponseTrait
         //set messages
         $session = $this->getRequest()->getSession();
         $flash = [];
-        if ($session->check('Flash.flash.0')) {
-            $flash = $session->read('Flash.flash.0');
-            $flash['element'] = strtolower(str_replace('/', '-', $flash['element']));
+
+        $toCheck = implode('.',['Flash', $this->getConfig('FlashPrefixElement'), 0]);
+        if ($session->check($toCheck)) {
+            $flash = $session->read($toCheck);
+            $flash['element'] = str_replace('/', '-', $flash['element']);
+            if ($this->getConfig('FlashPrefixElement') !== 'flash') {
+                $flash['element'] = str_replace('flash', $this->getConfig('FlashPrefixElement'), $flash['element']);
+            }
+            $flash['element'] = strtolower($flash['element']);
             $session->delete('Flash');
         }
         $this->set('flash', $flash);
