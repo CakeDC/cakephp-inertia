@@ -18,6 +18,7 @@ use Cake\View\Exception\MissingTemplateException;
 use Cake\Core\InstanceConfigTrait;
 use Cake\View\View;
 use CakeDC\Inertia\Exception\TemplateNameException;
+use CakeDC\Inertia\View\Traits\InertiaViewTrait;
 
 /**
  * Renders view with provided view vars
@@ -25,6 +26,7 @@ use CakeDC\Inertia\Exception\TemplateNameException;
 class InertiaView extends View
 {
     use InstanceConfigTrait;
+    use InertiaViewTrait;
 
     /**
      * Default config for this view.
@@ -121,14 +123,6 @@ class InertiaView extends View
     }
 
     /**
-     * Get current absolute url.
-     */
-    private function getCurrentUri(): string
-    {
-        return Router::url($this->getRequest()->getRequestTarget(), true);
-    }
-
-    /**
      * Returns component name.
      * If passed via controller using `component` key, will use that.
      * Otherwise, will return the combination of controller and action.
@@ -162,46 +156,4 @@ class InertiaView extends View
         }
     }
 
-    /**
-     * Returns props array excluding the default variables.
-     */
-    private function getProps(): array
-    {
-        $props = [];
-        $only = $this->getPartialData();
-        $onlyViewVars = ! empty($only) ? $only : array_keys($this->viewVars);
-        $passedViewVars = $this->viewVars;
-
-        $this->viewVars = [];
-
-        foreach ($onlyViewVars as $varName) {
-            if (! isset($passedViewVars[$varName])) {
-                continue;
-            }
-
-            $props[$varName] = $passedViewVars[$varName];
-        }
-
-        return $props;
-    }
-
-    /**
-     * Returns view variable names from `X-Inertia-Partial-Data` header.
-     */
-    public function getPartialData(): array
-    {
-        if (!$this->getRequest()->is('inertia-partial-data')) {
-            return [];
-        }
-
-        $headerRequest = $this->getRequest()->getHeader('X-Inertia-Partial-Data');
-        if (!array_key_exists(0, $headerRequest)){
-            return [];
-        }
-
-        return explode(
-            ',',
-            $headerRequest[0]
-        );
-    }
 }
