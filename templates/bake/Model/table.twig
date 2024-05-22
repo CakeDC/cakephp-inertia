@@ -21,6 +21,7 @@
 }) }}
 use ArrayObject;
 use Cake\Event\EventInterface;
+use Cake\I18n\Date;
 
 {{ DocBlock.classDescription(name, 'Model', annotations)|raw }}
 class {{ name }}Table extends Table{{ fileBuilder.classBuilder.implements ? ' implements ' ~ fileBuilder.classBuilder.implements|join(', ') : '' }}
