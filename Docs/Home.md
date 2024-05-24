@@ -16,3 +16,4 @@ Documentation
 * [Create Vue App](Documentation/Create-Vue-App.md)
 * [How to Use](Documentation/How-to-Use.md)
 * [Bake CRUD](Documentation/Bake-CRUD.md)
+* [Considerations](Documentation/Considerations.md)
