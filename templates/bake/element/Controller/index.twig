@@ -17,16 +17,25 @@
     public function index()
     {
 {% set belongsTo = Bake.aliasExtractor(modelObj, 'BelongsTo') %}
-        $settings = [
-            'limit' => 1,
-            'finder' => 'withRelated',
-        ];
+
+        $sort = 'id';
+        $direction = 'asc';
+        $queryParams = $this->request->getQueryParams();
+        if (array_key_exists('sort', $queryParams)) {
+            $sort = $queryParams['sort'];
+        }
+        if (array_key_exists('direction', $queryParams)) {
+            $direction = $queryParams['direction'];
+        }
 
         $paginator = new NumericPaginator();
         ${{ pluralName }} = $paginator->paginate(
             $this->fetchTable('{{ currentModelName }}'),
-            $this->request->getQueryParams(),
-            $settings
+            ['sort' => $sort, 'direction' => $direction],
+            [
+                'limit' => 1,
+                'finder' => 'withRelated',
+            ]
         );
 
         $links = $this->buildPaginationLinks(
@@ -35,5 +44,5 @@
             $this->getRequest()->getParam('action')
         );
 
-        $this->set(compact('{{ pluralName }}', 'links'));
+        $this->set(compact('{{ pluralName }}', 'links', 'sort', 'direction'));
     }
