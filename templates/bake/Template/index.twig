@@ -31,16 +31,25 @@
         name: '',
     })
 
+    function confirm(){
+        return window.confirm("Are you sure?");
+    }
+
     function formatDate(date) {
         return moment(date).format("YYYY-MM-DD")
     }
 
-    function changeDirection(p) {
-        if (direction === 'desc') {
-            return 'asc';
-        } else {
-            return 'desc';
+    function sortDirection(p) {
+        let direction = 'asc';
+        if (p === props.sort) {
+            if (props.direction === 'desc') {
+                direction = 'asc';
+            } else {
+                direction = 'desc';
+            }
         }
+
+        return direction;
     }
 
     onMounted(() => {
@@ -78,7 +87,7 @@
                                 {%- for field in fields %}
                                     {{- "\n" }}
                                 <th scope="col">
-                                    <Link href="{{ baseUrl }}{{ pluralVar }}/index" :class="defaultClass.{{ field }}" :data="{ sort: '{{ field }}', direction: changeDirection }">{{ field|capitalize }}</Link>
+                                    <Link href="{{ baseUrl }}{{ pluralVar }}/index" :class="defaultClass.{{ field }}" :data="{ sort: '{{ field }}', direction: sortDirection('{{ field }}') }">{{ field|capitalize }}</Link>
                                 </th>
                                 {%- endfor %}
                                 {{- "\n" }}
@@ -135,7 +144,7 @@
                                 <td class="actions">
                                     <Link as="button" method="get" :href="'{{ baseUrl }}{{ pluralVar }}/view/' + {{ singularVar }}.id">View</Link>
                                     <Link as="button" method="get" :href="'{{ baseUrl }}{{ pluralVar }}/edit/' + {{ singularVar }}.id">Edit</Link>
-                                    <Link as="button" :data="{ csrfToken:csrfToken }"  method="get" :href="'{{ baseUrl }}{{ pluralVar }}/delete/' + {{ singularVar }}.id">Delete</Link>
+                                    <Link as="button" method="delete" :headers="{'X-CSRF-Token': props.csrfToken}" :onBefore="() => confirm()" :href="'{{ baseUrl }}{{ pluralVar }}/delete/' + {{ singularVar }}.id">Delete</Link>
                                 </td>
                             </tr>
                        </tbody>
