@@ -145,12 +145,19 @@
                         {%- if field not in primaryKey %}
                             {%- if keyFields[field] is defined %}{{- "\n" }}
                         <label for="{{ field|replace({'_id': ''}) }}">{{ field|replace({'_id': ''})|capitalize }}:</label>
-                        <select v-model="form.{{field}}">
-                            <option disabled value="">Please select one</option>
-                            {%- set vueVar = "{{ item }}" %}
-
-                            <option v-for="(item, index) in categories" :value="index" :key="index">{{ vueVar }}</option>
-                        </select>
+                                {%- set optionsData = [] %}
+                                {%- if associations.BelongsTo is defined %}
+                                    {%- for assocName, assocData in associations.BelongsTo %}
+                                        {%- if assocData['foreignKey'] == field %}
+                                            {%- set optionsData = assocData['variable'] %}
+                                        {%- endif %}
+                                    {%- endfor %}
+                                    {{- "\n" }}
+                        <Multiselect v-model="form.{{field}}" :options="{{ optionsData }}" />
+                                {%- else %}
+                                    {{- "\n" }}
+                                    <Multiselect v-model="form.{{field}}" :options="[]" />
+                                {%- endif %}
                             {%- elseif field not in ['created', 'modified', 'updated'] %}{{- "\n" }}
                                 {%- set fieldData = Bake.columnData(field, schema) %}
                                 {%- if fieldData.type in ['date', 'datetime', 'time', 'timestampfractional'] and fieldData.null %}
