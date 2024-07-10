@@ -13,10 +13,12 @@
 import Layout from '@/Components/Layout.vue'
 import { reactive, onMounted, onUnmounted, ref } from 'vue'
 import { router } from '@inertiajs/vue3'
-import { VueEditor } from "vue3-editor";
 import Datepicker from 'vue3-datepicker';
+import { QuillEditor } from '@vueup/vue-quill'
 import Multiselect from '@vueform/multiselect'
 import moment from 'moment'
+
+import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
 const props = defineProps({
     csrfToken: String,
@@ -38,7 +40,7 @@ const props = defineProps({
 {{- "\n" }}     })
 
 const components = {
-    VueEditor, Datepicker, Multiselect
+    QuillEditor, Datepicker, Multiselect
 }
 
 const form = reactive({
