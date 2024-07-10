@@ -41,6 +41,7 @@
         "vue3-datepicker": "^0.4.0",
         "@vueup/vue-quill": "^1.2.0",
         "@vueform/multiselect": "^2.6.6",
-        "webpack-node-externals": "^3.0.0"
+        "webpack-node-externals": "^3.0.0",
+        "bootstrap": "^5.3.3"
     }
 }
