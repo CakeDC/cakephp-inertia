@@ -28,12 +28,18 @@
         if ($this->request->is(['patch', 'post', 'put'])) {
             ${{ singularName }} = $this->{{ currentModelName }}->patchEntity(${{ singularName }}, $this->getRequest()->getData());
             if ($this->{{ currentModelName }}->save(${{ singularName }})) {
-                $this->Flash->success(__('The {{ singularHumanName|lower }} has been saved.'));
+                $this->Flash->set(
+                    __('The {{ singularHumanName|lower }} has been saved.'),
+                    ['element' => 'success', 'key' => 'alert']
+                );
 
                 return $this->redirect(['action' => 'index']);
             }
             $errors = ${{ singularName }}->getErrors();
-            $this->Flash->error(__('The {{ singularHumanName|lower }} could not be saved. Please, try again.'));
+            $this->Flash->set(
+                __('The {{ singularHumanName|lower }} could not be saved. Please, try again.'),
+                ['element' => 'danger', 'key' => 'alert']
+            );
         }
 {% set associations = Bake.aliasExtractor(modelObj, 'BelongsTo') %}
 {%- for assoc in associations %}

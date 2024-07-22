@@ -16,22 +16,15 @@
      */
     public function index()
     {
-{% set belongsTo = Bake.aliasExtractor(modelObj, 'BelongsTo') %}
-
-        $sort = 'id';
-        $direction = 'asc';
-        $queryParams = $this->request->getQueryParams();
-        if (array_key_exists('sort', $queryParams)) {
-            $sort = $queryParams['sort'];
-        }
-        if (array_key_exists('direction', $queryParams)) {
-            $direction = $queryParams['direction'];
-        }
+        {{- "\n" }}{%- set belongsTo = Bake.aliasExtractor(modelObj, 'BelongsTo') %}
+        $sort = $this->getRequest()->getQuery('sort') ?? 'id';
+        $direction = $this->getRequest()->getQuery('direction') ?? 'asc';
+        $page = $this->getRequest()->getQuery('page') ?? 1;
 
         $paginator = new NumericPaginator();
         ${{ pluralName }} = $paginator->paginate(
             $this->fetchTable('{{ currentModelName }}'),
-            ['sort' => $sort, 'direction' => $direction],
+            ['sort' => $sort, 'direction' => $direction, 'page' => $page],
             [
                 'limit' => 1,
                 'finder' => 'withRelated',

@@ -133,7 +133,10 @@ function submit() {
         {
             headers: {
                 'X-CSRF-Token': props.csrfToken
-            }
+            },
+            onFinish: (x) => {
+                document.getElementById('flash').className = 'alert ' + props.flash['element'];
+            },
         }
     )
 }
@@ -165,7 +168,6 @@ onMounted(() => {
 </script>
 
 <style src="@vueform/multiselect/themes/default.css"></style>
-<style src="bootstrap/dist/css/bootstrap.css"></style>
 <style>
 .was-validated .select-invalid {
     border-color: #dc3545;
@@ -182,12 +184,12 @@ onMounted(() => {
 {% set fields = Bake.filterFields(fields, schema, modelObject) %}
 <template>
     <Layout>
-        <h2 class="mt-3 mb-3">{{ action|capitalize }} {{ singularHumanName }}</h2>
-
         {%- set vueVar = "{{ props.flash['message'] }}" %}{{- "\n" }}
         <div onclick="this.classList.add('d-none')" :class="[(props.flash['element'] === undefined) ? 'd-none' : '','alert', props.flash['element']]">
             {{ vueVar }}
         </div>
+
+        <h2 class="mt-3 mb-3">{{ action|capitalize }} {{ singularHumanName }}</h2>
 
         <form @submit.prevent="submit" class="needs-validation" novalidate>
         {{- "\n" }}
@@ -216,8 +218,9 @@ onMounted(() => {
                     {%- if fieldData.type in ['date', 'datetime', 'time', 'timestampfractional'] and fieldData.null %}
             <label class="form-label" for="{{field}}">{{field|capitalize}}</label>
             {%- if fieldData.type in ['date', 'timestampfractional'] %}
-
-            <Datepicker v-model="form.{{field}}" valueType="format" format="YYYY-MM-DD"></Datepicker>
+            <div class="col-12 mb-2">
+                <Datepicker class="form-control" v-model="form.{{field}}" valueType="format" format="YYYY-MM-DD"></Datepicker>
+            </div>
             {%- else %}
                 {{ fieldData.type }} Not Implemented in vueTemplate Baked {{- "\n" }}
             {%- endif %}
@@ -244,7 +247,7 @@ onMounted(() => {
         {%- if associations.BelongsToMany is defined %}
             {%- for assocName, assocData in associations.BelongsToMany %}
             <div class="col-12 mb-2">
-                <label for="{{ assocData.property }}">{{assocData.property|capitalize}}:</label>
+                <label class="form-label" for="{{ assocData.property }}">{{assocData.property|capitalize}}:</label>
                 <Multiselect v-model="form.{{ assocData.property }}" label="{{ assocData.displayField }}" valueProp="id" :object="true" mode="tags" :options="props.options_{{ assocData.property }}" />
             </div>
             {%- endfor %}
