@@ -23,7 +23,9 @@
         "@inertiajs/vue3": "^1.0.14",
         "@popperjs/core": "^2.11.0",
         "@vue/server-renderer": "^3.2.27",
+        "@vueform/multiselect": "^2.6.6",
         "autoprefixer": "^10.4.0",
+        "bootstrap": "^5.3.3",
         "eslint": "^8.4.1",
         "eslint-plugin-vue": "^8.2.0",
         "laravel-mix": "^6.0.41",
@@ -34,13 +36,13 @@
         "postcss-nesting": "^12.1.5",
         "prettier": "^2.5.1",
         "prettier-plugin-tailwind": "^2.2.12",
+        "quill": "^2.0.2",
         "tailwindcss": "^2.0.3",
         "uuid": "^8.3.2",
         "vue": "^3.2.27",
         "vue-loader": "^16.2.0",
+        "vue-quilly": "^1.0.5",
         "vue3-datepicker": "^0.4.0",
-        "vue3-editor": "^0.1.1",
-        "@vueform/multiselect": "^2.6.6",
         "webpack-node-externals": "^3.0.0"
     }
 }

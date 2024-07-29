@@ -1,5 +1,6 @@
 import { createApp, h } from 'vue'
 import { createInertiaApp } from '@inertiajs/vue3'
+import 'bootstrap/dist/css/bootstrap.css'
 
 createInertiaApp({
     title: title => title ? `${title} - Vue App` : 'Vue App',

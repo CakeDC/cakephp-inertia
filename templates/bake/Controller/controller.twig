@@ -46,6 +46,7 @@ class {{ name }}Controller extends AppController
     {
         parent::initialize();
         $this->viewBuilder()->setTheme('CakeDC/Inertia');
+        $this->setConfig('FlashPrefixElement', 'alert');
     }
 
 {% if actions|length %}{{ "\n" }}{% endif %}

@@ -21,9 +21,15 @@
         $this->request->allowMethod(['post', 'delete', 'get']);
         ${{ singularName }} = $this->{{ currentModelName }}->get($id);
         if ($this->{{ currentModelName }}->delete(${{ singularName }})) {
-            $this->Flash->success(__('The {{ singularHumanName|lower }} has been deleted.'));
+            $this->Flash->set(
+                __('The {{ singularHumanName|lower }} has been deleted.'),
+                ['element' => 'success', 'key' => 'alert']
+            );
         } else {
-            $this->Flash->error(__('The {{ singularHumanName|lower }} could not be deleted. Please, try again.'));
+            $this->Flash->set(
+                __('The {{ singularHumanName|lower }} could not be deleted. Please, try again.'),
+                ['element' => 'danger', 'key' => 'alert']
+            );
         }
 
         return $this->redirect(['action' => 'index']);
