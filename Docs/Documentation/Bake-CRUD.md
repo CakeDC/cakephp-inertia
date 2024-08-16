@@ -5,6 +5,9 @@ For this example we use sql file on *config/sql/example/postgresql.pgsql*
 
 Once the database has been created, bake models and controllers as normal using
 
+Important: if you are using the docker example configuration with Postgres you need to change in your app.php, 
+the 'encoding' option inside Datasources to 'utf8' instead of 'utf8mb4',
+
 ```
 $> bin/cake bake model Pages --theme CakeDC/Inertia
 $> bin/cake bake controller Pages --theme CakeDC/Inertia
@@ -67,8 +70,8 @@ Edit *resources/Components/Layout.vue* and put inside header tag links as
 
 ```
 <header>
-    <Link as="button" href="/pages/index" class="button shadow radius right small">Pages</Link>
-    <Link as="button" href="/tags/index" class="button shadow radius right small">Tags</Link>
-    <Link as="button" href="/categories/index" class="button shadow radius right small">Categories</Link>
+    <Link as="button" href="/pages/index" class="btn btn-outline-primary mb-3">Pages</Link>
+    <Link as="button" href="/tags/index" class="btn btn-outline-primary mb-3 ms-1">Tags</Link>
+    <Link as="button" href="/categories/index" class="btn btn-outline-primary mb-3 ms-1">Categories</Link>
 </header>
 ```

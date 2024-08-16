@@ -49,6 +49,20 @@ and comment line
 $builder->connect('/pages/*', 'Pages::display');
 ```
 
+to load dashboard directly replace line
+
+```
+$builder->connect('/', ['controller' => 'Pages', 'action' => 'index', 'home']);
+```
+
+with 
+
+```
+$builder->connect('/', ['controller' => 'Pages', 'action' => 'dashboard']);
+```
+
+
+
 Create file *resources/js/Components/Pages/Dashboard.vue* that would look like this
 
 ```
