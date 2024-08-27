@@ -22,9 +22,7 @@
     public function edit($id = null)
     {
         $errors = [];
-        ${{ singularName }} = $this->{{ currentModelName }}->get($id, [
-            'contain' => {{ Bake.exportArray(belongsToMany)|raw }},
-        ]);
+        ${{ singularName }} = $this->{{ currentModelName }}->get($id, contain: [{{ Bake.exportArray(belongsToMany)|raw }}]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             ${{ singularName }} = $this->{{ currentModelName }}->patchEntity(${{ singularName }}, $this->getRequest()->getData());
             if ($this->{{ currentModelName }}->save(${{ singularName }})) {
