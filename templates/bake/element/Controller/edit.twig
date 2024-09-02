@@ -12,38 +12,38 @@
 {% set belongsTo = Bake.aliasExtractor(modelObj, 'BelongsTo') %}
 {% set belongsToMany = Bake.aliasExtractor(modelObj, 'belongsToMany') %}
 {% set compact = ["'#{singularName}'"] %}
-    /**
-     * Edit method VUE
-     *
-     * @param string|null $id {{ singularHumanName }} id.
-     * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public function edit($id = null)
-    {
-        $errors = [];
-        ${{ singularName }} = $this->{{ currentModelName }}->get($id, contain: [{{ Bake.exportArray(belongsToMany)|raw }}]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            ${{ singularName }} = $this->{{ currentModelName }}->patchEntity(${{ singularName }}, $this->getRequest()->getData());
-            if ($this->{{ currentModelName }}->save(${{ singularName }})) {
-                $this->Flash->set(
-                    __('The {{ singularHumanName|lower }} has been saved.'),
-                    ['element' => 'success', 'key' => 'alert']
-                );
+/**
+* Edit method VUE
+*
+* @param string|null $id {{ singularHumanName }} id.
+* @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
+* @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+*/
+public function edit($id = null)
+{
+$errors = [];
+${{ singularName }} = $this->{{ currentModelName }}->get($id, contain: {{ Bake.exportArray(belongsToMany)|raw }});
+if ($this->request->is(['patch', 'post', 'put'])) {
+${{ singularName }} = $this->{{ currentModelName }}->patchEntity(${{ singularName }}, $this->getRequest()->getData());
+if ($this->{{ currentModelName }}->save(${{ singularName }})) {
+$this->Flash->set(
+__('The {{ singularHumanName|lower }} has been saved.'),
+['element' => 'success', 'key' => 'alert']
+);
 
-                return $this->redirect(['action' => 'index']);
-            }
-            $errors = ${{ singularName }}->getErrors();
-            $this->Flash->set(
-                __('The {{ singularHumanName|lower }} could not be saved. Please, try again.'),
-                ['element' => 'danger', 'key' => 'alert']
-            );
-        }
+return $this->redirect(['action' => 'index']);
+}
+$errors = ${{ singularName }}->getErrors();
+$this->Flash->set(
+__('The {{ singularHumanName|lower }} could not be saved. Please, try again.'),
+['element' => 'danger', 'key' => 'alert']
+);
+}
 {% set associations = Bake.aliasExtractor(modelObj, 'BelongsTo') %}
 {%- for assoc in associations %}
     {%- set otherName = Bake.getAssociatedTableAlias(modelObj, assoc) %}
     {%- set otherPlural = otherName|variable %}
-        ${{ otherPlural }} = $this->{{ currentModelName }}->{{ otherName }}->find('list', ['limit' => 200])->toArray();
+    ${{ otherPlural }} = $this->{{ currentModelName }}->{{ otherName }}->find('list', ['limit' => 200])->toArray();
     {{- "\n" }}
     {%- set compact = compact|merge(["'#{otherPlural}'"]) %}
 {% endfor %}
@@ -51,11 +51,11 @@
 {%- for assoc in associations %}
     {%- set otherName = Bake.getAssociatedTableAlias(modelObj, assoc) %}
     {%- set otherPlural = otherName|variable %}
-        $options_{{ otherPlural }} = $this->{{ currentModelName }}->{{ otherName }}->find('all', ['limit' => 200])->disableHydration()->toArray();
+    $options_{{ otherPlural }} = $this->{{ currentModelName }}->{{ otherName }}->find('all', ['limit' => 200])->disableHydration()->toArray();
     {{- "\n" }}
-        {%- set optionsOtherPlural = 'options_' ~ otherPlural %}
-        {%- set compact = compact|merge(["'#{optionsOtherPlural}'"]) %}
+    {%- set optionsOtherPlural = 'options_' ~ otherPlural %}
+    {%- set compact = compact|merge(["'#{optionsOtherPlural}'"]) %}
 {% endfor %}
         {%- set compact = compact|merge(["'errors'"]) %}
-        $this->set(compact({{ compact|join(', ')|raw }}));
-    }
+$this->set(compact({{ compact|join(', ')|raw }}));
+}
