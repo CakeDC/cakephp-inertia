@@ -34,6 +34,10 @@ function formatDate(date) {
     return moment(date).format("YYYY-MM-DD")
 }
 
+function confirm(){
+    return window.confirm("Are you sure?");
+}
+
 onMounted(() => {
     console.log('Component categories/add onMounted hook called')
 })
@@ -132,7 +136,7 @@ onMounted(() => {
                                 <td class="actions align-middle">
                                     <Link class="btn btn-sm btn-outline-info ms-1" as="button" :href="'{{ baseUrl }}{{ otherSingularVar }}/view/' + {{ otherPk }}">View</Link>
                                     <Link class="btn btn-sm btn-outline-warning ms-1" as="button" :href="'{{ baseUrl }}{{ otherSingularVar }}/edit/' + {{ otherPk }}">Edit</Link>
-                                    <Link class="btn btn-sm btn-outline-danger ms-1" as="button" method="post" :href="'{{ baseUrl }}{{ otherSingularVar }}/delete/' + {{ otherPk }}">Delete</Link>
+                                    <Link class="btn btn-sm btn-outline-danger ms-1" as="button" method="delete" :headers="{'X-CSRF-Token': props.csrfToken}" :onBefore="() => confirm()"  :href="'{{ baseUrl }}{{ otherSingularVar }}/delete/' + {{ otherPk }}">Delete</Link>
                                 </td>
                             </tr>
                             </tbody>
