@@ -176,6 +176,9 @@
         background-position: right calc(.375em + .1875rem) center;
         background-size: calc(.75em + .375rem) calc(.75em + .375rem);
     }
+    .was-validated .select-valid {
+        border-color: #198754;
+    }
     .invalid-feedback {
         display: block;
     }
@@ -206,9 +209,9 @@
                                     {%- set optionsData = assocData['variable'] %}
                                 {%- endif %}
                             {%- endfor %}
-                            <Multiselect :searchable="true" placeholder="Select ..." :class="props.errors.{{field}} ? 'select-invalid' : ''" v-model="form.{{field}}" :options="{{ optionsData }}" />{{- "\n" }}
+                            <Multiselect :searchable="true" placeholder="Select ..." :class="props.errors.{{field}} ? 'select-invalid' : 'select-valid'" v-model="form.{{field}}" :options="{{ optionsData }}" />{{- "\n" }}
                         {%- else %}
-                            <Multiselect placeholder="Select ..." :class="props.errors.{{field}} ? 'select-invalid' : ''" v-model="form.{{field}}" :options="[]" />{{- "\n" }}
+                            <Multiselect placeholder="Select ..." :class="props.errors.{{field}} ? 'select-invalid' : 'select-valid'" v-model="form.{{field}}" :options="[]" />{{- "\n" }}
                         {%- endif %}
                         {%- set vueVar = "{{ props.errors." ~ field ~ "._empty }}" %}
                         <div class="invalid-feedback" v-if="props.errors.{{field}}">{{ vueVar }}</div>
@@ -262,7 +265,7 @@
                 {%- for assocName, assocData in associations.BelongsToMany %}
                     <div class="col-12 mb-3">
                         <label class="form-label" for="{{ assocData.property }}">{{assocData.property|capitalize}}:</label>
-                        <Multiselect placeholder="Select ..." :searchable="true" v-model="form.{{ assocData.property }}" label="{{ assocData.displayField }}" valueProp="id" :object="true" mode="tags" :options="props.options_{{ assocData.property }}" />
+                        <Multiselect placeholder="Select ..." :class="props.errors.{{ assocData.property }} ? 'select-invalid' : 'select-valid'" :searchable="true" v-model="form.{{ assocData.property }}" label="{{ assocData.displayField }}" valueProp="id" :object="true" mode="tags" :options="props.options_{{ assocData.property }}" />
                     </div>
                 {%- endfor %}
             {% endif %}
