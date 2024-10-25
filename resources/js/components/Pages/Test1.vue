@@ -16,7 +16,7 @@ onMounted(() => {
 
 <template>
     <div>
-        <Link href="/pages/test2">Test</Link>
+        <Link href="/pages/test2">Test2</Link>
         <h1>Welcome</h1>
         <p>{{page.text}}</p>
         <p>{{page.other}}</p>
