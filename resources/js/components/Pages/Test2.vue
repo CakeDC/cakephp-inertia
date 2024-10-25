@@ -1,0 +1,24 @@
+<script setup>
+import { Link } from '@inertiajs/inertia-vue3'
+import { onMounted, onUnmounted, ref } from 'vue'
+
+defineProps({
+    csrfToken: String,
+    flash: Array,
+    page: Array,
+})
+
+
+onMounted(() => {
+    console.log('Component Dashboard onMounted hook called')
+})
+</script>
+
+<template>
+    <div>
+        <Link href="/pages/test">Test2</Link>
+        <h1>Welcome</h1>
+        <p>{{page.text}}</p>
+        <p>{{page.other}}</p>
+    </div>
+</template>

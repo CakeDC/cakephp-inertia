@@ -63,18 +63,18 @@ class CreateVueAppCommand extends Command
         $filename = $path . 'bootstrap.js';
         $io->createFile($filename, $content, false);
 
-        $filepath = $initialPath . 'resources' . DS . 'js' . DS . 'store.js';
+        $filepath = $initialPath . 'resources' . DS . 'js' . DS . 'components' . DS . 'Pages' . DS . 'Test1.vue';
         $content = file_get_contents($filepath);
-        $path = ROOT . DS . 'resources' . DS . 'js' . DS;
-        $filename = $path . 'store.js';
+        $path = ROOT . DS . 'resources' .  DS . 'js' . DS . 'components' . DS . 'Pages' . DS ;
+        $filename = $path . 'Test1.vue';
         $io->createFile($filename, $content, false);
 
-        $filepath = $initialPath . 'resources' . DS . 'js' . DS . 'components' .DS . 'ExampleComponent.vue';
+        $filepath = $initialPath . 'resources' . DS . 'js' . DS . 'components' . DS . 'Pages' . DS . 'Test2.vue';
         $content = file_get_contents($filepath);
-        $path = ROOT . DS . 'resources' .  DS . 'js' . DS . 'components' . DS;
-        $filename = $path . 'ExampleComponent.vue';
+        $path = ROOT . DS . 'resources' .  DS . 'js' . DS . 'components' . DS . 'Pages' . DS;
+        $filename = $path . 'Test2.vue';
         $io->createFile($filename, $content, false);
-
+        
         $filepath = $initialPath . 'resources' .  DS . 'package.json';
         $content = file_get_contents($filepath);
         $path = ROOT . DS;

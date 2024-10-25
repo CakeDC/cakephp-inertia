@@ -34,7 +34,7 @@ class InertiaView extends View
      * @var array<string, mixed>
      */
     protected array $_defaultConfig = [
-        'componentsPaths' => ROOT . '/resources/js/Components/',
+        'componentsPaths' => ROOT . '/resources/js/components/',
     ];
 
     public function initialize(): void
@@ -43,7 +43,7 @@ class InertiaView extends View
     }
 
     /**
-     * Override template path to use /resources/js/Components/ vue templates
+     * Override template path to use /resources/js/components/ vue templates
      *
      * @param string|null $plugin
      * @param bool $cached
