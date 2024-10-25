@@ -42,9 +42,14 @@ class CreateVueAppCommand extends Command
 
     public function execute(Arguments $args, ConsoleIo $io): int
     {
-        $io->out('CreateVueAppCommand');
+        $io->out('CreateVueViteAppCommand');
 
         $initialPath = ROOT . DS . 'vendor' . DS . 'cakedc' . DS . 'cakephp-inertia' . DS;
+        $filepath = $initialPath . 'resources' . DS . 'css' . DS . 'app.css';
+        $content = file_get_contents($filepath);
+        $path = ROOT . DS . 'resources' . DS . 'css' . DS;
+        $filename = $path . 'app.css';
+        $io->createFile($filename, $content, false);
 
         $filepath = $initialPath . 'resources' . DS . 'js' . DS . 'app.js';
         $content = file_get_contents($filepath);
@@ -52,22 +57,22 @@ class CreateVueAppCommand extends Command
         $filename = $path . 'app.js';
         $io->createFile($filename, $content, false);
 
-        $filepath = $initialPath . 'resources' . DS . 'js' . DS . 'ssr.js';
+        $filepath = $initialPath . 'resources' . DS . 'js' . DS . 'bootstrap.js';
         $content = file_get_contents($filepath);
         $path = ROOT . DS . 'resources' . DS . 'js' . DS;
-        $filename = $path . 'ssr.js';
+        $filename = $path . 'bootstrap.js';
         $io->createFile($filename, $content, false);
 
-        $filepath = $initialPath . 'resources' . DS . 'css' . DS . 'app.css';
+        $filepath = $initialPath . 'resources' . DS . 'js' . DS . 'store.js';
         $content = file_get_contents($filepath);
-        $path = ROOT . DS . 'resources' . DS . 'css' . DS;
-        $filename = $path . 'app.css';
+        $path = ROOT . DS . 'resources' . DS . 'js' . DS;
+        $filename = $path . 'store.js';
         $io->createFile($filename, $content, false);
 
-        $filepath = $initialPath . 'resources' . DS . 'js' . DS . 'Components' . DS . 'Layout.vue';
+        $filepath = $initialPath . 'resources' . DS . 'js' . DS . 'components' .DS . 'ExampleComponent.vue';
         $content = file_get_contents($filepath);
-        $path = ROOT . DS . 'resources' . DS . 'js' . DS . 'Components' . DS;
-        $filename = $path . 'Layout.vue';
+        $path = ROOT . DS . 'resources' .  DS . 'js' . DS . 'components' . DS;
+        $filename = $path . 'ExampleComponent.vue';
         $io->createFile($filename, $content, false);
 
         $filepath = $initialPath . 'resources' .  DS . 'package.json';
@@ -76,22 +81,28 @@ class CreateVueAppCommand extends Command
         $filename = $path . 'package.json';
         $io->createFile($filename, $content, false);
 
-        $filepath = $initialPath . 'resources' .  DS . 'webpack.mix.js';
+        $filepath = $initialPath . 'resources' .  DS . 'postcss.config.js';
         $content = file_get_contents($filepath);
         $path = ROOT . DS;
-        $filename = $path . 'webpack.mix.js';
+        $filename = $path . 'postcss.config.js';
         $io->createFile($filename, $content, false);
 
-        $filepath = $initialPath . 'resources' .  DS . 'webpack.ssr.mix.js';
+        $filepath = $initialPath . 'resources' .  DS . 'tailwind.config.js';
         $content = file_get_contents($filepath);
         $path = ROOT . DS;
-        $filename = $path . 'webpack.ssr.mix.js';
+        $filename = $path . 'tailwind.config.js';
         $io->createFile($filename, $content, false);
 
-        $filepath = $initialPath . 'resources' .  DS . 'webpack.config.js';
+        $filepath = $initialPath . 'resources' .  DS . 'vite.config.js';
         $content = file_get_contents($filepath);
         $path = ROOT . DS;
-        $filename = $path . 'webpack.config.js';
+        $filename = $path . 'vite.config.js';
+        $io->createFile($filename, $content, false);
+
+        $filepath = $initialPath . 'resources' .  DS . '.env';
+        $content = file_get_contents($filepath);
+        $path = ROOT . DS;
+        $filename = $path . '.env';
         $io->createFile($filename, $content, false);
 
         return static::CODE_SUCCESS;
