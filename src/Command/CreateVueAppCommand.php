@@ -74,7 +74,13 @@ class CreateVueAppCommand extends Command
         $path = ROOT . DS . 'resources' .  DS . 'js' . DS . 'components' . DS . 'Pages' . DS;
         $filename = $path . 'Test2.vue';
         $io->createFile($filename, $content, false);
-        
+
+        $filepath = $initialPath . 'resources' . DS . 'js' . DS . 'components' . DS . 'Layout.vue';
+        $content = file_get_contents($filepath);
+        $path = ROOT . DS . 'resources' .  DS . 'js' . DS . 'components' . DS;
+        $filename = $path . 'Layout.vue';
+        $io->createFile($filename, $content, false);
+
         $filepath = $initialPath . 'resources' .  DS . 'package.json';
         $content = file_get_contents($filepath);
         $path = ROOT . DS;

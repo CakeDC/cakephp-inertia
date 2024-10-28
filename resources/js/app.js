@@ -2,6 +2,7 @@
 import { createApp, h } from 'vue'
 import { createInertiaApp } from '@inertiajs/inertia-vue3'
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
+import 'bootstrap/dist/css/bootstrap.css'
 
 createInertiaApp({
     title: title => title ? `${title} - Vue App` : 'Vue App',

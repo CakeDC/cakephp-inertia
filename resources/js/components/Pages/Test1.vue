@@ -5,7 +5,7 @@ import { onMounted, onUnmounted, ref } from 'vue'
 defineProps({
     csrfToken: String,
     flash: Array,
-    page: Array,
+    page: Array|Object,
 })
 
 
