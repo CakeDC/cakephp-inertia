@@ -134,9 +134,6 @@
             headers: {
                 'X-CSRF-Token': props.csrfToken
             },
-            onFinish: (x) => {
-                document.getElementById('flash').className = 'alert ' + props.flash['element'];
-            },
         }
     )
     }
