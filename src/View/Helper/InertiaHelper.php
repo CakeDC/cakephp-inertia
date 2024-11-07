@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace CakeDC\Inertia\View\Helper;
 
 use Cake\View\Helper;
+use Cake\Routing\Router;
 
 /**
  * Inertia helper
@@ -30,6 +31,7 @@ class InertiaHelper extends Helper
         if (!file_exists(WWW_ROOT . 'hot')) {
             $manifest = json_decode(file_get_contents(WWW_ROOT . 'js' . DS . 'manifest.json'),true);
             $path = $this->getView()->getRequest()->scheme() . '://' . $this->getView()->getRequest()->host() . DS . 'js' . DS;
+            $path = Router::fullBaseUrl() . DS . 'js' . DS;
             $firstBlock = [];
             $secondBlock = [];
             foreach($manifest as $key => $data){

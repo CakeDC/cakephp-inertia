@@ -1,10 +1,8 @@
 ## How to Use
 
-### Simple Page
+### Simple Navigation on Two Pages
 
-Create a single page called **dashboard** that show values sets in a controller action
-
-We need to add first *InertiaResponseTrait*
+We need to add first *InertiaResponseTrait* to the controller
 
 ```
 use CakeDC\Inertia\Traits\InertiaResponseTrait;
@@ -20,20 +18,30 @@ class PagesController extends AppController
 }
 ```
 
-Create a new function that would look like this
+Create a two function that would look like this
 
 ```
-public function dashboard()
-{
-   //set default php layout of plugin that use vue
-   $this->viewBuilder()->setTheme('CakeDC/Inertia');
+public function test1()
+    {
+        $this->viewBuilder()->setTheme('CakeDC/Inertia');
 
-   $page = [
-       'text' => 'hello world 1',
-       'other' => 'hello world 2',
-   ];
-   $this->set(compact('page'));
-}
+        $page = [
+            'text' => 'hello world 1',
+            'other' => 'hello world 2',
+        ];
+        $this->set(compact('page'));
+    }
+
+    public function test2()
+    {
+        $this->viewBuilder()->setTheme('CakeDC/Inertia');
+
+        $page = [
+            'text' => 'hello world 3',
+            'other' => 'hello world 4',
+        ];
+        $this->set(compact('page'));
+    }
 ```
 
 in *config/routes.php* uncomment lines to catch all routes
@@ -43,7 +51,7 @@ $builder->connect('/{controller}', ['action' => 'index']);
 $builder->connect('/{controller}/{action}/*', []);
 ```
 
-and comment line
+and comment the line
 
 ```
 $builder->connect('/pages/*', 'Pages::display');
@@ -55,50 +63,29 @@ to load dashboard directly replace line
 $builder->connect('/', ['controller' => 'Pages', 'action' => 'index', 'home']);
 ```
 
-with 
+with
 
 ```
-$builder->connect('/', ['controller' => 'Pages', 'action' => 'dashboard']);
+$builder->connect('/', ['controller' => 'Pages', 'action' => 'test1']);
 ```
 
+If you excuted previously create_vue_app the vue pages Test1.vue and Test.vue ae in the resources/components/pages drirectory, check it 
 
-
-Create file *resources/js/Components/Pages/Dashboard.vue* that would look like this
-
-```
-<script setup>
-import Layout from '@/Components/Layout.vue'
-import { Head } from '@inertiajs/vue3'
-import { onMounted, onUnmounted, ref } from 'vue'
-
-defineProps({
-    csrfToken: String,
-    flash: Array,
-    page: Array,
-})
-
-
-onMounted(() => {
-    console.log('Component Dashboard onMounted hook called')
-})
-</script>
-
-<template>
-    <Layout>
-        <Head title="Welcome" />
-        <h1>Welcome</h1>
-        <p>{{page.text}}</p>
-        <p>{{page.other}}</p>
-    </Layout>
-</template>
-```
-
-On root directory execute
+For development exec Vite server on the container
 
 ```
-$> npm run dev
+$> ddev npm run dev
 ```
 
-**IMPORTANT: Whenever you modify the .vue templates you must run this script.**
+For production exec `vite vuild` on the container
 
-Go to http://localhost:9099/pages/dashboard to see that Dashboard Vue Component prints values assigneds on Dashboard CakePHP function
+```
+$> ddev npm run build
+```
+
+This generates this assets directory inside webroot dir, the helper automatically load the files parsing the manifest.json
+
+Go to https://inertiavitecake.ddev.site see Test1 Vue Component page that prints values assigneds on Test1 CakePHP function,
+in the top you can see a link to "Test2", you can navigate to /pages/test2 and in this you can see a link to "Test1"
+and can navigate to /pages/test2 without page reload.
+

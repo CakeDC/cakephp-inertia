@@ -5,33 +5,34 @@ For this example we use sql file on *config/sql/example/postgresql.pgsql*
 
 Once the database has been created, bake models and controllers as normal using
 
-Important: if you are using the docker example configuration with Postgres you need to change in your app.php, 
+Important: if you are using the docker example configuration with Postgres you need to change in your app.php,
 the 'encoding' option inside Datasources to 'utf8' instead of 'utf8mb4',
 
 ```
-$> bin/cake bake model Pages --theme CakeDC/Inertia
-$> bin/cake bake controller Pages --theme CakeDC/Inertia
-$> bin/cake bake model Tags --theme CakeDC/Inertia
-$> bin/cake bake controller Tags --theme CakeDC/Inertia
-$> bin/cake bake model Categories --theme CakeDC/Inertia
-$> bin/cake bake controller Categories --theme CakeDC/Inertia
+$> ddev ssh
+$inertiavitecake-web> bin/cake bake model Pages --theme CakeDC/Inertia
+$inertiavitecake-web> bin/cake bake controller Pages --theme CakeDC/Inertia
+$inertiavitecake-web> bin/cake bake model Tags --theme CakeDC/Inertia
+$inertiavitecake-web> bin/cake bake controller Tags --theme CakeDC/Inertia
+$inertiavitecake-web> bin/cake bake model Categories --theme CakeDC/Inertia
+$inertiavitecake-web> bin/cake bake controller Categories --theme CakeDC/Inertia
 ```
 
 bake templates using **vue_template** instead of **template** as
 
 ```
-$> bin/cake bake vue_template Pages --theme CakeDC/Inertia
-$> bin/cake bake vue_template Tags --theme CakeDC/Inertia
-$> bin/cake bake vue_template Categories --theme CakeDC/Inertia
+$inertiavitecake-web> bin/cake bake vue_template Pages --theme CakeDC/Inertia
+$inertiavitecake-web> bin/cake bake vue_template Tags --theme CakeDC/Inertia
+$inertiavitecake-web> bin/cake bake vue_template Categories --theme CakeDC/Inertia
 ```
 
-Again run
+Again run (outside container)
 
 ```
-$> npm run dev
+$> ddev npm run dev
 ```
 
-You see results for example going to http://localhost:9099/pages/index
+You see results for example going to https://inertiavitecake.ddev.site/pages/index
 
 ### bake CRUD system with prefix
 
@@ -46,27 +47,28 @@ $builder->prefix('admin', function (RouteBuilder $builder) {
 To generate controllers and template with a prefix use **--prefix** option of bake command as
 
 ```
-$> bin/cake bake controller Pages --prefix Admin --theme CakeDC/Inertia
-$> bin/cake bake controller Tags --prefix Admin --theme CakeDC/Inertia
-$> bin/cake bake controller Categories --prefix Admin --theme CakeDC/Inertia
-$> bin/cake bake vue_template Pages --prefix Admin --theme CakeDC/Inertia
-$> bin/cake bake vue_template Tags --prefix Admin --theme CakeDC/Inertia
-$> bin/cake bake vue_template Categories --prefix Admin --theme CakeDC/Inertia
+$> ddev ssh
+$inertiavitecake-web> bin/cake bake controller Pages --prefix Admin --theme CakeDC/Inertia
+$inertiavitecake-web> bin/cake bake controller Tags --prefix Admin --theme CakeDC/Inertia
+$inertiavitecake-web> bin/cake bake controller Categories --prefix Admin --theme CakeDC/Inertia
+$inertiavitecake-web> bin/cake bake vue_template Pages --prefix Admin --theme CakeDC/Inertia
+$inertiavitecake-web> bin/cake bake vue_template Tags --prefix Admin --theme CakeDC/Inertia
+$inertiavitecake-web> bin/cake bake vue_template Categories --prefix Admin --theme CakeDC/Inertia
 ```
 
-Again run
+Again run (outside container)
 
 ```
-$> npm run dev
+$> ddev npm run dev
 ```
 
-You can go to http://localhost:9099/admin/pages/index
+You can go to https://inertiavitecake.ddev.site/admin/pages/index
 
 ### Add Menu
 
 You can add and horizontal menu to navigate through controllers
 
-Edit *resources/Components/Layout.vue* and put inside header tag links as
+Edit *resources/components/Layout.vue* and put inside header tag links as
 
 ```
 <header>
