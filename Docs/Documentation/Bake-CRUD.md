@@ -63,17 +63,3 @@ $> ddev npm run dev
 ```
 
 You can go to https://inertiavitecake.ddev.site/admin/pages/index
-
-### Add Menu
-
-You can add and horizontal menu to navigate through controllers
-
-Edit *resources/components/Layout.vue* and put inside header tag links as
-
-```
-<header>
-    <Link as="button" href="/pages/index" class="btn btn-outline-primary mb-3">Pages</Link>
-    <Link as="button" href="/tags/index" class="btn btn-outline-primary mb-3 ms-1">Tags</Link>
-    <Link as="button" href="/categories/index" class="btn btn-outline-primary mb-3 ms-1">Categories</Link>
-</header>
-```

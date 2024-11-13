@@ -21,7 +21,7 @@ class PagesController extends AppController
 Create a two function that would look like this
 
 ```
-public function test1()
+    public function test1()
     {
         $this->viewBuilder()->setTheme('CakeDC/Inertia');
 
@@ -69,7 +69,7 @@ with
 $builder->connect('/', ['controller' => 'Pages', 'action' => 'test1']);
 ```
 
-If you excuted previously create_vue_app the vue pages Test1.vue and Test.vue ae in the resources/components/pages drirectory, check it 
+If you executed previously create_vue_app the vue pages Test1.vue and Test.vue ae in the resources/components/pages directory, check it 
 
 For development exec Vite server on the container
 
