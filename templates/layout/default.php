@@ -6,7 +6,7 @@
         <title>Cake con Vite y Vue</title>
         <?php echo $this->Inertia->loadAssets();?>
     </head>
-<body class="antialiased">
+<body>
     <?= $this->Inertia->component($page, 'app', ''); ?>
 </body>
 </html>
