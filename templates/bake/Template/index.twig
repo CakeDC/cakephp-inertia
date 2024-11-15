@@ -67,7 +67,7 @@ onMounted(() => {
         {%- endif %}
 
         {%- set vueVar = "{{ props.flash['message'] }}" %}{{- "\n" }}
-        <div id="flash" onclick="this.classList.add('d-none')" :class="[(props.flash['element'] === undefined) ? 'd-none' : '','alert', props.flash['element']]">
+        <div onclick="this.classList.add('d-none')" :class="[(props.flash['element'] === undefined) ? 'd-none' : '','alert', props.flash['element']]">
             {{ vueVar }}
         </div>
 
