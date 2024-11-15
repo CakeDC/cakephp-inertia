@@ -3,7 +3,8 @@
 Install plugin via command line:
 
 ```
-$> composer require cakedc/cakephp-inertia
+$> ddev ssh
+$inertiavitecake-web> composer require cakedc/cakephp-inertia
 ```
 
 ## Configuration

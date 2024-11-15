@@ -123,7 +123,7 @@ class VueTemplateCommand extends \Bake\Command\TemplateCommand
     {
         $prefix = $args->getOption('prefix') ?? '';
         $prefix .= DS;
-        $path = ROOT . DS . 'resources' . DS . 'js' . DS. 'Components' . DS . $prefix;
+        $path = ROOT . DS . 'resources' . DS . 'js' . DS. 'components' . DS . $prefix;
         $path .= $this->controllerName . DS;
 
         return $path;

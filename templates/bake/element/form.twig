@@ -10,7 +10,7 @@
  */
 #}
 <script setup>
-    import Layout from '@/Components/Layout.vue'
+    import Layout from '@/components/Layout.vue'
     import { reactive, onMounted, onUnmounted, ref } from 'vue'
     import { router } from '@inertiajs/vue3'
     import Datepicker from 'vue3-datepicker';
@@ -133,9 +133,6 @@
         {
             headers: {
                 'X-CSRF-Token': props.csrfToken
-            },
-            onFinish: (x) => {
-                document.getElementById('flash').className = 'alert ' + props.flash['element'];
             },
         }
     )
