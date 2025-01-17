@@ -35,8 +35,6 @@ class InertiaHelper extends Helper
             $firstBlock = [];
             $secondBlock = [];
             foreach($manifest as $key => $data){
-                $part = explode('/', $key);
-                $part = $part[count($part) - 1];
                 $part = explode('.', $key);
                 $part = $part[count($part) - 1];
                 if ($part == 'css') {
@@ -44,9 +42,10 @@ class InertiaHelper extends Helper
                     $secondBlock[] = $this->Html->tag('link', '', [ 'as' => 'style', 'rel' => 'stylesheet', 'href' => $path . $data['file'] ]);
                 }
                 if ($part == 'js') {
-                    $firstBlock[] = $this->Html->tag('link', '', ['as' => 'style', 'rel' => 'preload', 'href' => $path . $data['css'][0] ]);
-                    $secondBlock[] = $this->Html->tag('link', '', ['as' => 'style', 'rel' => 'stylesheet', 'href' => $path . $data['css'][0] ]);
-
+                    if (!empty($data['css'][0])) {
+                        $firstBlock[] = $this->Html->tag('link', '', ['as' => 'style', 'rel' => 'preload', 'href' => $path . $data['css'][0]]);
+                        $secondBlock[] = $this->Html->tag('link', '', ['as' => 'style', 'rel' => 'stylesheet', 'href' => $path . $data['css'][0]]);
+                    }
                     $firstBlock[] = $this->Html->tag('link', '', [ 'rel' => 'modulepreload', 'href' => $path . $data['file'] ]);
                     $secondBlock[] = $this->Html->tag('script', '', [ 'type' => 'module', 'src' => $path . $data['file'] ]);
                 }
