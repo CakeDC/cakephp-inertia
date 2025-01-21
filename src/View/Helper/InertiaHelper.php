@@ -29,9 +29,9 @@ class InertiaHelper extends Helper
     public function loadAssets(): string
     {
         if (!file_exists(WWW_ROOT . 'hot')) {
-            $manifest = json_decode(file_get_contents(WWW_ROOT . 'js' . DS . 'manifest.json'),true);
-            $path = $this->getView()->getRequest()->scheme() . '://' . $this->getView()->getRequest()->host() . DS . 'js' . DS;
-            $path = Router::fullBaseUrl() . DS . 'js' . DS;
+            $manifest = json_decode(file_get_contents(WWW_ROOT . 'build' . DS . 'manifest.json'),true);
+            $path = $this->getView()->getRequest()->scheme() . '://' . $this->getView()->getRequest()->host() . DS . 'build' . DS;
+            $path = Router::fullBaseUrl() . DS . 'build' . DS;
             $firstBlock = [];
             $secondBlock = [];
             foreach($manifest as $key => $data){

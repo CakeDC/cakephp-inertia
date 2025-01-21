@@ -15,7 +15,8 @@ export default defineConfig({
         vue(),
     ],
     build: {
-        outDir: 'webroot/js'
+        outDir: 'webroot/build',
+        emptyOutDir: true,
     },
     server: {
         host: '0.0.0.0',
