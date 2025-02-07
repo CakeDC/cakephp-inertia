@@ -10,52 +10,52 @@
  */
 #}
 <script setup>
-import { Link } from '@inertiajs/vue3'
-import Layout from '@/components/Layout.vue'
-import { onMounted, onUnmounted, ref } from 'vue'
-import moment from 'moment'
+    import { Link } from '@inertiajs/vue3'
+    import Layout from '@/components/Layout.vue'
+    import { onMounted, onUnmounted, ref } from 'vue'
+    import moment from 'moment'
 
-const props = defineProps({
-    csrfToken: String,
-    flash: Array|Object,
+    const props = defineProps({
+        csrfToken: String,
+        flash: Array|Object,
     {{ pluralVar }}: Array|Object,
-    sort: String,
-    direction: String,
-    links: Array|Object,
-})
+        sort: String,
+        direction: String,
+        links: Array|Object,
+    })
 
-const direction = ref(0)
+    const direction = ref(0)
 
-const defaultClass = Object ({
-    id: '',
-    name: '',
-})
+    const defaultClass = Object ({
+        id: '',
+        name: '',
+    })
 
-function confirm(){
-    return window.confirm("Are you sure?");
-}
-
-function formatDate(date) {
-    return moment(date).format("YYYY-MM-DD")
-}
-
-function sortDirection(p) {
-    let direction = 'asc';
-    if (p === props.sort) {
-        if (props.direction === 'desc') {
-            direction = 'asc';
-        } else {
-            direction = 'desc';
-        }
+    function confirm(){
+        return window.confirm("Are you sure?");
     }
 
-    return direction;
-}
+    function formatDate(date) {
+        return moment(date).format("YYYY-MM-DD")
+    }
 
-onMounted(() => {
-    console.log('Component {{ pluralVar }}/{{ action }} onMounted hook called')
-    feather.replace({ 'aria-hidden': 'true' })
-})
+    function sortDirection(p) {
+        let direction = 'asc';
+        if (p === props.sort) {
+            if (props.direction === 'desc') {
+                direction = 'asc';
+            } else {
+                direction = 'desc';
+            }
+        }
+
+        return direction;
+    }
+
+    onMounted(() => {
+        console.log('Component {{ pluralVar }}/{{ action }} onMounted hook called')
+        feather.replace({ 'aria-hidden': 'true' })
+    })
 
 </script>
 
@@ -76,7 +76,7 @@ onMounted(() => {
             <h2 class="mt-3 mb-3">{{ pluralHumanName }}</h2>
             <div>
                 {%- if prefix == '' %}
-                    <Link as="button" href="/{{ pluralVar }}/add" class="btn btn-outline-primary mb-3">Add {{ singularHumanName }}</Link>
+                    <Link as="button" href="/{{ pluralVar }}/add" class="btn btn-outline-primary">Add {{ singularHumanName }}</Link>
                 {%- else %}
                     <Link as="button" href="/{{ prefix|lower }}/{{ pluralVar }}/add" class="btn btn-outline-primary mb-3">Add {{ singularHumanName }}</Link>
                 {%- endif %}
@@ -88,71 +88,71 @@ onMounted(() => {
                 <thead>
                 <tr>
                     {%- for field in fields %}{{- "\n" }}
-                    <th scope="col">
-                        <Link href="{{ baseUrl }}{{ pluralVar }}/index" :class="defaultClass.{{ field }}" :data="{ sort: '{{ field }}', direction: sortDirection('{{ field }}') }">
+                        <th scope="col">
+                            <Link href="{{ baseUrl }}{{ pluralVar }}/index" :class="defaultClass.{{ field }}" :data="{ sort: '{{ field }}', direction: sortDirection('{{ field }}') }">
                             {{ field|capitalize }}
                             <span v-if="props.sort === '{{ field }}'" :data-feather="props.direction === 'asc' ? 'chevrons-up' : 'chevrons-down'"></span>
-                        </Link>
-                    </th>
+                            </Link>
+                        </th>
                     {%- endfor %}
                     {{- "\n" }}<th class="actions">Actions</th>
                 </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="{{ singularVar }} in {{ pluralVar }}">
-                        {%- for field in fields %}
-                            {%- set isKey = false %}
-                            {%- if associations.BelongsTo is defined %}
-                                {%- for alias, details in associations.BelongsTo %}
-                                    {%- if field == details.foreignKey %}
-                                        {%- set isKey = true %}
-                                        {%- set vueVarParent = singularVar ~ "." ~  details.property %}
-                                        {%- set vueVar = "{{" ~ singularVar ~ "." ~ details.property ~ "." ~ details.displayField  ~ "}}" %}
-                                        {%- set vueVarIndex = singularVar ~ "." ~ details.property ~ "." ~ details.primaryKey[0] %}
-                        <td class="align-middle">
+                <tr v-for="{{ singularVar }} in {{ pluralVar }}">
+                    {%- for field in fields %}
+                        {%- set isKey = false %}
+                        {%- if associations.BelongsTo is defined %}
+                            {%- for alias, details in associations.BelongsTo %}
+                                {%- if field == details.foreignKey %}
+                                    {%- set isKey = true %}
+                                    {%- set vueVarParent = singularVar ~ "." ~  details.property %}
+                                    {%- set vueVar = "{{" ~ singularVar ~ "." ~ details.property ~ "." ~ details.displayField  ~ "}}" %}
+                                    {%- set vueVarIndex = singularVar ~ "." ~ details.property ~ "." ~ details.primaryKey[0] %}
+                                    <td class="align-middle">
                             <span v-if="{{ vueVarParent }}">
-                                <Link as="button" class="btn btn-sm btn-outline-info" :href="'{{ baseUrl }}{{ details.controller|lower }}/view/' + {{ vueVarIndex }}">{{ vueVar }}</Link>
+                                <Link class="" :href="'{{ baseUrl }}{{ details.controller }}/view/' + {{ vueVarIndex }}">{{ vueVar }}</Link>
                             </span>
-                        </td>
-                                    {%- endif %}
-                                {%- endfor %}
-                            {%- endif %}
-
-                            {{- "\n" }}
-                            {%- if isKey is not same as(true) %}
-                                {%- set columnData = Bake.columnData(field, schema) %}
-                                {%- if columnData.type not in ['integer', 'float', 'decimal', 'biginteger', 'smallinteger', 'tinyinteger', 'timestampfractional'] %}
-                        <td class="align-middle">
-                            {#  todo: need trucnate #}
-                            {%- set vueVar = "{{" ~ singularVar ~ "." ~ field ~ "}}" %}
-                            {{- vueVar }}
-                        </td>
-                                {%- elseif columnData.type == 'timestampfractional' %}
-                        <td class="align-middle">
-                            {%- set vueVar = "{{ formatDate(" ~ singularVar ~ "." ~ field ~ ") }}" %}
-                            {{- vueVar }}</td>
-                                {%- elseif columnData.null %}
-                                    {#  todo: need check vueVar === null #}
-                        <td class="align-middle">
-                            {%- set vueVar = "{{" ~ singularVar ~ "." ~ field ~ "}}" %}
-                            {{- vueVar }}
-                        </td>
-                                {%- else %}
-                        <td class="align-middle">
-                            {%- set vueVar = "{{" ~ singularVar ~ "." ~ field ~ "}}" %}
-                            {{- vueVar }}</td>
+                                    </td>
                                 {%- endif %}
-                            {%- endif %}
-                    {%- endfor %}
+                            {%- endfor %}
+                        {%- endif %}
+
                         {{- "\n" }}
-                        <td class="actions align-middle">
-                            <Link class="btn btn-sm btn-outline-info ms-1" as="button" method="get" :href="'{{ baseUrl }}{{ pluralVar }}/view/' + {{ singularVar }}.id">View</Link>
-                            <Link class="btn btn-sm btn-outline-warning ms-1" as="button" method="get" :href="'{{ baseUrl }}{{ pluralVar }}/edit/' + {{ singularVar }}.id">Edit</Link>
-                            <Link class="btn btn-sm btn-outline-danger ms-1" as="button" method="delete" :headers="{'X-CSRF-Token': props.csrfToken}" :onBefore="() => confirm()" :href="'{{ baseUrl }}{{ pluralVar }}/delete/' + {{ singularVar }}.id">Delete</Link>
-                        </td>
-                    </tr>
-               </tbody>
-           </table>
+                        {%- if isKey is not same as(true) %}
+                            {%- set columnData = Bake.columnData(field, schema) %}
+                            {%- if columnData.type not in ['integer', 'float', 'decimal', 'biginteger', 'smallinteger', 'tinyinteger', 'timestampfractional'] %}
+                                <td class="align-middle">
+                                    {#  todo: need trucnate #}
+                                    {%- set vueVar = "{{" ~ singularVar ~ "." ~ field ~ "}}" %}
+                                    {{- vueVar }}
+                                </td>
+                            {%- elseif columnData.type == 'timestampfractional' %}
+                                <td class="align-middle">
+                                    {%- set vueVar = "{{ formatDate(" ~ singularVar ~ "." ~ field ~ ") }}" %}
+                                    {{- vueVar }}</td>
+                            {%- elseif columnData.null %}
+                                {#  todo: need check vueVar === null #}
+                                <td class="align-middle">
+                                    {%- set vueVar = "{{" ~ singularVar ~ "." ~ field ~ "}}" %}
+                                    {{- vueVar }}
+                                </td>
+                            {%- else %}
+                                <td class="align-middle">
+                                    {%- set vueVar = "{{" ~ singularVar ~ "." ~ field ~ "}}" %}
+                                    {{- vueVar }}</td>
+                            {%- endif %}
+                        {%- endif %}
+                    {%- endfor %}
+                    {{- "\n" }}
+                    <td class="actions align-middle">
+                        <Link class="btn btn-sm btn-outline-info ms-1" as="button" method="get" :href="'{{ baseUrl }}{{ pluralVar }}/view/' + {{ singularVar }}.id">View</Link>
+                        <Link class="btn btn-sm btn-outline-warning ms-1" as="button" method="get" :href="'{{ baseUrl }}{{ pluralVar }}/edit/' + {{ singularVar }}.id">Edit</Link>
+                        <Link class="btn btn-sm btn-outline-danger ms-1" as="button" method="delete" :headers="{'X-CSRF-Token': props.csrfToken}" :onBefore="() => confirm()" :href="'{{ baseUrl }}{{ pluralVar }}/delete/' + {{ singularVar }}.id">Delete</Link>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
         </div>
 
         <span v-if="links.length > 1">
