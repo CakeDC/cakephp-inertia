@@ -30,7 +30,6 @@ class InertiaHelper extends Helper
     {
         if (!file_exists(WWW_ROOT . 'hot')) {
             $manifest = json_decode(file_get_contents(WWW_ROOT . 'build' . DS . 'manifest.json'),true);
-            $path = $this->getView()->getRequest()->scheme() . '://' . $this->getView()->getRequest()->host() . DS . 'build' . DS;
             $path = Router::fullBaseUrl() . DS . 'build' . DS;
             $firstBlock = [];
             $secondBlock = [];
