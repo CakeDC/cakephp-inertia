@@ -186,9 +186,10 @@
                             {%- for assocName, assocData in associations.BelongsTo %}
                                 {%- if assocData['foreignKey'] == field %}
                                     {%- set optionsData = assocData['variable'] %}
+                                    {%- set displayField = assocData['displayField'] %}
                                 {%- endif %}
                             {%- endfor %}
-                            <Multiselect :searchable="true" placeholder="Select ..." :class="props.errors.{{field}} ? 'select-invalid' : 'select-valid'" v-model="form.{{field}}"  label="{{ displayField}}" valueProp="id"  :options="{{ optionsData }}" />{{- "\n" }}
+                            <Multiselect :searchable="true" placeholder="Select ..." :class="props.errors.{{field}} ? 'select-invalid' : 'select-valid'" v-model="form.{{field}}"  label="{{ displayField }}" valueProp="id"  :options="{{ optionsData }}" />{{- "\n" }}
                         {%- else %}
                             <Multiselect placeholder="Select ..." :class="props.errors.{{field}} ? 'select-invalid' : 'select-valid'" v-model="form.{{field}}" :options="[]" />{{- "\n" }}
                         {%- endif %}
