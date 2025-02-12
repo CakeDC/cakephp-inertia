@@ -39,7 +39,7 @@
 {%- for assoc in associations %}
     {%- set otherName = Bake.getAssociatedTableAlias(modelObj, assoc) %}
     {%- set otherPlural = otherName|variable %}
-        ${{ otherPlural }} = $this->{{ currentModelName }}->{{ otherName }}->find('list', ['limit' => 200])->toArray();
+        ${{ otherPlural }} = $this->{{ currentModelName }}->{{ otherName }}->find()->toArray();
     {{- "\n" }}
     {%- set compact = compact|merge(["'#{otherPlural}'"]) %}
 {% endfor %}
@@ -47,7 +47,7 @@
 {%- for assoc in associations %}
     {%- set otherName = Bake.getAssociatedTableAlias(modelObj, assoc) %}
     {%- set otherPlural = otherName|variable %}
-        $options_{{ otherPlural }} = $this->{{ currentModelName }}->{{ otherName }}->find('all', ['limit' => 200])->disableHydration()->toArray();
+        $options_{{ otherPlural }} = $this->{{ currentModelName }}->{{ otherName }}->find()->disableHydration()->toArray();
     {{- "\n" }}
         {%- set optionsOtherPlural = 'options_' ~ otherPlural %}
         {%- set compact = compact|merge(["'#{optionsOtherPlural}'"]) %}
