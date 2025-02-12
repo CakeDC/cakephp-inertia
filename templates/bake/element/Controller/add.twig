@@ -39,7 +39,7 @@
 {%- for assoc in associations %}
     {%- set otherName = Bake.getAssociatedTableAlias(modelObj, assoc) %}
     {%- set otherPlural = otherName|variable %}
-        ${{ otherPlural }} = $this->{{ currentModelName }}->{{ otherName }}->find()->toArray();
+        ${{ otherPlural }} = $this->{{ currentModelName }}->{{ otherName }}->find()->disableHydration()->toArray();
     {{- "\n" }}
     {%- set compact = compact|merge(["'#{otherPlural}'"]) %}
 {% endfor %}
