@@ -95,7 +95,7 @@
                             </Link>
                         </th>
                     {%- endfor %}
-                    {{- "\n" }}<th class="actions">Actions</th>
+                    {{- "\n" }}<th class="actions"><div class="d-flex justify-content-end">Actions</div></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -146,9 +146,11 @@
                     {%- endfor %}
                     {{- "\n" }}
                     <td class="actions align-middle">
-                        <Link class="btn btn-sm btn-outline-info ms-1" as="button" method="get" :href="'{{ baseUrl }}{{ pluralVar }}/view/' + {{ singularVar }}.id">View</Link>
-                        <Link class="btn btn-sm btn-outline-warning ms-1" as="button" method="get" :href="'{{ baseUrl }}{{ pluralVar }}/edit/' + {{ singularVar }}.id">Edit</Link>
-                        <Link class="btn btn-sm btn-outline-danger ms-1" as="button" method="delete" :headers="{'X-CSRF-Token': props.csrfToken}" :onBefore="() => confirm()" :href="'{{ baseUrl }}{{ pluralVar }}/delete/' + {{ singularVar }}.id">Delete</Link>
+                        <div class="d-flex justify-content-end">
+                            <Link class="btn btn-sm btn-outline-info ms-1" as="button" method="get" :href="'{{ baseUrl }}{{ pluralVar }}/view/' + {{ singularVar }}.id">View</Link>
+                            <Link class="btn btn-sm btn-outline-warning ms-1" as="button" method="get" :href="'{{ baseUrl }}{{ pluralVar }}/edit/' + {{ singularVar }}.id">Edit</Link>
+                            <Link class="btn btn-sm btn-outline-danger ms-1" as="button" method="delete" :headers="{'X-CSRF-Token': props.csrfToken}" :onBefore="() => confirm()" :href="'{{ baseUrl }}{{ pluralVar }}/delete/' + {{ singularVar }}.id">Delete</Link>
+                        </div>
                     </td>
                 </tr>
                 </tbody>
