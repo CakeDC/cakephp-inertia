@@ -1,25 +1,34 @@
 <script setup>
 import { Link } from '@inertiajs/vue3'
 import { onMounted, onUnmounted, ref } from 'vue'
+import Header from '@/components/Theme/Header.vue'
+import Nav from '@/components/Theme/Nav.vue'
 
-defineProps({
+const props = defineProps({
     csrfToken: String,
     flash: Array,
-    page: Array,
+    page: Object|Array,
+    menuHeader: Object|Array,
+    menuNav: Object|Array,
+    project: Object|Array,
 })
 
 
 onMounted(() => {
-    console.log('Component Dashboard onMounted hook called')
+    console.log('Layout onMounted hook called')
+
+    document.getElementById('toggleSidebar').addEventListener('click', function() {
+        document.getElementById('sidebar').classList.toggle('show');
+    });
 })
 </script>
 
 <template>
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
-    </nav>
-    <main class="container">
-        <article>
+    <div>
+        <Header v-bind:project="props.project" v-bind:menuHeader="props.menuHeader" />
+        <Nav v-bind:menuNav="props.menuNav" v-bind:menuHeader="props.menuHeader" />
+        <div class="content">
             <slot />
-        </article>
-    </main>
+        </div>
+    </div>
 </template>

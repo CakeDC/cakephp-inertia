@@ -62,7 +62,7 @@ onMounted(() => {
                                 {%- set vueVarParent = singularVar ~ "." ~  details.property %}
                                 {%- set vueVar = "{{" ~ singularVar ~ "." ~ details.property ~ "." ~ details.displayField  ~ "}}" %}
                                 {%- set vueVarIndex = singularVar ~ "." ~ details.property ~ "." ~ details.primaryKey[0] %}
-                                <Link v-if="{{ vueVarParent }}" class="" :href="'{{ baseUrl }}{{ details.controller|lower }}/view/' + {{ vueVarIndex }}">{{ vueVar }}</Link>
+                                <Link v-if="{{ vueVarParent }}" class="" :href="'{{ baseUrl }}{{ details.controller }}/view/' + {{ vueVarIndex }}">{{ vueVar }}</Link>
                             </td>
                         </tr>
                     {%- else %}
@@ -113,7 +113,7 @@ onMounted(() => {
         {%- for alias, details in relations %}
             {%- set otherSingularVar = alias|variable %}
             {%- set otherPluralHumanName = details.controller|underscore|humanize %}
-            <div class="related mt-5">
+            <div class="related mt-5 mb-5">
                 <h4>{{ otherPluralHumanName }}</h4>
                 <span v-if="{{ singularVar }}.{{ details.property }} && {{ singularVar }}.{{ details.property }}.length != 0">
                     <div class="table-responsive">
@@ -123,7 +123,7 @@ onMounted(() => {
                                 {%- for field in details.fields %}
                                     <th class="align-middle">{{ field|humanize }}</th>
                                 {%- endfor %}
-                                <th class="actions align-middle">Actions</th>
+                                <th class="actions align-middle"><div class="d-flex justify-content-end">Actions</div></th>
                             </tr>
                             </thead>
                             <tbody>
@@ -134,15 +134,18 @@ onMounted(() => {
                                 {%- endfor %}
                                 {%- set otherPk = otherSingularVar ~ '.' ~ details.primaryKey[0] %}
                                 <td class="actions align-middle">
-                                    <Link class="btn btn-sm btn-outline-info ms-1" as="button" :href="'{{ baseUrl }}{{ otherSingularVar }}/view/' + {{ otherPk }}">View</Link>
-                                    <Link class="btn btn-sm btn-outline-warning ms-1" as="button" :href="'{{ baseUrl }}{{ otherSingularVar }}/edit/' + {{ otherPk }}">Edit</Link>
-                                    <Link class="btn btn-sm btn-outline-danger ms-1" as="button" method="delete" :headers="{'X-CSRF-Token': props.csrfToken}" :onBefore="() => confirm()"  :href="'{{ baseUrl }}{{ otherSingularVar }}/delete/' + {{ otherPk }}">Delete</Link>
+                                    <div class="d-flex justify-content-end">
+                                        <Link class="btn btn-sm btn-outline-info ms-1" as="button" :href="'{{ baseUrl }}{{ otherSingularVar }}/view/' + {{ otherPk }}">View</Link>
+                                        <Link class="btn btn-sm btn-outline-warning ms-1" as="button" :href="'{{ baseUrl }}{{ otherSingularVar }}/edit/' + {{ otherPk }}">Edit</Link>
+                                        <Link class="btn btn-sm btn-outline-danger ms-1" as="button" method="delete" :headers="{'X-CSRF-Token': props.csrfToken}" :onBefore="() => confirm()"  :href="'{{ baseUrl }}{{ otherSingularVar }}/delete/' + {{ otherPk }}">Delete</Link>
+                                    </div>
                                 </td>
                             </tr>
                             </tbody>
                         </table>
                     </div>
                 </span>
+                <span v-else>No results found</span>
             </div>
         {%- endfor %}
         </div>

@@ -45,6 +45,7 @@ class CreateVueAppCommand extends Command
         $io->out('CreateVueViteAppCommand');
 
         $initialPath = ROOT . DS . 'vendor' . DS . 'cakedc' . DS . 'cakephp-inertia' . DS;
+
         $filepath = $initialPath . 'resources' . DS . 'css' . DS . 'app.css';
         $content = file_get_contents($filepath);
         $path = ROOT . DS . 'resources' . DS . 'css' . DS;
@@ -79,6 +80,18 @@ class CreateVueAppCommand extends Command
         $content = file_get_contents($filepath);
         $path = ROOT . DS . 'resources' .  DS . 'js' . DS . 'components' . DS;
         $filename = $path . 'Layout.vue';
+        $io->createFile($filename, $content, false);
+
+        $filepath = $initialPath . 'resources' . DS . 'js' . DS . 'components' . DS . 'Theme' . DS . 'Header.vue';
+        $content = file_get_contents($filepath);
+        $path = ROOT . DS . 'resources' .  DS . 'js' . DS . 'components' . DS . 'Theme' . DS;
+        $filename = $path . 'Header.vue';
+        $io->createFile($filename, $content, false);
+
+        $filepath = $initialPath . 'resources' . DS . 'js' . DS . 'components' . DS . 'Theme' . DS . 'Nav.vue';
+        $content = file_get_contents($filepath);
+        $path = ROOT . DS . 'resources' .  DS . 'js' . DS . 'components' . DS . 'Theme' . DS;
+        $filename = $path . 'Nav.vue';
         $io->createFile($filename, $content, false);
 
         $filepath = $initialPath . 'resources' .  DS . 'package.json';
