@@ -8,9 +8,6 @@ const props = defineProps({
     csrfToken: String,
     flash: Array,
     page: Object|Array,
-    menuHeader: Object|Array,
-    menuNav: Object|Array,
-    project: Object|Array,
 })
 
 

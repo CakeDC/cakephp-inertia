@@ -6,8 +6,6 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
 import '@vueform/multiselect/themes/default.css'
-import './../css/theme.css'
-
 
 createInertiaApp({
     title: title => title ? `${title} - Vue App` : 'Vue App',
