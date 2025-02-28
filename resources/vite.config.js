@@ -8,7 +8,7 @@ const origin = `${process.env.DDEV_PRIMARY_URL}:${port}`;
 export default defineConfig({
     plugins: [
         laravel({
-            input: ['resources/css/app.css', 'resources/js/app.js'],
+            input: ['resources/css/app.css', 'resources/css/theme.css', 'resources/js/app.js'],
             publicDirectory: 'webroot',
             refresh: true,
         }),
@@ -22,6 +22,9 @@ export default defineConfig({
         host: '0.0.0.0',
         port: port,
         strictPort: true,
-        origin: origin
+        origin: origin,
+        cors: {
+            origin: '*',
+        },
     },
 });

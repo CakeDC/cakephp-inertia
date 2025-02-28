@@ -25,8 +25,8 @@ onMounted(() => {
 
 <template>
     <div>
-        <Header v-bind:project="props.project" v-bind:menuHeader="props.menuHeader" />
-        <Nav v-bind:menuNav="props.menuNav" v-bind:menuHeader="props.menuHeader" />
+        <Header/>
+        <Nav/>
         <div class="content">
             <slot />
         </div>

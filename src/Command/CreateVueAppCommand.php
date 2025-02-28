@@ -52,6 +52,12 @@ class CreateVueAppCommand extends Command
         $filename = $path . 'app.css';
         $io->createFile($filename, $content, false);
 
+        $filepath = $initialPath . 'resources' . DS . 'css' . DS . 'theme.css';
+        $content = file_get_contents($filepath);
+        $path = ROOT . DS . 'resources' . DS . 'css' . DS;
+        $filename = $path . 'theme.css';
+        $io->createFile($filename, $content, false);
+
         $filepath = $initialPath . 'resources' . DS . 'js' . DS . 'app.js';
         $content = file_get_contents($filepath);
         $path = ROOT . DS . 'resources' . DS . 'js' . DS;

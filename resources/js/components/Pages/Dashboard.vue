@@ -17,9 +17,7 @@ onMounted(() => {
 
 <template>
     <Layout>
-        <Link href="/pages/test1">Test1</Link>
-        <h1>Welcome</h1>
+        <h2 class="mt-3 mb-3">Dashboard</h2>
         <p>{{page.text}}</p>
-        <p>{{page.other}}</p>
     </Layout>
 </template>
