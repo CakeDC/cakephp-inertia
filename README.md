@@ -6,13 +6,16 @@ The **Inertia** plugin covers the following features:
 * Build a Vue 3 app in front and load it on CakePHP site
 * Communicate Vue 3 Component on front with back without implement and use an API interface using a Middleware
 * Bake an CRUD system of basic Vue 3 components templates for a defined model
+* Add Theme for basic boostrap 5 styles with header and nav
+* Add feather icons
+* Add Boostrap 5 validation (no JQuery)
 
 Requirements
 ------------
 
 * CakePHP 5.x
 * PHP >= 8.1
-* NodeJS 18.9 (only for build Vue Components, not required on running site)
+* NodeJS 22.14 (only for build Vue Components, not required on running site)
 
 Documentation
 -------------

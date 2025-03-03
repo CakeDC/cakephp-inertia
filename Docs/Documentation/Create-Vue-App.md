@@ -10,19 +10,17 @@ This command create in the resources directory this structure
 
 - css
   - app.css
-   theme.css
+  - theme.css
 - js
   - components
     - Pages
-      - Test1.vue
-      - Test2.vue
+      - Dashboard.vue 
   - utils
     - useBootstrapValidation.js
   - app.js
   - bootstrap.js
 
-
-and in root directory the files
+and in root directory add the files
 
 - package.json
 - vite.config.js
@@ -33,5 +31,5 @@ and in root directory the files
 Then in root directory install with NPM
 
 ```
-npm install
+npm install --verbose
 ```

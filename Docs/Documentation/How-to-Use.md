@@ -72,3 +72,5 @@ npm run build
 This generates this assets directory inside webroot dir, the helper automatically load the files parsing the manifest.json
 
 Go to https://inertiavitecake.ddev.site see Dashboard Vue Component page that prints values assigneds on dashboard CakePHP function
+
+<img src="../images/ZPaxnqx.png" width="800">

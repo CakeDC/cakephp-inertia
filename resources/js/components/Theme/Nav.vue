@@ -22,11 +22,5 @@ onMounted(() => {
     <!-- app menu -->
     <span></span>
 
-    <!-- mobile menu -->
-    <hr class="d-lg-none">
-    <div class="d-lg-none">
-      <h6 class="ms-4" style="color: white;">Application</h6>
-      <span class="m-0"></span>
-    </div>
   </div>
 </template>

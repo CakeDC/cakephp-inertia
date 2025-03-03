@@ -25,7 +25,9 @@ bin/cake bake vue_template Tags --theme CakeDC/Inertia
 bin/cake bake vue_template Categories --theme CakeDC/Inertia
 ```
 
-Again run (outside container)
+Note: if you rewrite PagesController.php must be create the dashboard funcion on the controller
+
+Again run
 
 ```
 npm run dev
@@ -35,20 +37,54 @@ You see results for example going to https://inertiavitecake.ddev.site/pages/ind
 
 ### Add Menu
 
-You can add and horizontal menu to navigate through controllers
+You can add and vertical menu to navigate through controllers
 
-Edit *resources/components/Layout.vue* and put inside header nav links as
+Edit *resources/components/Theme/Nav.vue* and put inside span element below commet <!-- app menu -->
 
 ```
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
-        <div class="container-fluid">
-            <Link href="/pages/index" class="navbar-brand">Pages</Link>
-            <Link href="/tags/index" class="navbar-brand">Tags</Link>
-            <Link href="/categories/index" class="navbar-brand">Categories</Link>
-            <div class="collapse navbar-collapse" id="navbarCollapse"></div>
-        </div>
-    </nav>
+    <!-- app menu -->
+    <span>
+      <Link href="/pages" class="nav-link ps-4 px-2"><i data-feather="columns"></i> Pages</Link>
+      <Link href="/tags" class="nav-link ps-4 px-2"><i data-feather="tag"></i> Tags</Link>
+      <Link href="/categories" class="nav-link ps-4 px-2"><i data-feather="folder"></i> Categories</Link>
+    </span>
 ```
+
+#### Desktop version
+
+Index
+
+<img src="../images/1GgIfjz.png" width="800">
+
+Add
+
+<img src="../images/I4G1fs6.png" width="800">
+
+Edit
+
+<img src="../images/2v0wWUm.png" width="800">
+
+View
+
+<img src="../images/trbwjF3.png" width="800">
+
+#### Mobile version
+
+Index
+
+<img src="../images/7YgFdWp.png" width="800">
+
+Add 
+
+<img src="../images/07L2O4M.png" width="800">
+
+Menu
+
+<img src="../images/d2W3rQA.png" width="800">
+
+Edit
+
+<img src="../images/IXOjgzz.png" width="800">
 
 
 ### bake CRUD system with prefix
