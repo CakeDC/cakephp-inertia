@@ -1,19 +1,13 @@
 ## Create Environment with DDev
 
 ```
-$> composer create-project --prefer-dist cakephp/app:~5.0 inertiavitecake
-$> cd inertiavitecake
-$> ddev config --project-type=cakephp --php-version 8.1 --nodejs-version 18 --docroot=webroot --database=postgres:13
-$> ddev start
+composer create-project --prefer-dist cakephp/app:~5.0 inertiavitecake
+cd inertiavitecake
+ddev config --project-type=cakephp --php-version 8.2 --nodejs-version 22 --docroot=webroot --database=postgres:15
+ddev start
 ```
 
-Verify in .env file generate on config directory that access to db is configured as
-
-```
-export DATABASE_URL="postgres://db:db@db:5432/db"
-```
-
-Because using postgres you need to update on app.php file the encoding from 'encoding' => 'utf8mb4' to 'encoding' => 'utf8'
+Note: Because in this example are using postgres you need to update on app.php file the encoding from 'encoding' => 'utf8mb4' to 'encoding' => 'utf8'
 
 Edit your config.yaml and add this configuration to expose vite ports
 
@@ -28,10 +22,13 @@ web_extra_exposed_ports:
 Restart DDev
 
 ```
-$> ddev restart
+ddev restart
 ```
-
 
 Now you can view project installed at https://inertiavitecake.ddev.site/
 
+Note: remember that to enter the ddev container you must run ddev ssh at the root of your project
 
+```
+ddev ssh
+```

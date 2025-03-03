@@ -13,23 +13,20 @@ onMounted(() => {
 })
 </script>
 <template>
-    <!-- Sidebar -->
-    <div class="sidebar" id="sidebar">
+  <!-- Sidebar -->
+  <div class="sidebar" id="sidebar">
 
-        <hr class="mt-0">
-        
-        <h6 style="color: white;"></h6>
-        <span>
-        </span>
+    <hr class="mt-0">
 
-        <hr class="d-lg-none">
-        <div class="d-lg-none">
-            <h6 class="ms-4" style="color: white;">Application</h6>
-            <span class="m-0">
-            </span>
-            <span class="m-0">
-                <a class="link-secondary nav-link px-2 ms-4" href="#"><i data-feather="log-out"></i> Logout</a>
-            </span>
-        </div>
+    <h6 style="color: white;"></h6>
+    <!-- app menu -->
+    <span></span>
+
+    <!-- mobile menu -->
+    <hr class="d-lg-none">
+    <div class="d-lg-none">
+      <h6 class="ms-4" style="color: white;">Application</h6>
+      <span class="m-0"></span>
     </div>
+  </div>
 </template>

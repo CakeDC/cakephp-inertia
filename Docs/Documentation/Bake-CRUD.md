@@ -9,27 +9,26 @@ Important: if you are using the docker example configuration with Postgres you n
 the 'encoding' option inside Datasources to 'utf8' instead of 'utf8mb4',
 
 ```
-$> ddev ssh
-$inertiavitecake-web> bin/cake bake model Pages --theme CakeDC/Inertia
-$inertiavitecake-web> bin/cake bake controller Pages --theme CakeDC/Inertia
-$inertiavitecake-web> bin/cake bake model Tags --theme CakeDC/Inertia
-$inertiavitecake-web> bin/cake bake controller Tags --theme CakeDC/Inertia
-$inertiavitecake-web> bin/cake bake model Categories --theme CakeDC/Inertia
-$inertiavitecake-web> bin/cake bake controller Categories --theme CakeDC/Inertia
+bin/cake bake model Pages --theme CakeDC/Inertia
+bin/cake bake controller Pages --theme CakeDC/Inertia
+bin/cake bake model Tags --theme CakeDC/Inertia
+bin/cake bake controller Tags --theme CakeDC/Inertia
+bin/cake bake model Categories --theme CakeDC/Inertia
+bin/cake bake controller Categories --theme CakeDC/Inertia
 ```
 
 bake templates using **vue_template** instead of **template** as
 
 ```
-$inertiavitecake-web> bin/cake bake vue_template Pages --theme CakeDC/Inertia
-$inertiavitecake-web> bin/cake bake vue_template Tags --theme CakeDC/Inertia
-$inertiavitecake-web> bin/cake bake vue_template Categories --theme CakeDC/Inertia
+bin/cake bake vue_template Pages --theme CakeDC/Inertia
+bin/cake bake vue_template Tags --theme CakeDC/Inertia
+bin/cake bake vue_template Categories --theme CakeDC/Inertia
 ```
 
 Again run (outside container)
 
 ```
-$> ddev npm run dev
+npm run dev
 ```
 
 You see results for example going to https://inertiavitecake.ddev.site/pages/index
@@ -65,19 +64,18 @@ $builder->prefix('admin', function (RouteBuilder $builder) {
 To generate controllers and template with a prefix use **--prefix** option of bake command as
 
 ```
-$> ddev ssh
-$inertiavitecake-web> bin/cake bake controller Pages --prefix Admin --theme CakeDC/Inertia
-$inertiavitecake-web> bin/cake bake controller Tags --prefix Admin --theme CakeDC/Inertia
-$inertiavitecake-web> bin/cake bake controller Categories --prefix Admin --theme CakeDC/Inertia
-$inertiavitecake-web> bin/cake bake vue_template Pages --prefix Admin --theme CakeDC/Inertia
-$inertiavitecake-web> bin/cake bake vue_template Tags --prefix Admin --theme CakeDC/Inertia
-$inertiavitecake-web> bin/cake bake vue_template Categories --prefix Admin --theme CakeDC/Inertia
+bin/cake bake controller Pages --prefix Admin --theme CakeDC/Inertia
+bin/cake bake controller Tags --prefix Admin --theme CakeDC/Inertia
+bin/cake bake controller Categories --prefix Admin --theme CakeDC/Inertia
+bin/cake bake vue_template Pages --prefix Admin --theme CakeDC/Inertia
+bin/cake bake vue_template Tags --prefix Admin --theme CakeDC/Inertia
+bin/cake bake vue_template Categories --prefix Admin --theme CakeDC/Inertia
 ```
 
-Again run (outside container)
+Again run
 
 ```
-$> ddev npm run dev
+npm run dev
 ```
 
 You can go to https://inertiavitecake.ddev.site/admin/pages/index

@@ -3,19 +3,21 @@
 To create Vue App type in command line:
 
 ```
-$> ddev ssh
-$inertiavitecake-web> bin/cake create_vue_app
+bin/cake create_vue_app
 ```
 
 This command create in the resources directory this structure
 
 - css
   - app.css
+   theme.css
 - js
   - components
     - Pages
       - Test1.vue
       - Test2.vue
+  - utils
+    - useBootstrapValidation.js
   - app.js
   - bootstrap.js
 
@@ -31,5 +33,5 @@ and in root directory the files
 Then in root directory install with NPM
 
 ```
-$> ddev npm install
+npm install
 ```

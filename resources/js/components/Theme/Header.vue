@@ -22,7 +22,6 @@ onMounted(() => {
             <nav class="menu-nav d-none d-lg-flex">
             </nav>
             <button class="btn btn-light d-lg-none" id="toggleSidebar"><i data-feather="menu"></i></button>
-            <a href="/users/logout" class="logout-link d-none d-md-inline"><i data-feather="log-out"></i> Logout</a>
         </div>
     </div>
 </template>

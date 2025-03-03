@@ -94,6 +94,12 @@ class CreateVueAppCommand extends Command
         $filename = $path . 'Nav.vue';
         $io->createFile($filename, $content, false);
 
+        $filepath = $initialPath . 'resources' . DS . 'js' . DS . 'utils' . DS . 'useBootstrapValidation.js';
+        $content = file_get_contents($filepath);
+        $path = ROOT . DS . 'resources' .  DS . 'js' . DS . 'utils' . DS;
+        $filename = $path . 'useBootstrapValidation.js';
+        $io->createFile($filename, $content, false);
+
         $filepath = $initialPath . 'resources' .  DS . 'package.json';
         $content = file_get_contents($filepath);
         $path = ROOT . DS;
