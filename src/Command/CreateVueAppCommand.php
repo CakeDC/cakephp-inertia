@@ -70,16 +70,10 @@ class CreateVueAppCommand extends Command
         $filename = $path . 'bootstrap.js';
         $io->createFile($filename, $content, false);
 
-        $filepath = $initialPath . 'resources' . DS . 'js' . DS . 'components' . DS . 'Pages' . DS . 'Test1.vue';
+        $filepath = $initialPath . 'resources' . DS . 'js' . DS . 'components' . DS . 'Pages' . DS . 'Dashboard.vue';
         $content = file_get_contents($filepath);
         $path = ROOT . DS . 'resources' .  DS . 'js' . DS . 'components' . DS . 'Pages' . DS ;
-        $filename = $path . 'Test1.vue';
-        $io->createFile($filename, $content, false);
-
-        $filepath = $initialPath . 'resources' . DS . 'js' . DS . 'components' . DS . 'Pages' . DS . 'Test2.vue';
-        $content = file_get_contents($filepath);
-        $path = ROOT . DS . 'resources' .  DS . 'js' . DS . 'components' . DS . 'Pages' . DS;
-        $filename = $path . 'Test2.vue';
+        $filename = $path . 'Dashboard.vue';
         $io->createFile($filename, $content, false);
 
         $filepath = $initialPath . 'resources' . DS . 'js' . DS . 'components' . DS . 'Layout.vue';

@@ -10,13 +10,14 @@ const props = defineProps({
     page: Object|Array,
 })
 
-
 onMounted(() => {
     console.log('Layout onMounted hook called')
 
     document.getElementById('toggleSidebar').addEventListener('click', function() {
         document.getElementById('sidebar').classList.toggle('show');
     });
+
+    feather.replace({ 'aria-hidden': 'true' })
 })
 </script>
 

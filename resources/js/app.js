@@ -2,6 +2,7 @@
 import { createApp, h } from 'vue'
 import { createInertiaApp } from '@inertiajs/vue3'
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
+import { useBootstrapValidation }  from './utils/useBootstrapValidation';
 import 'bootstrap/dist/css/bootstrap.css'
 import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
@@ -13,6 +14,7 @@ createInertiaApp({
     setup({ el, App, props, plugin }) {
         return createApp({ render: () => h(App, props) })
             .use(plugin)
+            .mixin(useBootstrapValidation)
             .mount(el);
     },
 });

@@ -16,7 +16,7 @@ onMounted(() => {
 <template>
     <div class="header">
         <div class="col-left">
-            <h5 class="mb-0">MANAGER</h5>
+            <h5 class="mb-0">APP</h5>
         </div>
         <div class="col-right">
             <nav class="menu-nav d-none d-lg-flex">

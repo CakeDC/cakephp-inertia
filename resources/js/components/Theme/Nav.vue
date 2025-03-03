@@ -18,7 +18,7 @@ onMounted(() => {
 
         <hr class="mt-0">
         
-        <h6 style="color: white;">Project</h6>
+        <h6 style="color: white;"></h6>
         <span>
         </span>
 
